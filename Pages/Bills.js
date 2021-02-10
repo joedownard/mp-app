@@ -1,10 +1,11 @@
 import {Text, View} from "react-native";
 import {StatusBar} from "expo-status-bar";
 import React, {useState} from "react";
+import {styles} from './Stylesheets/BillsStyles.js';
 
 export default function Bills() {
 
-    const [billData, setBillData] = useState(false);
+    const [billData, setBillData] = useState([{name: 'Bill 1 Name', billDescription: 'Bill 1 Description'}, {name: 'Bill 2 Name', billDescription: 'Bill 2 Description'}]);
 
     if (!billData) {
         fetch("localhost:8080/get_bill/?<bill_id>&<meta_info>")
@@ -35,9 +36,9 @@ export default function Bills() {
 }
 
 
-function BillList () {
-    const billItemList = data.map((item) =>
-        <BillItem name={item.name}/>
+function BillList (props) {
+    const billItemList = props.data.map((item) =>
+        <BillItem name={item.name} billDescription={item.billDescription}/>
     );
 
     return (
@@ -47,8 +48,11 @@ function BillList () {
     )
 }
 
-function BillItem () {
+function BillItem (props) {
     return (
-        <View>{props.name}</View>
+        <View style={styles.billContainer}>
+            <Text style={styles.billTitle}> {props.name} </Text>
+            <Text style={styles.billDescription}> {props.billDescription} </Text>
+        </View>
     )
 }
