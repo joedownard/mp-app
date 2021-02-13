@@ -20,14 +20,16 @@ export const styles = StyleSheet.create({
     },
 
     favouriteButton: {
-        marginRight: 5,
+        marginRight: 10,
+        marginTop: 2,
         width: 25,
         height: 25,
     },
 
     dateText: {
         marginRight: 5,
-        marginTop: 3,
+        marginTop: 4,
+        fontSize: 16,
     },
 
     billTitle: {
