@@ -11,12 +11,9 @@ const favourite = require('../assets/favourite_icon.png');
 const favouriteFilled = require('../assets/favourite_icon_filled.png');
 const share = require('../assets/share_icon.png')
 
-export default function Bills() {
+export default function Bills({navigation}) {
 
-    const [billData, setBillData] = useState(false);
-
-    /*
-     setBillData({
+    const [billData, setBillData] = useState([{
               "id": 1,
               "name": "Bill 1 Name",
               "date": "12/02/2019",
@@ -27,9 +24,8 @@ export default function Bills() {
               "name": "Bill 2 Name",
               "date": "06/06/2018",
               "billDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut"
-              }
-              ]);
-    */
+              }]);
+
 
     // If the bill data hasn't been loaded yet, contact the server and attempt to load it
     if (!billData) {
@@ -55,8 +51,12 @@ export default function Bills() {
     if (billData) {
         return (
             <SafeAreaView style={{ flex: 1 }}>
+                <View style={styles.pageTitleSection}>
+                    <Text style={styles.pageTitle}>Bill Feed</Text>
+                </View>
+                <View style={styles.pageTitleLine}/>
                 <ScrollView>
-                    <BillList data={billData} />
+                    <BillList data={billData} navigation={navigation}/>
                     <StatusBar style="auto" />
                 </ScrollView>
             </SafeAreaView>
@@ -68,7 +68,7 @@ export default function Bills() {
 function BillList(props) {
     // Create a bill listing for every bill in the dataset
     const billItemList = props.data.map((item) =>
-        <BillItem key={item.id} id={item.id} name={item.name} date={item.date} billDescription={item.billDescription} likes={item.likes} dislikes={item.dislikes} shares={item.shares} />
+        <BillItem key={item.id} navigation={props.navigation} id={item.id} name={item.name} date={item.date} billDescription={item.billDescription} likes={item.likes} dislikes={item.dislikes} shares={item.shares} />
     );
 
     return (
@@ -86,7 +86,9 @@ function BillItem(props) {
         <View style={styles.billContainer}>
             <View style={styles.billHeader}>
                 <View>
+                    <Pressable onPress={() => {props.navigation.navigate("Bill Details", {id: data.id})}}>
                     <Text style={styles.billTitle}> {data.name} </Text>
+                    </Pressable>
                 </View>
                 <View style={styles.billHeaderFavouriteDate}>
                     <Pressable onPress={() => {
