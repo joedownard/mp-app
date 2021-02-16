@@ -13,42 +13,71 @@ const share = require('../assets/share_icon.png')
 
 export default function Bills({navigation}) {
 
-    const [billData, setBillData] = useState([{
-              "id": 1,
-              "name": "Bill 1 Name",
-              "date": "12/02/2019",
-              "billDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut"
-              },
-              {
-              "id": 2,
-              "name": "Bill 2 Name",
-              "date": "06/06/2018",
-              "billDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut"
-              }]);
+    const [billsData, setBillsData] = useState([
+        {
+            "id": 1,
+            "name": "Bill 1 Name",
+            "date": "12/02/2019",
+            "likes": 102,
+            "dislikes": 168,
+            "shares": 57,
+            "billDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut"
+        },
+        {
+            "id": 2,
+            "name": "Bill 2 Name",
+            "date": "06/06/2018",
+            "likes": 5,
+            "dislikes": 7,
+            "shares": 2,
+            "billDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut"
+        },
+        {
+            "id": 3,
+            "name": "Bill 3 Name",
+            "date": "21/08/2018",
+            "likes": 46,
+            "dislikes": 22,
+            "shares": 19,
+            "billDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut"
+        },
+        {
+            "id": 4,
+            "name": "Bill 4 Name",
+            "date": "13/11/2018",
+            "likes": 55,
+            "dislikes": 12,
+            "shares": 35,
+            "billDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut"
+        }
+    ]);
 
 
-    // If the bill data hasn't been loaded yet, contact the server and attempt to load it
-    if (!billData) {
+    if (!billsData) {
         fetch("http://localhost:80/mpapp/bills")
             .then((response) => response.json())
             .then((responseJson) => {
-                console.log(responseJson);
-                setBillData(responseJson);
+                setBillsData(responseJson);
             })
             .catch((error) => {
                 console.error(error);
             });
 
         return (
-            <View>
-                <Text>data loading!</Text>
-                <StatusBar style="auto" />
-            </View>
+            <SafeAreaView style={{ flex: 1 }}>
+                <View style={styles.pageTitleSection}>
+                    <View>
+                        <Text style={styles.pageTitle}>Bill Feed</Text>
+                    </View>
+                </View>
+                <View style={styles.pageTitleLine}/>
+                <Text style={styles.loadingDataText}>Loading Data</Text>
+            </SafeAreaView>
         );
     }
 
     // If the bill data is loaded, then display the list of bills
-    if (billData) {
+    if (billsData) {
         return (
             <SafeAreaView style={{ flex: 1 }}>
                 <View style={styles.pageTitleSection}>
@@ -56,7 +85,7 @@ export default function Bills({navigation}) {
                 </View>
                 <View style={styles.pageTitleLine}/>
                 <ScrollView>
-                    <BillList data={billData} navigation={navigation}/>
+                    <BillList data={billsData} navigation={navigation}/>
                     <StatusBar style="auto" />
                 </ScrollView>
             </SafeAreaView>

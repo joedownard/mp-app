@@ -120,7 +120,12 @@ export const styles = StyleSheet.create({
     shareNumber: {
         marginTop: 10,
         marginLeft: 10,
-    }
+    },
 
-
+    loadingDataText: {
+        textAlign: "center",
+        fontSize: 28,
+        fontWeight: '900',
+        marginTop: 10,
+    },
 });

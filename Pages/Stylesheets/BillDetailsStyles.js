@@ -3,7 +3,6 @@ import { StyleSheet } from 'react-native';
 export const styles = StyleSheet.create({
 
     pageTitleSection: {
-        flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',
     },
@@ -13,6 +12,11 @@ export const styles = StyleSheet.create({
         height: 21,
         marginTop: 8,
         marginLeft: 15,
+    },
+
+    favouriteButton: {
+        marginTop: 5,
+        marginRight: -20,
     },
 
     pageTitle: {
@@ -28,28 +32,74 @@ export const styles = StyleSheet.create({
         marginRight: 15,
     },
 
-    mainContent: {
-        flex: 22,
-    },
-
-    pageTitleLine: {
+    horizontalLine: {
         borderBottomColor: 'grey',
         borderBottomWidth: 1,
         marginTop: 5,
-        marginLeft: 3,
-        marginRight: 3,
     },
 
-    billDescriptionSection: {
 
+    billDescriptionSection: {
+        marginTop: 30,
+        margin: 10,
+    },
+
+    billDescriptionHeader: {
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+    },
+
+    billDescriptionTitleText: {
+        fontSize: 22,
+        fontWeight: '700',
+    },
+
+    billDescriptionDateText: {
+        marginRight: 5,
+        marginTop: 4,
+        fontSize: 18,
+    },
+
+    billDescriptionText: {
+        fontSize: 18,
     },
 
     billStatusSection: {
+        marginTop: 30,
+        margin: 10,
+    },
 
+    billStatusTitleText: {
+        fontSize: 22,
+        fontWeight: '700',
+    },
+
+    messageMPSection: {
+        marginTop: 30,
+        margin: 10,
     },
 
     billReactionSection: {
+        margin: 30,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
 
+    likesText: {
+        marginTop: 5,
+        textAlign: 'center',
+    },
+
+    dislikesText: {
+        marginTop: 5,
+        textAlign: 'center',
+    },
+
+    loadingDataText: {
+        textAlign: "center",
+        fontSize: 28,
+        fontWeight: '900',
+        marginTop: 10,
     }
 
 });
