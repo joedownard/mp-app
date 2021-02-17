@@ -1,4 +1,4 @@
-import {Text, View} from "react-native";
+import {Text, View, SafeAreaView} from "react-native";
 import {StatusBar} from "expo-status-bar";
 import React from "react";
 import {styles} from './Stylesheets/PreferencesStyles.js';
@@ -6,8 +6,12 @@ import {styles} from './Stylesheets/PreferencesStyles.js';
 export default function Preferences() {
 
     return (
-        <View style={{flex:1,justifyContent: "center",alignItems: "center"}}>
-            <Text>Preferences</Text>
-        </View>
+        
+        <SafeAreaView style={{ flex: 1 }}>
+            <View style={styles.pageTitleSection}>
+                <Text style={styles.pageTitle}>Preferences</Text>
+            </View>
+            <View style={styles.pageTitleLine}/>
+        </SafeAreaView>
     );
 }
