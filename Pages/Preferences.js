@@ -6,9 +6,8 @@ import {styles} from './Stylesheets/PreferencesStyles.js';
 export default function Preferences() {
 
     return (
-        <View>
+        <View style={{flex:1,justifyContent: "center",alignItems: "center"}}>
             <Text>Preferences</Text>
-            <StatusBar style="auto" />
         </View>
     );
 }
