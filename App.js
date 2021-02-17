@@ -9,6 +9,8 @@ import BillDetails from './Pages/BillDetails.js';
 import MpProfile from './Pages/MpProfile.js';
 import Preferences from './Pages/Preferences.js';
 import {View} from "react-native-web";
+import Login from "./Pages/Login";
+import Signup from "./Pages/Signup";
 
 export default function App() {
 
@@ -39,6 +41,8 @@ export default function App() {
                     return <Ionicons name={icon} size={size} color={color}/>;
                 },
             })}>
+                <Tab.Screen name="Login" component={Login}/>
+                <Tab.Screen name="Signup" component={Signup}/>
                 <Tab.Screen name="Bills" component={BillsStack} options={{title: ''}}/>
                 <Tab.Screen name="MP Profile" component={MpProfile} options={{title: ''}}/>
                 <Tab.Screen name="Preferences" component={Preferences} options={{title: ''}}/>
