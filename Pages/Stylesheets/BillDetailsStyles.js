@@ -15,7 +15,9 @@ export const styles = StyleSheet.create({
     },
 
     favouriteButton: {
-        marginTop: 5,
+        width: 25,
+        height: 25,
+        marginTop: 8,
         marginRight: -20,
     },
 
@@ -85,9 +87,19 @@ export const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
 
+    largeThumbsUp: {
+        width:100,
+        height:100,
+    },
+
     likesText: {
         marginTop: 5,
         textAlign: 'center',
+    },
+
+    largeThumbsDown: {
+        width:100,
+        height:100,
     },
 
     dislikesText: {

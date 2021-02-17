@@ -119,7 +119,7 @@ export default function BillDetails({route, navigation}) {
                                 onUserInteraction(billData.id, 'unlike');
                             }
                         }}>
-                            <Image source={userInteractions['liked'] ? thumbsUpFilled : thumbsUp} />
+                            <Image style={styles.largeThumbsUp} source={userInteractions['liked'] ? thumbsUpFilled : thumbsUp} />
                         </Pressable>
                         <Text style={styles.likesText}>{billData.likes}</Text>
                     </View>
@@ -135,7 +135,7 @@ export default function BillDetails({route, navigation}) {
                                 onUserInteraction(billData.id, 'undislike');
                             }
                         }}>
-                            <Image source={userInteractions['disliked'] ? thumbsDownFilled : thumbsDown} />
+                            <Image  style={styles.largeThumbsDown} source={userInteractions['disliked'] ? thumbsDownFilled : thumbsDown} />
                         </Pressable>
                         <Text style={styles.dislikesText}>{billData.dislikes}</Text>
                     </View>
