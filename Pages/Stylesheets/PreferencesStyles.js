@@ -1,7 +1,27 @@
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
-    pageTitleSection: {
+
+    postcodeTextBox: {
+        marginLeft: 190,
+        marginTop: -70,
+        height: 40,
+        width: 100,
+        backgroundColor: 'rgb(211, 211, 211)',
+    },
+
+    postcodeText: {
+        marginLeft: 50,
+        marginTop: 80,
+        fontSize: 20,
+        fontWeight: '900',
+    },
+
+    notificationsText: {
+        marginLeft: 50,
+        marginTop: 10,
+        fontSize: 20,
+        fontWeight: '900',
     },
 
     pageTitle: {
