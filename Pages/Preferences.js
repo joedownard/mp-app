@@ -22,6 +22,7 @@ export default function Preferences() {
                 value={value}
             />
         );
+        //how will input be confirmed/submitted and handled
     }
 
     return (

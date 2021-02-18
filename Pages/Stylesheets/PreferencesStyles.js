@@ -7,7 +7,7 @@ export const styles = StyleSheet.create({
         marginTop: -70,
         height: 40,
         width: 100,
-        backgroundColor: 'rgb(211, 211, 211)',
+        backgroundColor: 'rgb(196, 196, 196)',
     },
 
     postcodeText: {
