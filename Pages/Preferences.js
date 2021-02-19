@@ -94,7 +94,7 @@ export default function Preferences() {
 }
 
 function updatePostcode() {
-    console.log("User pressed 'Update PostCode' Button");
+    logButtonPress("Update PostCode");
     //read postcode textbox
     //If user uncapitalises keyboard, next letter will not be capital
     //So ensure text read is converted using .ToUpperCase()
@@ -102,20 +102,24 @@ function updatePostcode() {
 }
 
 function logOut() {
-    console.log("User pressed 'Log Out' Button");
+    logButtonPress("Log Out");
     //pretty self-explanatory
 }
 
 function switchUser() {
-    console.log("User pressed 'Switch Users' Button");
+    logButtonPress("Switch Users");
     //open log in page
 }
 
 function toggleNotification(ID, state) {
-    console.log("Notification switch ID:", ID, "set to:", state);
+    console.log("Notification Switch ID:", ID, "set to:", state);
     //currently, ID:
     //'1' is Bill Status
     //'2' is Local MP Votes
     //state is true/false
 
+}
+
+function logButtonPress(button) {
+    console.log("User Pressed Button:", button);
 }
