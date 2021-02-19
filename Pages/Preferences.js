@@ -16,6 +16,8 @@ export default function Preferences() {
                 autoCapitalize="characters"
                 onChangeText={text => onChangeText(text)}
                 value={value}
+                autoCompleteType="postal-code"
+                maxLength={8}
             />
         );
     }
@@ -86,5 +88,5 @@ function switchUser() {
 
 function toggleNotification(ID, state) {
     console.log("Notification switch ID:", ID, "set to:", state);
-    
+
 }
