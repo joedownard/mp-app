@@ -2,29 +2,44 @@ import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
 
+    updatePostcode: {
+        marginTop: 10,
+        marginLeft: 65,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'rgb(196, 196, 196)',
+        width: 225,
+        height: 30
+    },
+
+    postCodeButtonText: {
+        fontSize: 16, 
+        color: "rgb(112, 112, 112)"
+    },
+
     postcodeTextBox: {
-        marginLeft: 190,
-        marginTop: -70,
-        height: 40,
-        width: 100,
+        marginLeft: 200,
+        marginTop: -25,
+        height: 25,
+        width: 90,
         backgroundColor: 'rgb(196, 196, 196)',
     },
 
     postcodeText: {
-        marginLeft: 50,
-        marginTop: 80,
-        fontSize: 20,
+        marginLeft: 65,
+        marginTop: 60,
+        fontSize: 19,
         fontWeight: '900',
     },
 
-    notificationsText: {
-        marginLeft: 50,
-        marginTop: 10,
-        fontSize: 20,
+    notificationText: {
+        marginLeft: 65,
+        marginTop: 40,
+        fontSize: 19,
         fontWeight: '900',
     },
 
-    pageTitle: {
+    preferencesText: {
         textAlign: "center",
         fontSize: 28,
         fontWeight: '900',

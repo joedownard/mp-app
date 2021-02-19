@@ -1,13 +1,12 @@
-import {Text, View, SafeAreaView, TextInput} from "react-native";
+import {Text, View, SafeAreaView, TextInput, TouchableOpacity} from "react-native";
 import React from "react";
 import {styles} from './Stylesheets/PreferencesStyles.js';
-import render from "react-native-web/dist/cjs/exports/render";
 
 export default function Preferences() {
-    
+
     const PostCodeInput = () => {
         const [value, onChangeText] = React.useState();
-        
+
         //If user uncapitalises keyboard, next letter will not be capital
         //So ensure text read is converted using .ToUpperCase()
         return (
@@ -24,14 +23,32 @@ export default function Preferences() {
         );
         //how will input be confirmed/submitted and handled
     }
+    const PostCodeButton = () => {
+
+        return (
+            <TouchableOpacity 
+                style={styles.updatePostcode}
+                onPress={updatePostcode}>
+                <Text style={styles.postCodeButtonText}>
+                    Update PostCode
+                </Text>
+            </TouchableOpacity>
+          );
+    }
 
     return (
     <SafeAreaView style={{ flex: 1 }}>
-        <Text style={styles.pageTitle}>Preferences</Text>
+        <Text style={styles.preferencesText}>Preferences</Text>
         <View style={styles.pageTitleLine}/>
         <Text style={styles.postcodeText}>PostCode</Text>
-        <Text style={styles.notificationsText}>Notifications</Text>
         <PostCodeInput/>
+        <PostCodeButton/>
+        <Text style={styles.notificationText}>Notifications</Text>
     </SafeAreaView>
     );
+}
+
+function updatePostcode() {
+    console.log("User pressed 'Update PostCode' Button")
+    //read postcode textbox
 }
