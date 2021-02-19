@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
 
     localMPText: {
         fontSize: 16,
-        marginLeft: 110,
+        marginLeft: 71,
     },
 
     updatePostcode: {
@@ -33,6 +33,7 @@ export const styles = StyleSheet.create({
         marginTop: -25,
         height: 25,
         width: 90,
+        textAlign: 'center',
         backgroundColor: 'rgb(196, 196, 196)',
     },
 

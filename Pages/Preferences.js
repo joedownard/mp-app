@@ -1,6 +1,7 @@
 import {Text, View, SafeAreaView, TextInput, TouchableOpacity} from "react-native";
 import React from "react";
 import {styles} from './Stylesheets/PreferencesStyles.js';
+import {RadioButton} from 'react-native-paper';
 
 export default function Preferences() {
 
@@ -10,7 +11,6 @@ export default function Preferences() {
         return (
             <TextInput
                 style={styles.postcodeTextBox}
-                textAlign={'center'}
                 placeholder="PostCode"
                 onFocus={(e) => e.target.placeholder = ''}
                 onBlur={(e) => e.target.placeholder = 'PostCode'}
@@ -33,6 +33,25 @@ export default function Preferences() {
           );
     }
 
+    const NotificationButton = () => {
+        const [checked, setChecked] = React.useState('first');
+
+        return (
+            <View>
+                <RadioButton
+                    value="first"
+                    status={ checked === 'first' ? 'checked' : 'unchecked' }
+                    onPress={() => setChecked('first')}
+                />
+                <RadioButton
+                    value="second"
+                    status={ checked === 'second' ? 'checked' : 'unchecked' }
+                    onPress={() => setChecked('second')}
+                />
+            </View>
+        );
+    };
+
     return (
     <SafeAreaView style={{ flex: 1 }}>
         <Text style={styles.preferencesText}>Preferences</Text>
@@ -41,8 +60,13 @@ export default function Preferences() {
         <PostCodeInput/>
         <PostCodeButton/>
         <Text style={styles.notificationText}>Notifications</Text>
-        <Text style={styles.billStatusText}>Bill Status</Text>
+        <View>
+            
+            <Text style={styles.billStatusText}>Bill Status</Text>
+            
+        </View>
         <Text style={styles.localMPText}>Local MP Votes</Text>
+        
     </SafeAreaView>
     );
 }
