@@ -2,13 +2,24 @@ import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
 
+    billStatusText: {
+        fontSize: 16,
+        marginTop: 10,
+        marginLeft: 110,
+    },
+
+    localMPText: {
+        fontSize: 16,
+        marginLeft: 110,
+    },
+
     updatePostcode: {
         marginTop: 10,
-        marginLeft: 65,
+        marginLeft: 55,
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: 'rgb(196, 196, 196)',
-        width: 225,
+        width: 245,
         height: 30
     },
 
@@ -18,7 +29,7 @@ export const styles = StyleSheet.create({
     },
 
     postcodeTextBox: {
-        marginLeft: 200,
+        marginLeft: 210,
         marginTop: -25,
         height: 25,
         width: 90,
@@ -26,15 +37,15 @@ export const styles = StyleSheet.create({
     },
 
     postcodeText: {
-        marginLeft: 65,
+        marginLeft: 55,
         marginTop: 60,
         fontSize: 19,
         fontWeight: '900',
     },
 
     notificationText: {
-        marginLeft: 65,
-        marginTop: 40,
+        marginLeft: 55,
+        marginTop: 35,
         fontSize: 19,
         fontWeight: '900',
     },

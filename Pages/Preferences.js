@@ -7,8 +7,6 @@ export default function Preferences() {
     const PostCodeInput = () => {
         const [value, onChangeText] = React.useState();
 
-        //If user uncapitalises keyboard, next letter will not be capital
-        //So ensure text read is converted using .ToUpperCase()
         return (
             <TextInput
                 style={styles.postcodeTextBox}
@@ -21,7 +19,6 @@ export default function Preferences() {
                 value={value}
             />
         );
-        //how will input be confirmed/submitted and handled
     }
     const PostCodeButton = () => {
 
@@ -44,6 +41,8 @@ export default function Preferences() {
         <PostCodeInput/>
         <PostCodeButton/>
         <Text style={styles.notificationText}>Notifications</Text>
+        <Text style={styles.billStatusText}>Bill Status</Text>
+        <Text style={styles.localMPText}>Local MP Votes</Text>
     </SafeAreaView>
     );
 }
@@ -51,4 +50,14 @@ export default function Preferences() {
 function updatePostcode() {
     console.log("User pressed 'Update PostCode' Button")
     //read postcode textbox
+    //If user uncapitalises keyboard, next letter will not be capital
+    //So ensure text read is converted using .ToUpperCase()
+}
+
+function switchUser() {
+    //open log in page
+}
+
+function logOut() {
+    //pretty self-explanatory
 }
