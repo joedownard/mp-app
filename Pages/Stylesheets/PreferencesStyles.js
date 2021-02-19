@@ -26,19 +26,32 @@ export const styles = StyleSheet.create({
 
     },
 
-    updatePostcode: {
+    updatePostcodeButton: {
         marginTop: 10,
         marginLeft: 55,
+    },
+
+    switchUserButton: {
+        marginTop: 20,
+        marginLeft: 55,
+    },
+
+    logOutButton: {
+        marginTop: 20,
+        marginLeft: 55,
+    },
+
+    buttonText: {
+        fontSize: 16, 
+        color: "rgb(112, 112, 112)"
+    },
+
+    button: {
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: 'rgb(196, 196, 196)',
         width: 245,
         height: 30
-    },
-
-    postCodeButtonText: {
-        fontSize: 16, 
-        color: "rgb(112, 112, 112)"
     },
 
     postcodeTextBox: {

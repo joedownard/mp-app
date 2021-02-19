@@ -25,13 +25,37 @@ export default function Preferences() {
 
         return (
             <TouchableOpacity 
-                style={styles.updatePostcode}
+                style={[styles.button, styles.updatePostcodeButton]}
                 onPress={updatePostcode}>
-                <Text style={styles.postCodeButtonText}>
+                <Text style={styles.buttonText}>
                     Update PostCode
                 </Text>
             </TouchableOpacity>
-          );
+        );
+    }
+    const SwitchUsersButton = () => {
+
+        return (
+            <TouchableOpacity 
+                style={[styles.button, styles.switchUserButton]}
+                onPress={switchUser}>
+                <Text style={styles.buttonText}>
+                    Switch Users
+                </Text>
+            </TouchableOpacity>
+        );
+    }
+    const LogOutButton = () => {
+
+        return(
+            <TouchableOpacity
+                style={[styles.button, styles.logOutButton]}
+                onPress={logOut}>
+                <Text style={styles.buttonText}>
+                    Log Out
+                </Text>
+            </TouchableOpacity>
+        );
     }
     const NotificationSwitch = ({styleSwitch, ID}) => {
         const [isEnabled, setIsEnabled] = useState(true);
@@ -41,7 +65,6 @@ export default function Preferences() {
         }
         
         return (
-            
             <Switch
                 style={styleSwitch}
                 trackColor={{ false: "#767577", true: "#37f71e" }}
@@ -64,7 +87,8 @@ export default function Preferences() {
         <Text style={styles.billStatusText}>Bill Status</Text>
         <NotificationSwitch styleSwitch={styles.localMPSwitch} ID='2'/>
         <Text style={styles.localMPText}>Local MP Votes</Text>
-        
+        <LogOutButton/>
+        <SwitchUsersButton/>
     </SafeAreaView>
     );
 }
@@ -74,6 +98,7 @@ function updatePostcode() {
     //read postcode textbox
     //If user uncapitalises keyboard, next letter will not be capital
     //So ensure text read is converted using .ToUpperCase()
+
 }
 
 function logOut() {
@@ -88,5 +113,9 @@ function switchUser() {
 
 function toggleNotification(ID, state) {
     console.log("Notification switch ID:", ID, "set to:", state);
+    //currently, ID:
+    //'1' is Bill Status
+    //'2' is Local MP Votes
+    //state is true/false
 
 }
