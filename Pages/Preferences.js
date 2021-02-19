@@ -1,7 +1,6 @@
-import {Text, View, SafeAreaView, TextInput, TouchableOpacity} from "react-native";
-import React from "react";
+import {Text, View, SafeAreaView, TextInput, TouchableOpacity, Switch} from "react-native";
+import React, {useState} from "react";
 import {styles} from './Stylesheets/PreferencesStyles.js';
-import {RadioButton} from 'react-native-paper';
 
 export default function Preferences() {
 
@@ -32,25 +31,24 @@ export default function Preferences() {
             </TouchableOpacity>
           );
     }
-
-    const NotificationButton = () => {
-        const [checked, setChecked] = React.useState('first');
-
+    const NotificationSwitch = ({styleSwitch, ID}) => {
+        const [isEnabled, setIsEnabled] = useState(true);
+        const toggleSwitch = () => {
+            setIsEnabled(previousState => !previousState);
+            toggleNotification(ID, !isEnabled);
+        }
+        
         return (
-            <View>
-                <RadioButton
-                    value="first"
-                    status={ checked === 'first' ? 'checked' : 'unchecked' }
-                    onPress={() => setChecked('first')}
-                />
-                <RadioButton
-                    value="second"
-                    status={ checked === 'second' ? 'checked' : 'unchecked' }
-                    onPress={() => setChecked('second')}
-                />
-            </View>
+            
+            <Switch
+                style={styleSwitch}
+                trackColor={{ false: "#767577", true: "#37f71e" }}
+                thumbColor={"#f4f3f4"}
+                onValueChange={toggleSwitch}
+                value={isEnabled}
+            />
         );
-    };
+    }
 
     return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -60,11 +58,9 @@ export default function Preferences() {
         <PostCodeInput/>
         <PostCodeButton/>
         <Text style={styles.notificationText}>Notifications</Text>
-        <View>
-            
-            <Text style={styles.billStatusText}>Bill Status</Text>
-            
-        </View>
+        <NotificationSwitch styleSwitch={styles.billStatusSwitch} ID='1'/>
+        <Text style={styles.billStatusText}>Bill Status</Text>
+        <NotificationSwitch styleSwitch={styles.localMPSwitch} ID='2'/>
         <Text style={styles.localMPText}>Local MP Votes</Text>
         
     </SafeAreaView>
@@ -72,16 +68,23 @@ export default function Preferences() {
 }
 
 function updatePostcode() {
-    console.log("User pressed 'Update PostCode' Button")
+    console.log("User pressed 'Update PostCode' Button");
     //read postcode textbox
     //If user uncapitalises keyboard, next letter will not be capital
     //So ensure text read is converted using .ToUpperCase()
 }
 
+function logOut() {
+    console.log("User pressed 'Log Out' Button");
+    //pretty self-explanatory
+}
+
 function switchUser() {
+    console.log("User pressed 'Switch Users' Button");
     //open log in page
 }
 
-function logOut() {
-    //pretty self-explanatory
+function toggleNotification(ID, state) {
+    console.log("Notification switch ID:", ID, "set to:", state);
+    
 }

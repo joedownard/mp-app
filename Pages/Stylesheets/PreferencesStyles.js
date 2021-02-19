@@ -2,15 +2,28 @@ import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
 
+    localMPSwitch: {
+        marginRight: 270,
+        marginTop: 15,
+    },
+
+    billStatusSwitch: {
+        marginRight: 270,
+        marginTop: 10,
+
+    },
+
     billStatusText: {
         fontSize: 16,
-        marginTop: 10,
+        marginTop: -25,
         marginLeft: 110,
     },
 
     localMPText: {
         fontSize: 16,
-        marginLeft: 71,
+        marginLeft: 110,
+        marginTop: -25,
+
     },
 
     updatePostcode: {
