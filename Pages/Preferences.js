@@ -1,6 +1,8 @@
 import {Text, View, SafeAreaView, TextInput, TouchableOpacity, Switch} from "react-native";
 import React, {useState} from "react";
 import {styles} from './Stylesheets/PreferencesStyles.js';
+import CustomTextBox from './assets/CustomTextBox.js';
+import CustomButton from './assets/CustomButton.js';
 
 export default function Preferences() {
 
@@ -21,6 +23,7 @@ export default function Preferences() {
             />
         );
     }
+
     const PostCodeButton = () => {
 
         return (
@@ -33,18 +36,7 @@ export default function Preferences() {
             </TouchableOpacity>
         );
     }
-    const SwitchUsersButton = () => {
 
-        return (
-            <TouchableOpacity 
-                style={[styles.button, styles.switchUserButton]}
-                onPress={switchUser}>
-                <Text style={styles.buttonText}>
-                    Switch Users
-                </Text>
-            </TouchableOpacity>
-        );
-    }
     const LogOutButton = () => {
 
         return(
@@ -57,6 +49,20 @@ export default function Preferences() {
             </TouchableOpacity>
         );
     }
+    
+    const SwitchUsersButton = () => {
+
+        return (
+            <TouchableOpacity 
+                style={[styles.button, styles.switchUserButton]}
+                onPress={switchUser}>
+                <Text style={styles.buttonText}>
+                    Switch Users
+                </Text>
+            </TouchableOpacity>
+        );
+    }
+    
     const NotificationSwitch = ({styleSwitch, ID}) => {
         const [isEnabled, setIsEnabled] = useState(true);
         const toggleSwitch = () => {
@@ -89,6 +95,21 @@ export default function Preferences() {
         <Text style={styles.localMPText}>Local MP Votes</Text>
         <LogOutButton/>
         <SwitchUsersButton/>
+        
+        {/* next step, create custom button, which can accept custom text box as prop 
+            so that, button press will get textbox value
+        */}
+        <CustomTextBox buttonName="testing"
+            handleFunction={logButtonPress}
+            style={{
+                marginLeft: 200,
+                marginTop: 50,
+                height: 25,
+                width: 90,
+                textAlign: 'center',
+                backgroundColor: 'rgb(196, 196, 196)',
+            }}
+        />
     </SafeAreaView>
     );
 }
