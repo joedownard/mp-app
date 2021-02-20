@@ -63,19 +63,19 @@ export default function Signup({ navigation }) {
                            }
                 />
 
-                <View style={styles.signupButton}>
+                <View style={styles.signupButtonContainer}>
                 <Button
+                    color='#4d4d4d'
                     onPress={() => submitSignup()}
                     title="Signup"
-                    color="#C4C4C4"
                 />
                 </View>
 
-                <View style={styles.loginButton}>
+                <View style={styles.loginButtonContainer}>
                 <Button
+                    color='#4d4d4d'
                     onPress={() => switchToLogin(navigation)}
                     title="Switch To Login"
-                    color="#C4C4C4"
                 />
                 </View>
             </View>
