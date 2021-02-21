@@ -48,7 +48,7 @@ export default function Bills({navigation}) {
             "likes": 55,
             "dislikes": 12,
             "shares": 35,
-            "billDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut"
+            "billDescription": "My name jeff"
         }
     ]);
 
