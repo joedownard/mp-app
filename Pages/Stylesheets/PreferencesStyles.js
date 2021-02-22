@@ -2,47 +2,44 @@ import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
 
+    mainContainer: {
+      alignItems: 'center',
+    },
+
     localMPSwitch: {
-        marginRight: 270,
-        marginTop: 15,
+        alignSelf: 'flex-start',
     },
 
     billStatusSwitch: {
-        marginRight: 270,
-        marginTop: 10,
-
+        alignSelf: 'flex-start',
     },
 
     billStatusText: {
+        marginLeft: 120,
         fontSize: 16,
-        marginTop: -25,
-        marginLeft: 110,
+        alignSelf: 'flex-end',
     },
 
     localMPText: {
+        marginLeft: 81,
         fontSize: 16,
-        marginLeft: 110,
-        marginTop: -25,
-
+        alignSelf: 'flex-end',
     },
 
     updatePostcodeButton: {
         marginTop: 10,
-        marginLeft: 55,
     },
 
     switchUserButton: {
         marginTop: 20,
-        marginLeft: 55,
     },
 
     logOutButton: {
         marginTop: 20,
-        marginLeft: 55,
     },
 
     buttonText: {
-        fontSize: 16, 
+        fontSize: 16,
         color: "rgb(112, 112, 112)"
     },
 
@@ -54,27 +51,35 @@ export const styles = StyleSheet.create({
         height: 30
     },
 
+    postcodeTextBoxContainer: {
+        marginTop: 50,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
+
     postcodeTextBox: {
-        marginLeft: 210,
-        marginTop: -25,
         height: 25,
         width: 90,
+        marginLeft: 65,
         textAlign: 'center',
         backgroundColor: 'rgb(196, 196, 196)',
     },
 
     postcodeText: {
-        marginLeft: 55,
-        marginTop: 60,
         fontSize: 19,
         fontWeight: '900',
     },
 
     notificationText: {
-        marginLeft: 55,
         marginTop: 35,
         fontSize: 19,
         fontWeight: '900',
+    },
+
+    switchContainer: {
+        marginTop: 10,
+        justifyContent: 'space-between',
+        flexDirection: 'row',
     },
 
     preferencesText: {
@@ -82,7 +87,7 @@ export const styles = StyleSheet.create({
         fontSize: 28,
         fontWeight: '900',
     },
-    
+
     pageTitleLine: {
         borderBottomColor: 'grey',
         borderBottomWidth: 1,

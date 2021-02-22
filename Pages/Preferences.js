@@ -27,7 +27,7 @@ export default function Preferences() {
     const PostCodeButton = () => {
 
         return (
-            <TouchableOpacity 
+            <TouchableOpacity
                 style={[styles.button, styles.updatePostcodeButton]}
                 onPress={updatePostcode}>
                 <Text style={styles.buttonText}>
@@ -39,7 +39,7 @@ export default function Preferences() {
 
     const LogOutButton = () => {
 
-        return(
+        return (
             <TouchableOpacity
                 style={[styles.button, styles.logOutButton]}
                 onPress={logOut}>
@@ -49,11 +49,11 @@ export default function Preferences() {
             </TouchableOpacity>
         );
     }
-    
+
     const SwitchUsersButton = () => {
 
         return (
-            <TouchableOpacity 
+            <TouchableOpacity
                 style={[styles.button, styles.switchUserButton]}
                 onPress={switchUser}>
                 <Text style={styles.buttonText}>
@@ -62,18 +62,18 @@ export default function Preferences() {
             </TouchableOpacity>
         );
     }
-    
+
     const NotificationSwitch = ({styleSwitch, ID}) => {
         const [isEnabled, setIsEnabled] = useState(true);
         const toggleSwitch = () => {
             setIsEnabled(previousState => !previousState);
             toggleNotification(ID, !isEnabled);
         }
-        
+
         return (
             <Switch
                 style={styleSwitch}
-                trackColor={{ false: "#767577", true: "#37f71e" }}
+                trackColor={{false: "#767577", true: "#37f71e"}}
                 thumbColor={"#f4f3f4"}
                 onValueChange={toggleSwitch}
                 value={isEnabled}
@@ -82,35 +82,43 @@ export default function Preferences() {
     }
 
     return (
-    <SafeAreaView style={{ flex: 1 }}>
-        <Text style={styles.preferencesText}>Preferences</Text>
-        <View style={styles.pageTitleLine}/>
-        <Text style={styles.postcodeText}>PostCode</Text>
-        <PostCodeInput/>
-        <PostCodeButton/>
-        <Text style={styles.notificationText}>Notifications</Text>
-        <NotificationSwitch styleSwitch={styles.billStatusSwitch} ID='1'/>
-        <Text style={styles.billStatusText}>Bill Status</Text>
-        <NotificationSwitch styleSwitch={styles.localMPSwitch} ID='2'/>
-        <Text style={styles.localMPText}>Local MP Votes</Text>
-        <LogOutButton/>
-        <SwitchUsersButton/>
-        
-        {/* next step, create custom button, which can accept custom text box as prop 
+        <SafeAreaView style={{flex: 1}}>
+            <Text style={styles.preferencesText}>Preferences</Text>
+            <View style={styles.pageTitleLine}/>
+            <View style={styles.mainContainer}>
+                <View style={styles.postcodeTextBoxContainer}>
+                    <Text style={styles.postcodeText}>PostCode</Text>
+                    <PostCodeInput/>
+                </View>
+                <PostCodeButton/>
+                <Text style={styles.notificationText}>Notifications</Text>
+                <View style={styles.switchContainer}>
+                    <NotificationSwitch styleSwitch={styles.billStatusSwitch} ID='1'/>
+                    <Text style={styles.billStatusText}>Bill Status</Text>
+                </View>
+                <View style={styles.switchContainer}>
+                    <NotificationSwitch styleSwitch={styles.localMPSwitch} ID='2'/>
+                    <Text style={styles.localMPText}>Local MP Votes</Text>
+                </View>
+                <LogOutButton/>
+                <SwitchUsersButton/>
+
+                {/* next step, create custom button, which can accept custom text box as prop
             so that, button press will get textbox value
         */}
-        <CustomTextBox buttonName="testing"
-            handleFunction={logButtonPress}
-            style={{
-                marginLeft: 200,
-                marginTop: 50,
-                height: 25,
-                width: 90,
-                textAlign: 'center',
-                backgroundColor: 'rgb(196, 196, 196)',
-            }}
-        />
-    </SafeAreaView>
+                <CustomTextBox buttonName="testing"
+                               handleFunction={logButtonPress}
+                               style={{
+                                   marginLeft: 200,
+                                   marginTop: 50,
+                                   height: 25,
+                                   width: 90,
+                                   textAlign: 'center',
+                                   backgroundColor: 'rgb(196, 196, 196)',
+                               }}
+                />
+            </View>
+        </SafeAreaView>
     );
 }
 
