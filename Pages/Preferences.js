@@ -102,21 +102,6 @@ export default function Preferences() {
                 </View>
                 <LogOutButton/>
                 <SwitchUsersButton/>
-
-                {/* next step, create custom button, which can accept custom text box as prop
-            so that, button press will get textbox value
-        */}
-                <CustomTextBox buttonName="testing"
-                               handleFunction={logButtonPress}
-                               style={{
-                                   marginLeft: 200,
-                                   marginTop: 50,
-                                   height: 25,
-                                   width: 90,
-                                   textAlign: 'center',
-                                   backgroundColor: 'rgb(196, 196, 196)',
-                               }}
-                />
             </View>
         </SafeAreaView>
     );
