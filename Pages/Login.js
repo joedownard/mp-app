@@ -12,11 +12,11 @@ export default function Login({ navigation }) {
     return (
         <SafeAreaView style={{flex: 1}}>
 
-        <View style={styles.signUpContainer}>
+        <View style={styles.loginContainer}>
             <TextInput style={styles.textInput} value={emailAddress} onChangeText={text => setEmailAddress(text)}
                            onFocus={_ => {
                                if (emailAddress === "Email Address") setEmailAddress("")
-                           }}/>                  
+                           }}/>
             <TextInput style={styles.textInput} secureTextEntry={showPassword} value={password}
                            onChangeText={text => {
                                setPassword(text)

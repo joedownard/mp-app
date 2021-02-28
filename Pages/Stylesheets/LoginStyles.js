@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
 
-    signUpContainer: {
+    loginContainer: {
         marginTop: 100
     },
 

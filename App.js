@@ -52,8 +52,6 @@ export default function App() {
                     return <Ionicons name={icon} size={size} color={color}/>;
                 },
             })}>
-                <Tab.Screen name="Login" component={Login}/>
-                <Tab.Screen name="Signup" component={Signup}/>
                 <Tab.Screen name="Bills" component={BillsStack} options={{title: ''}}/>
                 <Tab.Screen name="MP Profile" component={MpProfile} options={{title: ''}}/>
                 <Tab.Screen name="Preferences" component={Preferences} options={{title: ''}}/>
@@ -71,16 +69,16 @@ const registerForPushNotificationsAsync = async () => {
             finalStatus = status;
         }
         if (finalStatus !== 'granted') {
-            alert('Failed to get push token for push notification!');
+            //alert('Failed to get push token for push notification!');
             return;
         }
         return (await Notifications.getExpoPushTokenAsync()).data;
     } else {
-        alert('Must use physical device for Push Notifications');
+        //alert('Must use physical device for Push Notifications');
     }
 
     if (Platform.OS === 'android') {
-        Notifications.setNotificationChannelAsync('default', {
+        await Notifications.setNotificationChannelAsync('default', {
             name: 'default',
             importance: Notifications.AndroidImportance.MAX,
             vibrationPattern: [0, 250, 250, 250],
