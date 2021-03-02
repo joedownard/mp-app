@@ -43,7 +43,7 @@ export default function BillDetails({route, navigation}) {
             <SafeAreaView style={{flex: 1}}>
                 <View style={styles.pageTitleSection}>
                     <Pressable onPress={() => {
-                        navigation.goBack()
+                        navigation.navigate(params.backPage)
                     }}>
                         <Image style={styles.backButton} source={back}/>
                     </Pressable>
@@ -63,7 +63,7 @@ export default function BillDetails({route, navigation}) {
             <SafeAreaView style={{flex: 1}}>
                 <View style={styles.pageTitleSection}>
                     <Pressable onPress={() => {
-                        navigation.goBack()
+                        navigation.navigate(params.backPage)
                     }}>
                         <Image style={styles.backButton} source={back}/>
                     </Pressable>

@@ -1,10 +1,14 @@
 import {Text, View, SafeAreaView, TextInput, TouchableOpacity, Switch} from "react-native";
 import React, {useState} from "react";
 import {styles} from './Stylesheets/PreferencesStyles.js';
-import CustomTextBox from './assets/CustomTextBox.js';
-import CustomButton from './assets/CustomButton.js';
+import CustomTextBox from '../components/CustomTextBox.js';
+import CustomButton from '../components/CustomButton.js';
+import AuthContext from "../components/AuthContext";
 
-export default function Preferences() {
+
+export default function Preferences( {navigation} ) {
+
+    const { signOut } = React.useContext(AuthContext);
 
     const PostCodeInput = () => {
         const [value, onChangeText] = React.useState();
@@ -42,7 +46,7 @@ export default function Preferences() {
         return (
             <TouchableOpacity
                 style={[styles.button, styles.logOutButton]}
-                onPress={logOut}>
+                onPress={() => signOut()}>
                 <Text style={styles.buttonText}>
                     Log Out
                 </Text>
@@ -55,7 +59,7 @@ export default function Preferences() {
         return (
             <TouchableOpacity
                 style={[styles.button, styles.switchUserButton]}
-                onPress={switchUser}>
+                onPress={() => signOut()}>
                 <Text style={styles.buttonText}>
                     Switch Users
                 </Text>
@@ -115,15 +119,6 @@ function updatePostcode() {
 
 }
 
-function logOut() {
-    logButtonPress("Log Out");
-    //pretty self-explanatory
-}
-
-function switchUser() {
-    logButtonPress("Switch Users");
-    //open log in page
-}
 
 function toggleNotification(ID, state) {
     console.log("Notification Switch ID:", ID, "set to:", state);

@@ -3,11 +3,15 @@ import {StatusBar} from "expo-status-bar";
 import React, {useState} from "react";
 import {styles} from './Stylesheets/LoginStyles.js';
 
-export default function Login({ navigation }) {
+import AuthContext from '../components/AuthContext.js';
+
+
+export default function Login({ route, navigation }) {
     const [emailAddress, setEmailAddress] = useState("Email Address")
     const [password, setPassword] = useState("Password")
     const [showPassword, setShowPassword] = useState(false)
 
+    const { signIn } = React.useContext(AuthContext);
 
     return (
         <SafeAreaView style={{flex: 1}}>
@@ -33,7 +37,7 @@ export default function Login({ navigation }) {
                 <View style={styles.loginButtonContainer}>
                     <Button
                         color='#4d4d4d'
-                        onPress={() => console.log("login attempt")}
+                        onPress={() => {signIn(emailAddress, password)}}
                         title="Login"
                     />
                 </View>
@@ -49,10 +53,6 @@ export default function Login({ navigation }) {
 
         </SafeAreaView>
     );
-}
-
-function submitLogin() {
-
 }
 
 function switchToSignup(navigation) {

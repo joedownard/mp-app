@@ -18,10 +18,22 @@ export const styles = StyleSheet.create({
         marginRight: 3,
     },
 
+
     mpInfoSection: {
         margin: '2%',
         padding: '1%',
         backgroundColor: '#C4C4C4',
+    },
+
+    mpPicture: {
+        marginLeft: 40,
+        marginTop: 15,
+        width: 100,
+        height: 100,
+    },
+
+    textSection: {
+
     },
 
     mpName: {
@@ -30,6 +42,7 @@ export const styles = StyleSheet.create({
     },
 
     mpConstituency: {
+        fontSize: 18,
         color: 'grey'
     },
 
@@ -40,16 +53,28 @@ export const styles = StyleSheet.create({
     },
 
     mpPhoneNumber: {
-        color: 'grey'
+        color: 'grey',
+        fontSize: 18,
     },
 
     mpEmailAddress: {
         marginBottom: 10,
+        fontSize: 18,
         color: 'grey',
     },
 
     messageMpButton: {
         backgroundColor: '#C4C4C4',
+    },
+
+    searchBar: {
+        textAlign: 'center',
+        marginLeft: 10,
+        marginRight: 10,
+        marginTop: 10,
+        borderWidth: 2,
+        height: 40,
+        borderColor: '#C4C4C4',
     },
 
     mpBillsSection: {

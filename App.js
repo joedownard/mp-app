@@ -1,10 +1,14 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useReducer} from 'react';
 import Constants from 'expo-constants';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import * as Notifications from 'expo-notifications';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import AuthContext from './components/AuthContext.js';
+
 
 import Bills from './Pages/Bills.js';
 import BillDetails from './Pages/BillDetails.js';
@@ -24,13 +28,84 @@ export default function App() {
 
     });
 
+    const [state, dispatch] = React.useReducer(
+        (prevState, action) => {
+            switch (action.type) {
+                case 'RESTORE_TOKEN':
+                    return {
+                        ...prevState,
+                        userAuthenticationToken: action.token,
+                        isLoading: false,
+                    };
+                case 'SIGN_IN':
+                    return {
+                        ...prevState,
+                        isSignout: false,
+                        userAuthenticationToken: action.token,
+                    };
+                case 'SIGN_OUT':
+                    return {
+                        ...prevState,
+                        isSignout: true,
+                        userAuthenticationToken: null,
+                    };
+            }
+        },
+        {
+            isLoading: true,
+            isSignout: false,
+            userAuthenticationToken: null,
+        },
+    );
+
+    React.useEffect(() => {
+        const bootstrapAsync = async () => {
+            let userToken;
+            try {
+                userToken = await AsyncStorage.getItem('userAuthenticationToken');
+            } catch (e) {
+                console.log("Failed to restore user authentication token")
+            }
+            dispatch({type: 'RESTORE_TOKEN', token: userToken});
+        };
+
+        bootstrapAsync();
+    }, []);
+
+    const authContext = React.useMemo(
+        () => ({
+            signIn: async data => {
+
+                // communicate with server here to get token
+
+                let responseToken = 'dummy-auth-token'
+                AsyncStorage.setItem('userAuthenticationToken', responseToken)
+                dispatch({type: 'SIGN_IN', token: responseToken});
+            },
+            signOut: () => {
+                AsyncStorage.setItem('userAuthenticationToken', null)
+                dispatch({type: 'SIGN_OUT'})
+            },
+            signUp: async data => {
+                // communicate with server here to get token
+
+                let responseToken = 'dummy-auth-token'
+                AsyncStorage.setItem('userAuthenticationToken', responseToken)
+
+                dispatch({type: 'SIGN_IN', token: responseToken});
+            },
+            userAuthenticationToken: state.userAuthenticationToken,
+        }),
+        [state.userAuthenticationToken]
+    );
+
 
     const Tab = createBottomTabNavigator();
     const Stack = createStackNavigator();
 
     function BillsStack() {
         return (
-            <Stack.Navigator  screenOptions={{headerShown: false}}>
+            <Stack.Navigator screenOptions={{headerShown: false}}>
                 <Stack.Screen name="Bills" component={Bills}/>
                 <Stack.Screen name="Bill Details" component={BillDetails}/>
             </Stack.Navigator>
@@ -38,34 +113,43 @@ export default function App() {
     }
 
     return (
-        <NavigationContainer>
-            <Tab.Navigator screenOptions={({route}) => ({
-                tabBarIcon: ({focused, color, size}) => {
-                    let icon;
+        <AuthContext.Provider value={authContext}>
+            <NavigationContainer>
+                {state.userAuthenticationToken === "dummy-auth-token" ? (
+                    <Tab.Navigator screenOptions={({route}) => ({
+                        tabBarIcon: ({focused, color, size}) => {
+                            let icon;
 
-                    if (route.name === 'Bills') {
-                        icon = focused ? 'layers' : 'layers-outline';
-                    } else if (route.name === 'MP Profile') {
-                        icon = focused ? 'person' : 'person-outline';
-                    } else if (route.name === 'Preferences')
-                        icon = focused ? 'ellipsis-horizontal' : 'ellipsis-horizontal-outline';
-                    return <Ionicons name={icon} size={size} color={color}/>;
-                },
-            })}>
-                <Tab.Screen name="Bills" component={BillsStack} options={{title: ''}}/>
-                <Tab.Screen name="MP Profile" component={MpProfile} options={{title: ''}}/>
-                <Tab.Screen name="Preferences" component={Preferences} options={{title: ''}}/>
-            </Tab.Navigator>
-        </NavigationContainer>
+                            if (route.name === 'Bills') {
+                                icon = focused ? 'layers' : 'layers-outline';
+                            } else if (route.name === 'MP Profile') {
+                                icon = focused ? 'person' : 'person-outline';
+                            } else if (route.name === 'Preferences')
+                                icon = focused ? 'ellipsis-horizontal' : 'ellipsis-horizontal-outline';
+                            return <Ionicons name={icon} size={size} color={color}/>;
+                        },
+                    })}>
+                        <Tab.Screen name="Bills" component={BillsStack} options={{title: ''}}/>
+                        <Tab.Screen name="MP Profile" component={MpProfile} options={{title: ''}}/>
+                        <Tab.Screen name="Preferences" component={Preferences} options={{title: ''}}/>
+                    </Tab.Navigator>
+                ) : (
+                    <Stack.Navigator>
+                        <Stack.Screen name={"Login"} component={Login}/>
+                        <Stack.Screen name={"Signup"} component={Signup}/>
+                    </Stack.Navigator>
+                )}
+            </NavigationContainer>
+        </AuthContext.Provider>
     );
 }
 
 const registerForPushNotificationsAsync = async () => {
     if (Constants.isDevice) {
-        const { status: existingStatus } = await Notifications.getPermissionsAsync();
+        const {status: existingStatus} = await Notifications.getPermissionsAsync();
         let finalStatus = existingStatus;
         if (existingStatus !== 'granted') {
-            const { status } = await Notifications.requestPermissionsAsync();
+            const {status} = await Notifications.requestPermissionsAsync();
             finalStatus = status;
         }
         if (finalStatus !== 'granted') {

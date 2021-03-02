@@ -1,6 +1,7 @@
 import {View, SafeAreaView, TextInput, Button} from "react-native";
 import React, {useState} from "react";
 import {styles} from './Stylesheets/SignupStyles.js';
+import AuthContext from "../components/AuthContext";
 
 export default function Signup({ navigation }) {
     const [firstName, setFirstName] = useState("First Name")
@@ -11,6 +12,7 @@ export default function Signup({ navigation }) {
     const [confirmPassword, setConfirmPassword] = useState("Confirm Password")
     const [showPassword, setShowPassword] = useState(false)
 
+    const { signUp } = React.useContext(AuthContext);
 
     return (
         <SafeAreaView style={{flex: 1}}>
@@ -65,7 +67,7 @@ export default function Signup({ navigation }) {
                 <View style={styles.signupButtonContainer}>
                 <Button
                     color='#4d4d4d'
-                    onPress={() => submitSignup()}
+                    onPress={() => signUp(firstName, lastName, emailAddress, postCode, password, confirmPassword)}
                     title="Signup"
                 />
                 </View>
@@ -83,9 +85,6 @@ export default function Signup({ navigation }) {
     );
 }
 
-function submitSignup() {
-
-}
 
 function switchToLogin(navigation) {
     navigation.navigate("Login")
