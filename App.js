@@ -6,6 +6,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import * as Notifications from 'expo-notifications';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {SafeAreaView} from "react-native";
 
 import AuthContext from './components/AuthContext.js';
 
@@ -113,34 +114,36 @@ export default function App() {
     }
 
     return (
-        <AuthContext.Provider value={authContext}>
-            <NavigationContainer>
-                {state.userAuthenticationToken === "dummy-auth-token" ? (
-                    <Tab.Navigator screenOptions={({route}) => ({
-                        tabBarIcon: ({focused, color, size}) => {
-                            let icon;
+            <AuthContext.Provider value={authContext}>
+                <SafeAreaView style={{flex: 1}}>
+                <NavigationContainer>
+                    {state.userAuthenticationToken === "dummy-auth-token" ? (
+                        <Tab.Navigator screenOptions={({route}) => ({
+                            tabBarIcon: ({focused, color, size}) => {
+                                let icon;
 
-                            if (route.name === 'Bills') {
-                                icon = focused ? 'layers' : 'layers-outline';
-                            } else if (route.name === 'MP Profile') {
-                                icon = focused ? 'person' : 'person-outline';
-                            } else if (route.name === 'Preferences')
-                                icon = focused ? 'ellipsis-horizontal' : 'ellipsis-horizontal-outline';
-                            return <Ionicons name={icon} size={size} color={color}/>;
-                        },
-                    })}>
-                        <Tab.Screen name="Bills" component={BillsStack} options={{title: ''}}/>
-                        <Tab.Screen name="MP Profile" component={MpProfile} options={{title: ''}}/>
-                        <Tab.Screen name="Preferences" component={Preferences} options={{title: ''}}/>
-                    </Tab.Navigator>
-                ) : (
-                    <Stack.Navigator>
-                        <Stack.Screen name={"Login"} component={Login}/>
-                        <Stack.Screen name={"Signup"} component={Signup}/>
-                    </Stack.Navigator>
-                )}
-            </NavigationContainer>
-        </AuthContext.Provider>
+                                if (route.name === 'Bills') {
+                                    icon = focused ? 'layers' : 'layers-outline';
+                                } else if (route.name === 'MP Profile') {
+                                    icon = focused ? 'person' : 'person-outline';
+                                } else if (route.name === 'Preferences')
+                                    icon = focused ? 'ellipsis-horizontal' : 'ellipsis-horizontal-outline';
+                                return <Ionicons name={icon} size={size} color={color}/>;
+                            },
+                        })}>
+                            <Tab.Screen name="Bills" component={BillsStack} options={{title: ''}}/>
+                            <Tab.Screen name="MP Profile" component={MpProfile} options={{title: ''}}/>
+                            <Tab.Screen name="Preferences" component={Preferences} options={{title: ''}}/>
+                        </Tab.Navigator>
+                    ) : (
+                        <Stack.Navigator>
+                            <Stack.Screen name={"Login"} component={Login}/>
+                            <Stack.Screen name={"Signup"} component={Signup}/>
+                        </Stack.Navigator>
+                    )}
+                </NavigationContainer>
+                </SafeAreaView>
+            </AuthContext.Provider>
     );
 }
 

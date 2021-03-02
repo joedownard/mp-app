@@ -26,8 +26,6 @@ export const styles = StyleSheet.create({
     },
 
     mpPicture: {
-        marginLeft: 40,
-        marginTop: 15,
         width: 100,
         height: 100,
     },
@@ -37,7 +35,7 @@ export const styles = StyleSheet.create({
     },
 
     mpName: {
-        fontWeight: 900,
+        fontWeight: '900',
         fontSize: 24,
     },
 
@@ -47,19 +45,19 @@ export const styles = StyleSheet.create({
     },
 
     contactDetailsTitle: {
-        fontWeight: 900,
+        fontWeight: '900',
         fontSize: 24,
         marginTop: 10,
     },
 
     mpPhoneNumber: {
         color: 'grey',
-        fontSize: 18,
+        fontSize: 16,
     },
 
     mpEmailAddress: {
         marginBottom: 10,
-        fontSize: 18,
+        fontSize: 16,
         color: 'grey',
     },
 
@@ -72,6 +70,7 @@ export const styles = StyleSheet.create({
         marginLeft: 10,
         marginRight: 10,
         marginTop: 10,
+        marginBottom: 10,
         borderWidth: 2,
         height: 40,
         borderColor: '#C4C4C4',
