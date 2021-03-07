@@ -18,7 +18,6 @@ import MpProfile from './Pages/MpProfile.js';
 import Preferences from './Pages/Preferences.js';
 import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
-import { styles } from './Pages/Stylesheets/BillsStyles.js';
 
 export default function App() {
     const [expoPushToken, setExpoPushToken] = useState('');
