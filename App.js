@@ -18,6 +18,7 @@ import MpProfile from './Pages/MpProfile.js';
 import Preferences from './Pages/Preferences.js';
 import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
+import { styles } from './Pages/Stylesheets/BillsStyles.js';
 
 export default function App() {
     const [expoPushToken, setExpoPushToken] = useState('');
@@ -116,34 +117,36 @@ export default function App() {
 
     return (
             <AuthContext.Provider value={authContext}>
-                <SafeAreaView style={{flex: 1, paddingTop: styles.paddingTop}}>
                 <NavigationContainer>
-                    {state.userAuthenticationToken === "dummy-auth-token" ? (
-                        <Tab.Navigator screenOptions={({route}) => ({
-                            tabBarIcon: ({focused, color, size}) => {
-                                let icon;
+                    {state.userAuthenticationToken === "dummy-auth-token" ?  (
+                        <SafeAreaView style={paddingStyles.padding}>
+                            <Tab.Navigator screenOptions={({route}) => ({
+                                tabBarIcon: ({focused, color, size}) => {
+                                    let icon;
 
-                                if (route.name === 'Bills') {
-                                    icon = focused ? 'layers' : 'layers-outline';
-                                } else if (route.name === 'MP Profile') {
-                                    icon = focused ? 'person' : 'person-outline';
-                                } else if (route.name === 'Preferences')
-                                    icon = focused ? 'ellipsis-horizontal' : 'ellipsis-horizontal-outline';
-                                return <Ionicons name={icon} size={size} color={color}/>;
-                            },
-                        })}>
-                            <Tab.Screen name="Bills" component={BillsStack} options={{title: ''}}/>
-                            <Tab.Screen name="MP Profile" component={MpProfile} options={{title: ''}}/>
-                            <Tab.Screen name="Preferences" component={Preferences} options={{title: ''}}/>
-                        </Tab.Navigator>
-                    ) : (
-                        <Stack.Navigator>
-                            <Stack.Screen name={"Login"} component={Login}/>
-                            <Stack.Screen name={"Signup"} component={Signup}/>
-                        </Stack.Navigator>
+                                    if (route.name === 'Bills') {
+                                        icon = focused ? 'layers' : 'layers-outline';
+                                    } else if (route.name === 'MP Profile') {
+                                        icon = focused ? 'person' : 'person-outline';
+                                    } else if (route.name === 'Preferences')
+                                        icon = focused ? 'ellipsis-horizontal' : 'ellipsis-horizontal-outline';
+                                    return <Ionicons name={icon} size={size} color={color}/>;
+                                },
+                            })}>
+                                <Tab.Screen name="Bills" component={BillsStack} options={{title: ''}}/>
+                                <Tab.Screen name="MP Profile" component={MpProfile} options={{title: ''}}/>
+                                <Tab.Screen name="Preferences" component={Preferences} options={{title: ''}}/>
+                            </Tab.Navigator>
+                        </SafeAreaView> 
+                        ) : (
+                        <SafeAreaView style={paddingStyles.noPadding}>
+                            <Stack.Navigator>
+                                <Stack.Screen name={"Login"} component={Login}/>
+                                <Stack.Screen name={"Signup"} component={Signup}/>
+                            </Stack.Navigator>
+                        </SafeAreaView>
                     )}
                 </NavigationContainer>
-                </SafeAreaView>
             </AuthContext.Provider>
     );
 }
@@ -175,6 +178,14 @@ const registerForPushNotificationsAsync = async () => {
     }
 };
 
-const styles = StyleSheet.create({
-    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0
+const paddingStyles = StyleSheet.create({
+    padding: {
+        flex: 1,
+        paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0
+    },
+
+    noPadding: {
+        flex: 1,
+        paddingTop: 0
+    },
 });
