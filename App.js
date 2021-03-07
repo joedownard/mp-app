@@ -7,6 +7,7 @@ import * as Notifications from 'expo-notifications';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {SafeAreaView} from "react-native";
+import {Platform, StatusBar, StyleSheet} from 'react-native';
 
 import AuthContext from './components/AuthContext.js';
 
@@ -115,7 +116,7 @@ export default function App() {
 
     return (
             <AuthContext.Provider value={authContext}>
-                <SafeAreaView style={{flex: 1}}>
+                <SafeAreaView style={{flex: 1, paddingTop: styles.paddingTop}}>
                 <NavigationContainer>
                     {state.userAuthenticationToken === "dummy-auth-token" ? (
                         <Tab.Navigator screenOptions={({route}) => ({
@@ -173,3 +174,7 @@ const registerForPushNotificationsAsync = async () => {
         });
     }
 };
+
+const styles = StyleSheet.create({
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0
+});
