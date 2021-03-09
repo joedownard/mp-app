@@ -11,39 +11,39 @@ export default function Bills({navigation}) {
     //     useState([
     //     {
     //         "id": 1,
-    //         "name": "Bill 1 Name",
-    //         "date": "12/02/2019",
+    //         "title": "Bill 1 Name",
+    //         "date_added": "12/02/2019",
     //         "likes": 102,
     //         "dislikes": 168,
     //         "shares": 57,
-    //         "billDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut"
+    //         "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut"
     //     },
     //     {
     //         "id": 2,
-    //         "name": "Bill 2 Name",
-    //         "date": "06/06/2018",
+    //         "title": "Bill 2 Name",
+    //         "date_added": "06/06/2018",
     //         "likes": 5,
     //         "dislikes": 7,
     //         "shares": 2,
-    //         "billDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut"
+    //         "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut"
     //     },
     //     {
     //         "id": 3,
-    //         "name": "Bill 3 Name",
-    //         "date": "21/08/2018",
+    //         "title": "Bill 3 Name",
+    //         "date_added": "21/08/2018",
     //         "likes": 46,
     //         "dislikes": 22,
     //         "shares": 19,
-    //         "billDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut"
+    //         "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut"
     //     },
     //     {
     //         "id": 4,
-    //         "name": "Bill 4 Name",
-    //         "date": "13/11/2018",
+    //         "title": "Bill 4 Name",
+    //         "date_added": "13/11/2018",
     //         "likes": 55,
     //         "dislikes": 12,
     //         "shares": 35,
-    //         "billDescription": "My name jeff"
+    //         "desc": "My name jeff"
     //     }
     // ]);
 

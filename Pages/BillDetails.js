@@ -20,15 +20,15 @@ export default function BillDetails({route, navigation}) {
 
     const [userInteractions, setUserInteractions] = useState({});
     const [billData, setBillData] = useState()
-    //     useState({
-    //     "id": 1,
-    //     "name": "Bill 1 Name",
-    //     "date": "12/02/2019",
-    //     "likes": 102,
-    //     "dislikes": 168,
-    //     "shares": 57,
-    //     "billDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut"
-    // });
+    //     useState([{
+    //         "id": 1,
+    //         "title": "Bill 1 Name",
+    //         "date_added": "12/02/2019",
+    //         "likes": 102,
+    //         "dislikes": 168,
+    //         "shares": 57,
+    //         "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut"
+    //     }]);
 
     if (!billData) {
         fetch("https://bills-app-305000.ew.r.appspot.com/"+params.id+"/get")
