@@ -19,21 +19,23 @@ export default function BillDetails({route, navigation}) {
     const params = route.params;
 
     const [userInteractions, setUserInteractions] = useState({});
-    const [billData, setBillData] = useState({
-        "id": 1,
-        "name": "Bill 1 Name",
-        "date": "12/02/2019",
-        "likes": 102,
-        "dislikes": 168,
-        "shares": 57,
-        "billDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut"
-    });
+    const [billData, setBillData] = useState()
+    //     useState({
+    //     "id": 1,
+    //     "name": "Bill 1 Name",
+    //     "date": "12/02/2019",
+    //     "likes": 102,
+    //     "dislikes": 168,
+    //     "shares": 57,
+    //     "billDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut"
+    // });
 
     if (!billData) {
-        fetch("http://localhost:80/mpapp/bills")
+        fetch("https://bills-app-305000.ew.r.appspot.com/"+params.id+"/get")
             .then((response) => response.json())
             .then((responseJson) => {
-                setBillData(responseJson);
+                console.log(responseJson.result)
+                setBillData(responseJson.result);
             })
             .catch((error) => {
                 console.error(error);
@@ -80,7 +82,7 @@ export default function BillDetails({route, navigation}) {
                             <Image style={styles.favouriteButton}
                                    source={userInteractions['favourited'] ? favouriteFilled : favourite}/>
                         </Pressable>
-                        <Text style={styles.pageTitle}>{billData.name}</Text>
+                        <Text style={styles.pageTitle}>{billData.title}</Text>
                     </View>
                     <Image style={styles.shareButton} source={share}/>
                 </View>
@@ -89,11 +91,11 @@ export default function BillDetails({route, navigation}) {
                     <View style={styles.billDescriptionHeader}>
                         <Text style={styles.billDescriptionTitleText}>Bill Description</Text>
                         <View style={styles.billHeaderFavouriteDate}>
-                            <Text style={styles.billDescriptionDateText}>{billData.date}</Text>
+                            <Text style={styles.billDescriptionDateText}>{billData.date_added}</Text>
                         </View>
                     </View>
                     <View style={styles.horizontalLine}/>
-                    <Text style={styles.billDescriptionText}>{billData.billDescription}</Text>
+                    <Text style={styles.billDescriptionText}>{billData.desc}</Text>
                 </View>
 
 

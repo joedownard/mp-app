@@ -33,8 +33,8 @@ export function BillList(props) {
     }, [props.data, props.searchTerm]);
 
     const billItemList = data.map((item) =>
-        <BillItem key={item.id} userAuthenticationToken={userAuthenticationToken} backPage={props.backPage} navigation={props.navigation} id={item.id} name={item.name} date={item.date}
-                  billDescription={item.billDescription} likes={item.likes} dislikes={item.dislikes}
+        <BillItem key={item.id} userAuthenticationToken={userAuthenticationToken} backPage={props.backPage} navigation={props.navigation} id={item.id} name={item.title} date={item.date_added}
+                  billDescription={item.desc} likes={item.likes} dislikes={item.dislikes}
                   shares={item.shares}/>
     );
 
@@ -100,11 +100,11 @@ function BillItem(props) {
                         if (!userInteractions['disliked']) {
                             setData({...data, dislikes: data.dislikes + 1})
                             setUserInteractions({...userInteractions, disliked: true});
-                            onUserInteraction(props.id, 'dislike');
+                            onUserInteraction(props.id, 'dislike', props.userAuthenticationToken);
                         } else {
                             setData({...data, dislikes: data.dislikes - 1})
                             setUserInteractions({...userInteractions, disliked: false});
-                            onUserInteraction(props.id, 'undislike');
+                            onUserInteraction(props.id, 'undislike', props.userAuthenticationToken);
                         }
                     }}>
                         <Image style={styles.thumbsDown}
