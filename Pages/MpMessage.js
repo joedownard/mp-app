@@ -5,7 +5,7 @@ import {styles} from './Stylesheets/MpMessageStyles.js';
 const borisPicture = require('../assets/boris_pic.png'); //this is just a placeholder
 
 
-export default function MpMessage() {
+export default function MpMessage({ navigation }) {
 
     const mpData = {
         name: 'Boris Johnson',

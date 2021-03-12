@@ -18,6 +18,7 @@ import MpProfile from './Pages/MpProfile.js';
 import Preferences from './Pages/Preferences.js';
 import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
+import MpMessage from './Pages/MpMessage';
 
 export default function App() {
     const [expoPushToken, setExpoPushToken] = useState('');
@@ -114,9 +115,18 @@ export default function App() {
         );
     }
 
+    function MpStack() {
+        return (
+            <Stack.Navigator screenOptions={{headerShown: false}}>
+                <Stack.Screen name="MP Profile" component={MpProfile}/>
+                <Stack.Screen name="MP Message" component={MpMessage}/>
+            </Stack.Navigator>
+        );
+    }
+
     return (
             <AuthContext.Provider value={authContext}>
-                <NavigationContainer>
+                <NavigationContainer> 
                     {state.userAuthenticationToken === "dummy-auth-token" ?  (
                         <SafeAreaView style={paddingStyles.padding}>
                             <Tab.Navigator screenOptions={({route}) => ({
@@ -127,21 +137,22 @@ export default function App() {
                                         icon = focused ? 'layers' : 'layers-outline';
                                     } else if (route.name === 'MP Profile') {
                                         icon = focused ? 'person' : 'person-outline';
-                                    } else if (route.name === 'Preferences')
+                                    } else if (route.name === 'Preferences') {
                                         icon = focused ? 'ellipsis-horizontal' : 'ellipsis-horizontal-outline';
+                                    }
                                     return <Ionicons name={icon} size={size} color={color}/>;
                                 },
                             })}>
                                 <Tab.Screen name="Bills" component={BillsStack} options={{title: ''}}/>
-                                <Tab.Screen name="MP Profile" component={MpProfile} options={{title: ''}}/>
+                                <Tab.Screen name="MP Profile" component={MpStack} options={{title: ''}}/>
                                 <Tab.Screen name="Preferences" component={Preferences} options={{title: ''}}/>
                             </Tab.Navigator>
                         </SafeAreaView> 
                         ) : (
                         <SafeAreaView style={paddingStyles.noPadding}>
                             <Stack.Navigator>
-                                <Stack.Screen name={"Login"} component={Login}/>
-                                <Stack.Screen name={"Signup"} component={Signup}/>
+                                <Stack.Screen name="Login" component={Login}/>
+                                <Stack.Screen name="Signup" component={Signup}/>
                             </Stack.Navigator>
                         </SafeAreaView>
                     )}

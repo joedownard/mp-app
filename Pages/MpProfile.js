@@ -82,7 +82,7 @@ export default function MpProfile({ navigation }) {
 
                 <Button style={styles.messageMpButton}
                         color='#4d4d4d'
-                        onPress={MpMessage}
+                        onPress={() => navigateToMpMessage(navigation)}
                         title="Message"/>
             </View>
 
@@ -109,4 +109,8 @@ export default function MpProfile({ navigation }) {
             </ScrollView>
         </SafeAreaView>
     );
+}
+
+function navigateToMpMessage(navigation) {
+    navigation.navigate("MP Message")
 }
