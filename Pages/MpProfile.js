@@ -2,6 +2,8 @@ import {Text, View, Image, ScrollView, SafeAreaView, Button, TextInput} from "re
 import React, {useState} from "react";
 import {styles} from './Stylesheets/MpProfileStyles.js';
 import {BillList} from "../components/BillList";
+import AuthContext from "../components/AuthContext.js";
+import MpMessage from "./MpMessage.js";
 
 const borisPicture = require('../assets/boris_pic.png');
 
@@ -80,8 +82,7 @@ export default function MpProfile({ navigation }) {
 
                 <Button style={styles.messageMpButton}
                         color='#4d4d4d'
-                        onPress={() => {
-                        }}
+                        onPress={MpMessage}
                         title="Message"/>
             </View>
 
