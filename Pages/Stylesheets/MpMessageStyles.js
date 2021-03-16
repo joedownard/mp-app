@@ -38,11 +38,37 @@ export const styles = StyleSheet.create({
         color: 'grey',
     },
 
-    
-
     mpPicture: {
+        left: -55,
+        top: 5,
         width: 100,
         height: 100,
     },
 
+    votingHistoryButton: {
+        backgroundColor: '#C4C4C4',
+    },
+
+    dropDownBox: {
+        marginLeft: "60%",
+        borderWidth: 2,
+        borderColor: '#C4C4C4',
+    },
+
+    messageBox: {
+        height: "45%",
+        width: "96%",
+        marginLeft: "2%",
+        marginTop: "2%",
+        backgroundColor: "white",
+    },
+
+    messageButton: {
+        
+    },
+
+    bottomButton: {
+        marginTop: 10,
+        bottom: 0,
+    }
 });

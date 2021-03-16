@@ -117,8 +117,8 @@ export default function App() {
 
     function MpStack() {
         return (
-            <Stack.Navigator screenOptions={{headerShown: false}}>
-                <Stack.Screen name="MP Profile" component={MpProfile}/>
+            <Stack.Navigator>
+                <Stack.Screen options={{headerShown: false}} name="MP Profile" component={MpProfile}/>
                 <Stack.Screen name="MP Message" component={MpMessage}/>
             </Stack.Navigator>
         );

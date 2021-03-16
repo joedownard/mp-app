@@ -1,5 +1,6 @@
 import React from "react";
-import {Text, View, Image, SafeAreaView, TextInput, TouchableOpacity} from "react-native";
+import {Text, View, Image, SafeAreaView, Button, TextInput, KeyboardAvoidingView, Platform} from "react-native";
+import DropDownPicker from "react-native-dropdown-picker";
 import {styles} from './Stylesheets/MpMessageStyles.js';
 
 const borisPicture = require('../assets/boris_pic.png'); //this is just a placeholder
@@ -14,8 +15,13 @@ export default function MpMessage({ navigation }) {
         emailAddress: 'boris.johnson.mp@parliament.uk'
     } //and this
 
+    const [messageValue, onChangeText] = React.useState();
+
     return (
         <SafeAreaView style={{flex: 1}}>
+            <KeyboardAvoidingView
+                behavior={Platform.OS === "ios" ? "padding" : null}
+                style={{ flex: 1 }}>
             <View style={styles.mpInfoSection}>
                 <View style={{flexDirection: 'row'}}>
                     <View style={styles.textSection}>
@@ -31,7 +37,40 @@ export default function MpMessage({ navigation }) {
                         <Image style={styles.mpPicture} source={borisPicture}/>
                     </View>
                 </View>
+
+                <Button style={styles.votingHistoryButton}
+                    color='#4d4d4d'
+                    onPress={() => {}}
+                    title="Voting History"/>
             </View>
+            <DropDownPicker
+                items={[
+                    {label: 'Pre-made Formats', value: 'pre-made'}
+                ]}
+                containerStyle={{height: 40, width: "98%"}}
+                style={styles.dropDownBox}
+                defaultValue={'pre-made'}/>
+
+            <TextInput
+                style={styles.messageBox}
+                multiline={true}
+                placeholder=" Your Message..."
+                onFocus={(e) => e.target.placeholder=''}
+                onBlur ={(e) => e.target.placeholder=" Your Message..."}
+                onChangeText={text => onChangeText(text)} 
+                //above may be removable
+                value={messageValue}
+                />
+
+            {/* Message button */}
+                <View style={styles.bottomButton}>
+                    <Button 
+                        style={styles.messageButton}
+                        color='#4d4d4d'
+                        onPress={() => {}}
+                        title="Message"/>
+                </View>
+            </KeyboardAvoidingView>
         </SafeAreaView>
     );
 }
