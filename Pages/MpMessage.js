@@ -20,8 +20,8 @@ export default function MpMessage({ navigation }) {
     return (
         <SafeAreaView style={{flex: 1}}>
             <KeyboardAvoidingView
-                behavior={Platform.OS === "ios" ? "padding" : null}
-                style={{ flex: 1 }}>
+                    behavior={Platform.OS === "ios" ? "padding" : null}
+                    style={{ flex: 1 }}>
             <View style={styles.mpInfoSection}>
                 <View style={{flexDirection: 'row'}}>
                     <View style={styles.textSection}>
@@ -43,24 +43,26 @@ export default function MpMessage({ navigation }) {
                     onPress={() => {}}
                     title="Voting History"/>
             </View>
-            <DropDownPicker
-                items={[
-                    {label: 'Pre-made Formats', value: 'pre-made'}
-                ]}
-                containerStyle={{height: 40, width: "98%"}}
-                style={styles.dropDownBox}
-                defaultValue={'pre-made'}/>
+            
+                <DropDownPicker
+                    items={[
+                        {label: 'Pre-made Formats', value: 'pre-made'}
+                    ]}
+                    containerStyle={{height: 40, width: "98%"}}
+                    style={styles.dropDownBox}
+                    defaultValue={'pre-made'}/>
 
-            <TextInput
-                style={styles.messageBox}
-                multiline={true}
-                placeholder=" Your Message..."
-                onFocus={(e) => e.target.placeholder=''}
-                onBlur ={(e) => e.target.placeholder=" Your Message..."}
-                onChangeText={text => onChangeText(text)} 
-                //above may be removable
-                value={messageValue}
-                />
+            </KeyboardAvoidingView>
+                <TextInput
+                    style={styles.messageBox}
+                    multiline={true}
+                    placeholder=" Your Message..."
+                    onFocus={(e) => e.target.placeholder=''}
+                    onBlur ={(e) => e.target.placeholder=" Your Message..."}
+                    onChangeText={text => onChangeText(text)} 
+                    //above may be removable
+                    value={messageValue}
+                    />
 
             {/* Message button */}
                 <View style={styles.bottomButton}>
@@ -70,7 +72,6 @@ export default function MpMessage({ navigation }) {
                         onPress={() => {}}
                         title="Message"/>
                 </View>
-            </KeyboardAvoidingView>
         </SafeAreaView>
     );
 }
