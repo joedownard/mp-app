@@ -43,16 +43,17 @@ export default function MpMessage({ navigation }) {
                     onPress={() => {}}
                     title="Voting History"/>
             </View>
-            
-                <DropDownPicker
-                    items={[
-                        {label: 'Pre-made Formats', value: 'pre-made'}
-                    ]}
-                    containerStyle={{height: 40, width: "98%"}}
-                    style={styles.dropDownBox}
-                    defaultValue={'pre-made'}/>
-
+            <DropDownPicker
+                items={[
+                    {label: 'Pre-made Formats', value: 'pre-made'}
+                ]}
+                containerStyle={{height: 40, width: "98%"}}
+                style={styles.dropDownBox}
+                defaultValue={'pre-made'}/>
             </KeyboardAvoidingView>
+            <KeyboardAvoidingView
+                behavior={Platform.OS === "ios" ? "padding" : null}
+                style={{ flex: 1 }}>
                 <TextInput
                     style={styles.messageBox}
                     multiline={true}
@@ -63,8 +64,7 @@ export default function MpMessage({ navigation }) {
                     //above may be removable
                     value={messageValue}
                     />
-
-            {/* Message button */}
+                {/* android layout needs tweaking */}
                 <View style={styles.bottomButton}>
                     <Button 
                         style={styles.messageButton}
@@ -72,6 +72,7 @@ export default function MpMessage({ navigation }) {
                         onPress={() => {}}
                         title="Message"/>
                 </View>
+            </KeyboardAvoidingView>
         </SafeAreaView>
     );
 }

@@ -56,11 +56,12 @@ export const styles = StyleSheet.create({
     },
 
     messageBox: {
-        height: "45%",
+        height: "80%",
         width: "96%",
         marginLeft: "2%",
-        marginTop: "2%",
+        marginTop: "7%",
         backgroundColor: "white",
+        textAlignVertical: "top",
     },
 
     messageButton: {
