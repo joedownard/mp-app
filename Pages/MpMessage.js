@@ -1,19 +1,24 @@
 import React from "react";
 import {Text, View, Image, SafeAreaView, Button, TextInput, KeyboardAvoidingView, Platform} from "react-native";
+import { CustomPicker } from "react-native-custom-picker";
 import DropDownPicker from "react-native-dropdown-picker";
+
 import {styles} from './Stylesheets/MpMessageStyles.js';
 
-const borisPicture = require('../assets/boris_pic.png'); //this is just a placeholder
 
 
 export default function MpMessage({ navigation }) {
+
+    const borisPicture = require('../assets/boris_pic.png');
+    //this is just a placeholder
 
     const mpData = {
         name: 'Boris Johnson',
         constituency: 'Uxbridge and South Ruslip',
         phoneNumber: '020 7219 4682',
         emailAddress: 'boris.johnson.mp@parliament.uk'
-    } //and this
+    }
+    //and this
 
     const [messageValue, onChangeText] = React.useState();
 
@@ -25,10 +30,8 @@ export default function MpMessage({ navigation }) {
             <View style={styles.mpInfoSection}>
                 <View style={{flexDirection: 'row'}}>
                     <View style={styles.textSection}>
-
                         <Text style={styles.mpName}>{mpData.name}</Text>
                         <Text style={styles.mpConstituency}>{mpData.constituency}</Text>
-
                         <Text style={styles.contactDetailsTitle}>Contact Details</Text>
                         <Text style={styles.mpPhoneNumber}>Phone: {mpData.phoneNumber}</Text>
                         <Text style={styles.mpEmailAddress}>Email: {mpData.emailAddress}</Text>
@@ -43,17 +46,30 @@ export default function MpMessage({ navigation }) {
                     onPress={() => {}}
                     title="Voting History"/>
             </View>
-            <DropDownPicker
-                items={[
-                    {label: 'Pre-made Formats', value: 'pre-made'}
-                ]}
-                containerStyle={{height: 40, width: "98%"}}
-                style={styles.dropDownBox}
-                defaultValue={'pre-made'}/>
+            <View style={{flex: 1, padding: "2%"}}>
+                <DropDownPicker
+                    items={[
+                        {label: 'Pre-made Formats', value: 'pre-made'}
+                    ]}
+                    containerStyle={{height: 40, width: "98%"}}
+                    style={styles.dropDownBox}
+                    defaultValue={'pre-made'}/>
+                {/* <CustomPicker
+                    options={[
+                        "Pre-Made Formats"
+                    ]}
+                    containerStyle={{height: 40, width: "98%"}}
+                    style={styles.dropDownBox}
+                    defaultValue={"Pre-Made Formats"}/> */}
+            </View>
             </KeyboardAvoidingView>
             <KeyboardAvoidingView
                 behavior={Platform.OS === "ios" ? "padding" : null}
                 style={{ flex: 1 }}>
+
+                {/* why is there a gap between dropdown and textinput? */}
+
+                <View style={{flex: 1}}>
                 <TextInput
                     style={styles.messageBox}
                     multiline={true}
@@ -61,10 +77,9 @@ export default function MpMessage({ navigation }) {
                     onFocus={(e) => e.target.placeholder=''}
                     onBlur ={(e) => e.target.placeholder=" Your Message..."}
                     onChangeText={text => onChangeText(text)} 
-                    //above may be removable
                     value={messageValue}
                     />
-                {/* android layout needs tweaking */}
+                </View>
                 <View style={styles.bottomButton}>
                     <Button 
                         style={styles.messageButton}

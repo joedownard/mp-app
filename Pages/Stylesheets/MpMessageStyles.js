@@ -53,10 +53,11 @@ export const styles = StyleSheet.create({
         marginLeft: "60%",
         borderWidth: 2,
         borderColor: '#C4C4C4',
+        
     },
 
     messageBox: {
-        height: "85%",
+        height: "80%",
         width: "96%",
         marginLeft: "2%",
         backgroundColor: "white",
@@ -64,6 +65,7 @@ export const styles = StyleSheet.create({
     },
 
     messageButton: {
+
     },
 
     bottomButton: {
@@ -71,6 +73,6 @@ export const styles = StyleSheet.create({
         bottom: 0,
         width: "96%",
         marginLeft: "2%",
-        
+        marginTop: "2%",
     }
 });
