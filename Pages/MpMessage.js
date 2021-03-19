@@ -6,7 +6,7 @@ import {styles} from './Stylesheets/MpMessageStyles.js';
 
 
 
-export default function MpMessage({ route, navigation }) {
+export default function MpMessage({ route }) {
 
     const mpData = route.params;
 
