@@ -5,15 +5,14 @@ import {BillList} from "../components/BillList";
 import AuthContext from "../components/AuthContext.js";
 import MpMessage from "./MpMessage.js";
 
-const borisPicture = require('../assets/boris_pic.png');
-
 export default function MpProfile({ navigation }) {
 
     const mpData = {
         name: 'Boris Johnson',
         constituency: 'Uxbridge and South Ruslip',
         phoneNumber: '020 7219 4682',
-        emailAddress: 'boris.johnson.mp@parliament.uk'
+        emailAddress: 'boris.johnson.mp@parliament.uk',
+        mpPicture: require('../assets/boris_pic.png')
     }
 
     const [searchValue, setSearchValue] = useState("Search for Bill")
@@ -76,13 +75,13 @@ export default function MpProfile({ navigation }) {
                         <Text style={styles.mpEmailAddress}>Email: {mpData.emailAddress}</Text>
                     </View>
                     <View>
-                        <Image style={styles.mpPicture} source={borisPicture}/>
+                        <Image style={styles.mpPicture} source={mpData.mpPicture}/>
                     </View>
                 </View>
 
                 <Button style={styles.messageMpButton}
                         color='#4d4d4d'
-                        onPress={() => navigateToMpMessage(navigation)}
+                        onPress={() => navigateToMpMessage(navigation, mpData)}
                         title="Message"/>
             </View>
 
@@ -111,6 +110,6 @@ export default function MpProfile({ navigation }) {
     );
 }
 
-function navigateToMpMessage(navigation) {
-    navigation.navigate("MP Message")
+function navigateToMpMessage(navigation, data) {
+    navigation.navigate("MP Message", data)
 }

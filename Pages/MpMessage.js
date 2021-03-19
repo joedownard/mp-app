@@ -1,24 +1,14 @@
 import React from "react";
 import {Text, View, Image, SafeAreaView, Button, TextInput, KeyboardAvoidingView, Platform} from "react-native";
-import { CustomPicker } from "react-native-custom-picker";
 import DropDownPicker from "react-native-dropdown-picker";
 
 import {styles} from './Stylesheets/MpMessageStyles.js';
 
 
 
-export default function MpMessage({ navigation }) {
+export default function MpMessage({ route, navigation }) {
 
-    const borisPicture = require('../assets/boris_pic.png');
-    //this is just a placeholder
-
-    const mpData = {
-        name: 'Boris Johnson',
-        constituency: 'Uxbridge and South Ruslip',
-        phoneNumber: '020 7219 4682',
-        emailAddress: 'boris.johnson.mp@parliament.uk'
-    }
-    //and this
+    const mpData = route.params;
 
     const [messageValue, onChangeText] = React.useState();
 
@@ -37,7 +27,7 @@ export default function MpMessage({ navigation }) {
                         <Text style={styles.mpEmailAddress}>Email: {mpData.emailAddress}</Text>
                     </View>
                     <View>
-                        <Image style={styles.mpPicture} source={borisPicture}/>
+                        <Image style={styles.mpPicture} source={mpData.mpPicture}/>
                     </View>
                 </View>
 
@@ -54,21 +44,11 @@ export default function MpMessage({ navigation }) {
                     containerStyle={{height: 40, width: "98%"}}
                     style={styles.dropDownBox}
                     defaultValue={'pre-made'}/>
-                {/* <CustomPicker
-                    options={[
-                        "Pre-Made Formats"
-                    ]}
-                    containerStyle={{height: 40, width: "98%"}}
-                    style={styles.dropDownBox}
-                    defaultValue={"Pre-Made Formats"}/> */}
             </View>
             </KeyboardAvoidingView>
             <KeyboardAvoidingView
                 behavior={Platform.OS === "ios" ? "padding" : null}
                 style={{ flex: 1 }}>
-
-                {/* why is there a gap between dropdown and textinput? */}
-
                 <View style={{flex: 1}}>
                 <TextInput
                     style={styles.messageBox}
