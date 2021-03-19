@@ -33,7 +33,7 @@ export default function MpMessage({ route }) {
 
                 <Button style={styles.votingHistoryButton}
                     color='#4d4d4d'
-                    onPress={() => {}}
+                    onPress={() => votingHistory()}
                     title="Voting History"/>
             </View>
             <View style={{flex: 1, padding: "2%"}}>
@@ -64,10 +64,24 @@ export default function MpMessage({ route }) {
                     <Button 
                         style={styles.messageButton}
                         color='#4d4d4d'
-                        onPress={() => {}}
+                        onPress={() => message(messageValue)}
                         title="Message"/>
                 </View>
             </KeyboardAvoidingView>
         </SafeAreaView>
     );
+}
+
+function votingHistory() {
+    logButtonPress("Voting History");
+
+}
+
+function message(messageText) {
+    logButtonPress("Message");
+    console.log(messageText);
+}
+
+function logButtonPress(button) {
+    console.log("User Pressed Button:", button);
 }
