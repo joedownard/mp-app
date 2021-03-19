@@ -10,6 +10,7 @@ import {SafeAreaView} from "react-native";
 import {Platform, StatusBar, StyleSheet} from 'react-native';
 
 import AuthContext from './components/AuthContext.js';
+import * as CryptoES from "crypto-es";
 
 
 import Bills from './Pages/Bills.js';
@@ -80,6 +81,10 @@ export default function App() {
 
                 // communicate with server here to get token
 
+                const salt = CryptoES.default.lib.WordArray.random(128/8);
+                const hashedPassword = CryptoES.default.PBKDF2(data.password, salt, { keySize: 128/32 });
+
+
                 let responseToken = 'dummy-auth-token'
                 AsyncStorage.setItem('userAuthenticationToken', responseToken)
                 dispatch({type: 'SIGN_IN', token: responseToken});
@@ -90,6 +95,10 @@ export default function App() {
             },
             signUp: async data => {
                 // communicate with server here to get token
+                console.log(data)
+
+                const salt = CryptoES.default.lib.WordArray.random(128/8);
+                const hashedPassword = CryptoES.default.PBKDF2(data.password, salt, { keySize: 128/32 });
 
                 let responseToken = 'dummy-auth-token'
                 AsyncStorage.setItem('userAuthenticationToken', responseToken)
@@ -136,7 +145,7 @@ export default function App() {
                                 <Tab.Screen name="MP Profile" component={MpProfile} options={{title: ''}}/>
                                 <Tab.Screen name="Preferences" component={Preferences} options={{title: ''}}/>
                             </Tab.Navigator>
-                        </SafeAreaView> 
+                        </SafeAreaView>
                         ) : (
                         <SafeAreaView style={paddingStyles.noPadding}>
                             <Stack.Navigator>
