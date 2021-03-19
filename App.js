@@ -8,6 +8,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {SafeAreaView} from "react-native";
 import {Platform, StatusBar, StyleSheet} from 'react-native';
+import * as CryptoES from "crypto-es";
 
 import AuthContext from './components/AuthContext.js';
 
@@ -77,12 +78,47 @@ export default function App() {
     const authContext = React.useMemo(
         () => ({
             signIn: async data => {
-
+                console.log(data)
                 // communicate with server here to get token
+                const salt = CryptoES.default.enc.Base64.parse('insightsalt');
+                const hashedPassword = CryptoES.default.PBKDF2(data.password, salt, { keySize: 128/32 });
+                fetch('https://bills-app-305000.ew.r.appspot.com/login', {
+                    method: 'POST',
+                    headers: {
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: data.emailAddress,
+                        password: hashedPassword
+                    })
+                })
+                    .then((res) => res.json())
+                    .then((resJson) => {
+                        let responseToken = resJson.session_token
+                        AsyncStorage.setItem('userAuthenticationToken', responseToken)
+                        dispatch({type: 'SIGN_IN', token: responseToken});
+                    });
+            },
+            signInWithToken: async data => {
+                fetch('https://bills-app-305000.ew.r.appspot.com/login_with_token', {
+                    method: 'POST',
+                    headers: {
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: data.emailAddress,
+                        session_token: data.token
+                    })
+                })
+                    .then((res) => res.json())
+                    .then((resJson) => {
+                        let responseToken = resJson.session_token
+                        AsyncStorage.setItem('userAuthenticationToken', responseToken)
+                        dispatch({type: 'SIGN_IN', token: responseToken});
+                    });
 
-                let responseToken = 'dummy-auth-token'
-                AsyncStorage.setItem('userAuthenticationToken', responseToken)
-                dispatch({type: 'SIGN_IN', token: responseToken});
             },
             signOut: () => {
                 AsyncStorage.setItem('userAuthenticationToken', null)
@@ -90,11 +126,29 @@ export default function App() {
             },
             signUp: async data => {
                 // communicate with server here to get token
-
-                let responseToken = 'dummy-auth-token'
-                AsyncStorage.setItem('userAuthenticationToken', responseToken)
-
-                dispatch({type: 'SIGN_IN', token: responseToken});
+                const salt = CryptoES.default.enc.Base64.parse('insightsalt');
+                const hashedPassword = CryptoES.default.PBKDF2(data.password, salt, { keySize: 128/32 });
+                fetch('https://bills-app-305000.ew.r.appspot.com/register', {
+                    method: 'POST',
+                    headers: {
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        firstName: data.firstName,
+                        lastName: data.lastName,
+                        email: data.emailAddress,
+                        password: hashedPassword,
+                        notifications: expoPushToken,
+                        postcode: data.postcode
+                    })
+                })
+                    .then((res) => res.json())
+                    .then((resJson) => {
+                        let responseToken = resJson.session_token
+                        AsyncStorage.setItem('userAuthenticationToken', responseToken)
+                        dispatch({type: 'SIGN_IN', token: responseToken});
+                    });
             },
             userAuthenticationToken: state.userAuthenticationToken,
         }),
@@ -131,38 +185,38 @@ export default function App() {
     }
 
     return (
-            <AuthContext.Provider value={authContext}>
-                <NavigationContainer>
-                    {state.userAuthenticationToken === "dummy-auth-token" ?  (
-                        <SafeAreaView style={paddingStyles.padding}>
-                            <Tab.Navigator screenOptions={({route}) => ({
-                                tabBarIcon: ({focused, color, size}) => {
-                                    let icon;
+        <AuthContext.Provider value={authContext}>
+            <NavigationContainer>
+                {state.userAuthenticationToken === "dummy-auth-token" ? (
+                    <SafeAreaView style={paddingStyles.padding}>
+                        <Tab.Navigator screenOptions={({route}) => ({
+                            tabBarIcon: ({focused, color, size}) => {
+                                let icon;
 
-                                    if (route.name === 'Bill Feed') {
-                                        icon = focused ? 'layers' : 'layers-outline';
-                                    } else if (route.name === 'Mp Information') {
-                                        icon = focused ? 'person' : 'person-outline';
-                                    } else if (route.name === 'Preferences')
-                                        icon = focused ? 'ellipsis-horizontal' : 'ellipsis-horizontal-outline';
-                                    return <Ionicons name={icon} size={size} color={color}/>;
-                                },
-                            })}>
-                                <Tab.Screen name="Bill Feed" component={BillsStack} options={{title: ''}}/>
-                                <Tab.Screen name="Mp Information" component={MpProfileStack} options={{title: ''}}/>
-                                <Tab.Screen name="Preferences" component={PreferencesStack} options={{title: ''}}/>
-                            </Tab.Navigator>
-                        </SafeAreaView>
-                        ) : (
-                        <SafeAreaView style={paddingStyles.noPadding}>
-                            <Stack.Navigator>
-                                <Stack.Screen name={"Login"} component={Login}/>
-                                <Stack.Screen name={"Signup"} component={Signup}/>
-                            </Stack.Navigator>
-                        </SafeAreaView>
-                    )}
-                </NavigationContainer>
-            </AuthContext.Provider>
+                                if (route.name === 'Bill Feed') {
+                                    icon = focused ? 'layers' : 'layers-outline';
+                                } else if (route.name === 'Mp Information') {
+                                    icon = focused ? 'person' : 'person-outline';
+                                } else if (route.name === 'Preferences')
+                                    icon = focused ? 'ellipsis-horizontal' : 'ellipsis-horizontal-outline';
+                                return <Ionicons name={icon} size={size} color={color}/>;
+                            },
+                        })}>
+                            <Tab.Screen name="Bill Feed" component={BillsStack} options={{title: ''}}/>
+                            <Tab.Screen name="Mp Information" component={MpProfileStack} options={{title: ''}}/>
+                            <Tab.Screen name="Preferences" component={PreferencesStack} options={{title: ''}}/>
+                        </Tab.Navigator>
+                    </SafeAreaView>
+                ) : (
+                    <SafeAreaView style={paddingStyles.noPadding}>
+                        <Stack.Navigator>
+                            <Stack.Screen name={"Login"} component={Login}/>
+                            <Stack.Screen name={"Signup"} component={Signup}/>
+                        </Stack.Navigator>
+                    </SafeAreaView>
+                )}
+            </NavigationContainer>
+        </AuthContext.Provider>
     );
 }
 

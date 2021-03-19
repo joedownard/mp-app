@@ -37,7 +37,7 @@ export default function Login({ route, navigation }) {
                 <View style={styles.loginButtonContainer}>
                     <Button
                         color='#4d4d4d'
-                        onPress={() => {signIn(emailAddress, password)}}
+                        onPress={() => {signIn({"emailAddress": emailAddress, "password":password})}}
                         title="Login"
                     />
                 </View>
