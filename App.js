@@ -107,9 +107,25 @@ export default function App() {
 
     function BillsStack() {
         return (
-            <Stack.Navigator screenOptions={{headerShown: false}}>
-                <Stack.Screen name="Bills" component={Bills}/>
+            <Stack.Navigator>
+                <Stack.Screen name="Bill Feed" component={Bills}/>
                 <Stack.Screen name="Bill Details" component={BillDetails}/>
+            </Stack.Navigator>
+        );
+    }
+
+    function MpProfileStack() {
+        return (
+            <Stack.Navigator>
+                <Stack.Screen name="Mp Information" component={MpProfile}/>
+            </Stack.Navigator>
+        );
+    }
+
+    function PreferencesStack() {
+        return (
+            <Stack.Navigator>
+                <Stack.Screen name="Preferences" component={Preferences}/>
             </Stack.Navigator>
         );
     }
@@ -123,20 +139,20 @@ export default function App() {
                                 tabBarIcon: ({focused, color, size}) => {
                                     let icon;
 
-                                    if (route.name === 'Bills') {
+                                    if (route.name === 'Bill Feed') {
                                         icon = focused ? 'layers' : 'layers-outline';
-                                    } else if (route.name === 'MP Profile') {
+                                    } else if (route.name === 'Mp Information') {
                                         icon = focused ? 'person' : 'person-outline';
                                     } else if (route.name === 'Preferences')
                                         icon = focused ? 'ellipsis-horizontal' : 'ellipsis-horizontal-outline';
                                     return <Ionicons name={icon} size={size} color={color}/>;
                                 },
                             })}>
-                                <Tab.Screen name="Bills" component={BillsStack} options={{title: ''}}/>
-                                <Tab.Screen name="MP Profile" component={MpProfile} options={{title: ''}}/>
-                                <Tab.Screen name="Preferences" component={Preferences} options={{title: ''}}/>
+                                <Tab.Screen name="Bill Feed" component={BillsStack} options={{title: ''}}/>
+                                <Tab.Screen name="Mp Information" component={MpProfileStack} options={{title: ''}}/>
+                                <Tab.Screen name="Preferences" component={PreferencesStack} options={{title: ''}}/>
                             </Tab.Navigator>
-                        </SafeAreaView> 
+                        </SafeAreaView>
                         ) : (
                         <SafeAreaView style={paddingStyles.noPadding}>
                             <Stack.Navigator>

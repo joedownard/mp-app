@@ -7,45 +7,44 @@ import {BillList} from '../components/BillList.js'
 
 export default function Bills({navigation}) {
 
-    const [billsData, setBillsData] = useState();
-    //     useState([
-    //     {
-    //         "id": 1,
-    //         "title": "Bill 1 Name",
-    //         "date_added": "12/02/2019",
-    //         "likes": 102,
-    //         "dislikes": 168,
-    //         "shares": 57,
-    //         "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut"
-    //     },
-    //     {
-    //         "id": 2,
-    //         "title": "Bill 2 Name",
-    //         "date_added": "06/06/2018",
-    //         "likes": 5,
-    //         "dislikes": 7,
-    //         "shares": 2,
-    //         "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut"
-    //     },
-    //     {
-    //         "id": 3,
-    //         "title": "Bill 3 Name",
-    //         "date_added": "21/08/2018",
-    //         "likes": 46,
-    //         "dislikes": 22,
-    //         "shares": 19,
-    //         "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut"
-    //     },
-    //     {
-    //         "id": 4,
-    //         "title": "Bill 4 Name",
-    //         "date_added": "13/11/2018",
-    //         "likes": 55,
-    //         "dislikes": 12,
-    //         "shares": 35,
-    //         "desc": "My name jeff"
-    //     }
-    // ]);
+    const [billsData, setBillsData] = useState([
+        {
+            "id": 1,
+            "title": "Bill 1 Name",
+            "date_added": "12/02/2019",
+            "likes": 102,
+            "dislikes": 168,
+            "shares": 57,
+            "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut"
+        },
+        {
+            "id": 2,
+            "title": "Bill 2 Name",
+            "date_added": "06/06/2018",
+            "likes": 5,
+            "dislikes": 7,
+            "shares": 2,
+            "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut"
+        },
+        {
+            "id": 3,
+            "title": "Bill 3 Name",
+            "date_added": "21/08/2018",
+            "likes": 46,
+            "dislikes": 22,
+            "shares": 19,
+            "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut"
+        },
+        {
+            "id": 4,
+            "title": "Bill 4 Name",
+            "date_added": "13/11/2018",
+            "likes": 55,
+            "dislikes": 12,
+            "shares": 35,
+            "desc": "My name jeff"
+        }
+    ]);
 
     if (!billsData) {
         fetch("https://bills-app-305000.ew.r.appspot.com/top")
@@ -60,12 +59,12 @@ export default function Bills({navigation}) {
 
         return (
             <SafeAreaView style={{flex: 1}}>
-                <View style={styles.pageTitleSection}>
-                    <View>
-                        <Text style={styles.pageTitle}>Bill Feed</Text>
-                    </View>
-                </View>
-                <View style={styles.pageTitleLine}/>
+                {/*<View style={styles.pageTitleSection}>*/}
+                {/*    <View>*/}
+                {/*        <Text style={styles.pageTitle}>Bill Feed</Text>*/}
+                {/*    </View>*/}
+                {/*</View>*/}
+                {/*<View style={styles.pageTitleLine}/>*/}
                 <Text style={styles.loadingDataText}>Loading Data</Text>
             </SafeAreaView>
         );
@@ -75,12 +74,12 @@ export default function Bills({navigation}) {
     if (billsData) {
         return (
             <SafeAreaView style={{flex: 1}}>
-                <View style={styles.pageTitleSection}>
-                    <Text style={styles.pageTitle}>Bill Feed</Text>
-                </View>
-                <View style={styles.pageTitleLine}/>
+                {/*<View style={styles.pageTitleSection}>*/}
+                {/*    <Text style={styles.pageTitle}>Bill Feed</Text>*/}
+                {/*</View>*/}
+                {/*<View style={styles.pageTitleLine}/>*/}
                 <ScrollView>
-                    <BillList data={billsData} navigation={navigation} backPage={"Bills"} searchTerm={""}/>
+                    <BillList data={billsData} navigation={navigation} backPage={"Bill Feed"} searchTerm={""}/>
                     <StatusBar style="auto"/>
                 </ScrollView>
             </SafeAreaView>

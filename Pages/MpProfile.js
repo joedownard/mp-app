@@ -57,10 +57,10 @@ export default function MpProfile({ navigation }) {
 
     return (
         <SafeAreaView style={{flex: 1}}>
-            <View style={styles.pageTitleSection}>
-                <Text style={styles.pageTitle}>MP Information</Text>
-            </View>
-            <View style={styles.pageTitleLine}/>
+            {/*<View style={styles.pageTitleSection}>*/}
+            {/*    <Text style={styles.pageTitle}>MP Information</Text>*/}
+            {/*</View>*/}
+            {/*<View style={styles.pageTitleLine}/>*/}
 
             <View style={styles.mpInfoSection}>
                 <View style={{flexDirection: 'row'}}>

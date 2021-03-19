@@ -19,16 +19,15 @@ export default function BillDetails({route, navigation}) {
     const params = route.params;
 
     const [userInteractions, setUserInteractions] = useState({});
-    const [billData, setBillData] = useState()
-    //     useState([{
-    //         "id": 1,
-    //         "title": "Bill 1 Name",
-    //         "date_added": "12/02/2019",
-    //         "likes": 102,
-    //         "dislikes": 168,
-    //         "shares": 57,
-    //         "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut"
-    //     }]);
+    const [billData, setBillData] = useState({
+            "id": 1,
+            "title": "Bill 1 Name",
+            "date_added": "12/02/2019",
+            "likes": 102,
+            "dislikes": 168,
+            "shares": 57,
+            "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut"
+        });
 
     if (!billData) {
         fetch("https://bills-app-305000.ew.r.appspot.com/"+params.id+"/get")
@@ -43,18 +42,18 @@ export default function BillDetails({route, navigation}) {
 
         return (
             <SafeAreaView style={{flex: 1}}>
-                <View style={styles.pageTitleSection}>
-                    <Pressable onPress={() => {
-                        navigation.navigate(params.backPage)
-                    }}>
-                        <Image style={styles.backButton} source={back}/>
-                    </Pressable>
-                    <View>
-                        <Text style={styles.pageTitle}>Bill Details</Text>
-                    </View>
-                    <Image style={styles.shareButton}/>
-                </View>
-                <View style={styles.pageTitleLine}/>
+                {/*<View style={styles.pageTitleSection}>*/}
+                {/*    <Pressable onPress={() => {*/}
+                {/*        navigation.navigate(params.backPage)*/}
+                {/*    }}>*/}
+                {/*        <Image style={styles.backButton} source={back}/>*/}
+                {/*    </Pressable>*/}
+                {/*    <View>*/}
+                {/*        <Text style={styles.pageTitle}>Bill Details</Text>*/}
+                {/*    </View>*/}
+                {/*    <Image style={styles.shareButton}/>*/}
+                {/*</View>*/}
+                {/*<View style={styles.pageTitleLine}/>*/}
                 <Text style={styles.loadingDataText}>Loading Data</Text>
             </SafeAreaView>
         );
@@ -63,13 +62,22 @@ export default function BillDetails({route, navigation}) {
     if (billData) {
         return (
             <SafeAreaView style={{flex: 1}}>
-                <View style={styles.pageTitleSection}>
-                    <Pressable onPress={() => {
-                        navigation.navigate(params.backPage)
-                    }}>
-                        <Image style={styles.backButton} source={back}/>
-                    </Pressable>
-                    <View style={{flexDirection: 'row'}}>
+                {/*<View style={styles.pageTitleSection}>*/}
+                {/*    <Pressable onPress={() => {*/}
+                {/*        navigation.navigate(params.backPage)*/}
+                {/*    }}>*/}
+                {/*        <Image style={styles.backButton} source={back}/>*/}
+                {/*    </Pressable>*/}
+                {/*    <View style={{flexDirection: 'row'}}>*/}
+                {/*        <Text style={styles.pageTitle}>{billData.title}</Text>*/}
+                {/*    </View>*/}
+                {/*    <Image style={styles.shareButton} source={share}/>*/}
+                {/*</View>*/}
+                {/*<View style={styles.horizontalLine}/>*/}
+                <View style={styles.billDescriptionSection}>
+                    <View style={styles.billDescriptionHeader}>
+                        <View style={{flexDirection: 'row'}}>
+                        <Text style={styles.billDescriptionTitleText}>Bill Description</Text>
                         <Pressable onPress={() => {
                             if (!userInteractions['favourited']) {
                                 setUserInteractions({...userInteractions, favourited: true});
@@ -82,14 +90,7 @@ export default function BillDetails({route, navigation}) {
                             <Image style={styles.favouriteButton}
                                    source={userInteractions['favourited'] ? favouriteFilled : favourite}/>
                         </Pressable>
-                        <Text style={styles.pageTitle}>{billData.title}</Text>
-                    </View>
-                    <Image style={styles.shareButton} source={share}/>
-                </View>
-                <View style={styles.horizontalLine}/>
-                <View style={styles.billDescriptionSection}>
-                    <View style={styles.billDescriptionHeader}>
-                        <Text style={styles.billDescriptionTitleText}>Bill Description</Text>
+                        </View>
                         <View style={styles.billHeaderFavouriteDate}>
                             <Text style={styles.billDescriptionDateText}>{billData.date_added}</Text>
                         </View>

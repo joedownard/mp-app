@@ -87,8 +87,8 @@ export default function Preferences( {navigation} ) {
 
     return (
         <SafeAreaView style={{flex: 1}}>
-            <Text style={styles.preferencesText}>Preferences</Text>
-            <View style={styles.pageTitleLine}/>
+            {/*<Text style={styles.preferencesText}>Preferences</Text>*/}
+            {/*<View style={styles.pageTitleLine}/>*/}
             <View style={styles.mainContainer}>
                 <View style={styles.postcodeTextBoxContainer}>
                     <Text style={styles.postcodeText}>PostCode</Text>
