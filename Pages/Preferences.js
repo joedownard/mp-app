@@ -1,8 +1,6 @@
 import {Text, View, SafeAreaView, TextInput, TouchableOpacity, Switch} from "react-native";
 import React, {useState} from "react";
 import {styles} from './Stylesheets/PreferencesStyles.js';
-import CustomTextBox from '../components/CustomTextBox.js';
-import CustomButton from '../components/CustomButton.js';
 import AuthContext from "../components/AuthContext";
 
 
