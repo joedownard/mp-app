@@ -91,10 +91,15 @@ export default function App() {
                     method: 'POST',
                     body: formdata
                 })
-                    .then((res) => res.text())
+                    .then((res) => res.json())
                     .then((result) => {
-                        AsyncStorage.setItem('userAuthenticationToken', result)
-                        dispatch({type: 'SIGN_IN', token: result});
+                        if ("session_token" in result) {
+                            console.log(result["session_token"])
+                            AsyncStorage.setItem('userAuthenticationToken', result["session_token"])
+                            dispatch({type: 'SIGN_IN', token: result["session_token"]});
+                        } else {
+                            console.log(result["error"])
+                        }
                     });
             },
             signInWithToken: async data => {
@@ -106,10 +111,15 @@ export default function App() {
                     method: 'POST',
                     body: formdata
                 })
-                    .then((res) => res.text())
+                    .then((res) => res.json())
                     .then((result) => {
-                        AsyncStorage.setItem('userAuthenticationToken', result)
-                        dispatch({type: 'SIGN_IN', token: result});
+                        if ("session_token" in result) {
+                            console.log(result["session_token"])
+                            AsyncStorage.setItem('userAuthenticationToken', result["session_token"])
+                            dispatch({type: 'SIGN_IN', token: result["session_token"]});
+                        } else {
+                            console.log(result["error"])
+                        }
                     });
 
             },
@@ -132,11 +142,15 @@ export default function App() {
                     method: 'POST',
                     body: formdata
                 })
-                    .then((res) => res.text())
+                    .then((res) => res.json())
                     .then((result) => {
-                        console.log(result)
-                        AsyncStorage.setItem('userAuthenticationToken', result)
-                        dispatch({type: 'SIGN_IN', token: result});
+                        if ("session_token" in result) {
+                            console.log(result["session_token"])
+                            AsyncStorage.setItem('userAuthenticationToken', result["session_token"])
+                            dispatch({type: 'SIGN_IN', token: result["session_token"]});
+                        } else {
+                            console.log(result["error"])
+                        }
                     });
             },
             userAuthenticationToken: state.userAuthenticationToken,
@@ -176,7 +190,7 @@ export default function App() {
     return (
         <AuthContext.Provider value={authContext}>
             <NavigationContainer>
-                {state.userAuthenticationToken === "dummy-auth-token" ? (
+                {state.userAuthenticationToken !== null ? (
                     <SafeAreaView style={paddingStyles.padding}>
                         <Tab.Navigator screenOptions={({route}) => ({
                             tabBarIcon: ({focused, color, size}) => {
