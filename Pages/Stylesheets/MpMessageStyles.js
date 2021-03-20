@@ -49,11 +49,19 @@ export const styles = StyleSheet.create({
         backgroundColor: '#C4C4C4',
     },
 
+    dropDownContainer: {
+        flex: 1,
+        padding: "1%",
+        height: 40, 
+        width: "50%", //98
+        alignSelf: "flex-end",
+        zIndex: 100,
+    },
+
     dropDownBox: {
-        marginLeft: "60%",
+        
         borderWidth: 2,
         borderColor: '#C4C4C4',
-        
     },
 
     messageBox: {

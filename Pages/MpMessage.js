@@ -1,3 +1,4 @@
+import zIndex from "@material-ui/core/styles/zIndex";
 import React from "react";
 import {Text, View, Image, SafeAreaView, Button, TextInput, KeyboardAvoidingView, Platform} from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
@@ -11,7 +12,7 @@ export default function MpMessage({ route }) {
     const mpData = route.params;
 
     const [messageValue, onChangeText] = React.useState();
-
+    
     return (
         <SafeAreaView style={{flex: 1}}>
             <KeyboardAvoidingView
@@ -36,20 +37,24 @@ export default function MpMessage({ route }) {
                     onPress={() => votingHistory()}
                     title="Voting History"/>
             </View>
-            <View style={{flex: 1, padding: "2%"}}>
+            <View style={styles.dropDownContainer}>
                 <DropDownPicker
                     items={[
-                        {label: 'Pre-made Formats', value: 'pre-made'}
+                        {label: 'Pre-made Formats', value: 'pre-made'},
+                        {label: 'Test cell', value: 'testing123'},
                     ]}
                     containerStyle={{height: 40, width: "98%"}}
                     style={styles.dropDownBox}
-                    defaultValue={'pre-made'}/>
+                    defaultValue={'pre-made'}
+                    onChangeItem={
+                        item => updateFormat(item.value)
+                    }/>
             </View>
             </KeyboardAvoidingView>
             <KeyboardAvoidingView
                 behavior={Platform.OS === "ios" ? "padding" : null}
                 style={{ flex: 1 }}>
-                <View style={{flex: 1}}>
+                <View style={{flex: 1, zIndex: 1}}>
                 <TextInput
                     style={styles.messageBox}
                     multiline={true}
@@ -72,6 +77,11 @@ export default function MpMessage({ route }) {
     );
 }
 
+function updateFormat(item) {
+    logButtonPress("Dropdown Menu: " + item)
+
+}
+
 function votingHistory() {
     logButtonPress("Voting History");
 
@@ -80,6 +90,7 @@ function votingHistory() {
 function message(messageText) {
     logButtonPress("Message");
     console.log(messageText);
+
 }
 
 function logButtonPress(button) {
