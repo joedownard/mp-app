@@ -1,4 +1,3 @@
-import zIndex from "@material-ui/core/styles/zIndex";
 import React from "react";
 import {Text, View, Image, SafeAreaView, Button, TextInput, KeyboardAvoidingView, Platform} from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
@@ -17,7 +16,7 @@ export default function MpMessage({ route }) {
         <SafeAreaView style={{flex: 1}}>
             <KeyboardAvoidingView
                     behavior={Platform.OS === "ios" ? "padding" : null}
-                    style={{ flex: 1 }}>
+                    style={{ flex: 1, zIndex: 2}}>
             <View style={styles.mpInfoSection}>
                 <View style={{flexDirection: 'row'}}>
                     <View style={styles.textSection}>
@@ -53,8 +52,8 @@ export default function MpMessage({ route }) {
             </KeyboardAvoidingView>
             <KeyboardAvoidingView
                 behavior={Platform.OS === "ios" ? "padding" : null}
-                style={{ flex: 1 }}>
-                <View style={{flex: 1, zIndex: 1}}>
+                style={{ flex: 1, zIndex: 1}}>
+                <View style={{flex: 1}}>
                 <TextInput
                     style={styles.messageBox}
                     multiline={true}
