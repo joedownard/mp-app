@@ -79,44 +79,37 @@ export default function App() {
         () => ({
             signIn: async data => {
                 console.log(data)
-                // communicate with server here to get token
                 const salt = CryptoES.default.enc.Base64.parse('insightsalt');
-                const hashedPassword = CryptoES.default.PBKDF2(data.password, salt, { keySize: 128/32 });
+                const hashedPasswordWords = CryptoES.default.PBKDF2(data.password, salt, { keySize: 128/32 });
+                const hashedPassword = CryptoES.default.enc.Base64.stringify(hashedPasswordWords);
+
+                const formdata = new FormData();
+                formdata.append("email", data.emailAddress)
+                formdata.append("password", hashedPassword)
+
                 fetch('https://bills-app-305000.ew.r.appspot.com/login', {
                     method: 'POST',
-                    headers: {
-                        Accept: 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        email: data.emailAddress,
-                        password: hashedPassword
-                    })
+                    body: formdata
                 })
-                    .then((res) => res.json())
-                    .then((resJson) => {
-                        let responseToken = resJson.session_token
-                        AsyncStorage.setItem('userAuthenticationToken', responseToken)
-                        dispatch({type: 'SIGN_IN', token: responseToken});
+                    .then((res) => res.text())
+                    .then((result) => {
+                        AsyncStorage.setItem('userAuthenticationToken', result)
+                        dispatch({type: 'SIGN_IN', token: result});
                     });
             },
             signInWithToken: async data => {
+                const formdata = new FormData();
+                formdata.append("email", data.emailAddress)
+                formdata.append("token", state.userAuthenticationToken)
+
                 fetch('https://bills-app-305000.ew.r.appspot.com/login_with_token', {
                     method: 'POST',
-                    headers: {
-                        Accept: 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        email: data.emailAddress,
-                        session_token: data.token
-                    })
+                    body: formdata
                 })
-                    .then((res) => res.json())
-                    .then((resJson) => {
-                        let responseToken = resJson.session_token
-                        AsyncStorage.setItem('userAuthenticationToken', responseToken)
-                        dispatch({type: 'SIGN_IN', token: responseToken});
+                    .then((res) => res.text())
+                    .then((result) => {
+                        AsyncStorage.setItem('userAuthenticationToken', result)
+                        dispatch({type: 'SIGN_IN', token: result});
                     });
 
             },
@@ -125,29 +118,25 @@ export default function App() {
                 dispatch({type: 'SIGN_OUT'})
             },
             signUp: async data => {
-                // communicate with server here to get token
                 const salt = CryptoES.default.enc.Base64.parse('insightsalt');
-                const hashedPassword = CryptoES.default.PBKDF2(data.password, salt, { keySize: 128/32 });
+                const hashedPasswordWords = CryptoES.default.PBKDF2(data.password, salt, { keySize: 128/32 });
+                const hashedPassword = CryptoES.default.enc.Base64.stringify(hashedPasswordWords);
+
+                const formdata = new FormData();
+                formdata.append("email", data.emailAddress)
+                formdata.append("password", hashedPassword)
+                formdata.append("notification_token", "ExponentPushToken[dTC1ViHeJ36_SqB7MPj6B7]")
+                formdata.append("postcode", data.postcode)
+
                 fetch('https://bills-app-305000.ew.r.appspot.com/register', {
                     method: 'POST',
-                    headers: {
-                        Accept: 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        firstName: data.firstName,
-                        lastName: data.lastName,
-                        email: data.emailAddress,
-                        password: hashedPassword,
-                        notifications: expoPushToken,
-                        postcode: data.postcode
-                    })
+                    body: formdata
                 })
-                    .then((res) => res.json())
-                    .then((resJson) => {
-                        let responseToken = resJson.session_token
-                        AsyncStorage.setItem('userAuthenticationToken', responseToken)
-                        dispatch({type: 'SIGN_IN', token: responseToken});
+                    .then((res) => res.text())
+                    .then((result) => {
+                        console.log(result)
+                        AsyncStorage.setItem('userAuthenticationToken', result)
+                        dispatch({type: 'SIGN_IN', token: result});
                     });
             },
             userAuthenticationToken: state.userAuthenticationToken,
