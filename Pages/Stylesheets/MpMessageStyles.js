@@ -55,7 +55,6 @@ export const styles = StyleSheet.create({
         height: 40, 
         width: "50%", //98
         alignSelf: "flex-end",
-        zIndex: 100,
     },
 
     dropDownBox: {
