@@ -99,6 +99,7 @@ export default function App() {
                             dispatch({type: 'SIGN_IN', token: result["session_token"]});
                         } else {
                             console.log(result["error"])
+                            alert(result["error"])
                         }
                     });
             },
@@ -119,6 +120,7 @@ export default function App() {
                             dispatch({type: 'SIGN_IN', token: result["session_token"]});
                         } else {
                             console.log(result["error"])
+                            alert(result["error"])
                         }
                     });
 
@@ -150,6 +152,7 @@ export default function App() {
                             dispatch({type: 'SIGN_IN', token: result["session_token"]});
                         } else {
                             console.log(result["error"])
+                            alert(result["error"])
                         }
                     });
             },
