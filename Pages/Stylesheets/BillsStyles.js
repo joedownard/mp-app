@@ -18,6 +18,17 @@ export const styles = StyleSheet.create({
         marginRight: 3,
     },
 
+    searchBar: {
+        textAlign: 'center',
+        marginLeft: 50,
+        marginRight: 50,
+        marginTop: 10,
+        marginBottom: 10,
+        borderWidth: 2,
+        height: 40,
+        borderColor: '#C4C4C4',
+    },
+
     billContainer : {
         marginLeft: '5%',
         marginRight: '5%',

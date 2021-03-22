@@ -26,11 +26,13 @@ export default function App() {
 
     const [state, dispatch] = React.useReducer(
         (prevState, action) => {
+            console.log(action)
             switch (action.type) {
                 case 'RESTORE_TOKEN':
                     return {
                         ...prevState,
                         userAuthenticationToken: action.token,
+                        email: action.email,
                         isLoading: false,
                     };
                 case 'SIGN_IN':
@@ -38,6 +40,7 @@ export default function App() {
                         ...prevState,
                         isSignout: false,
                         userAuthenticationToken: action.token,
+                        email: action.email,
                     };
                 case 'SIGN_OUT':
                     return {
@@ -45,6 +48,7 @@ export default function App() {
                         isSignout: true,
                         storedTokenInvalid: true,
                         userAuthenticationToken: null,
+                        email: null,
                     };
             }
         },
@@ -53,18 +57,21 @@ export default function App() {
             isSignout: false,
             storedTokenInvalid: false,
             userAuthenticationToken: null,
+            email: "",
         },
     );
 
     useEffect(() => {
         const bootstrapAsync = async () => {
             let userToken;
+            let email;
             try {
                 userToken = await AsyncStorage.getItem('userAuthenticationToken');
+                email = await AsyncStorage.getItem('email');
             } catch (e) {
                 console.log("Failed to restore user authentication token")
             }
-            dispatch({type: 'RESTORE_TOKEN', token: userToken});
+            dispatch({type: 'RESTORE_TOKEN', token: userToken, email: email});
         };
 
         bootstrapAsync();
@@ -99,7 +106,7 @@ export default function App() {
                             console.log(result["session_token"])
                             AsyncStorage.setItem('email', data.emailAddress)
                             AsyncStorage.setItem('userAuthenticationToken', result["session_token"])
-                            dispatch({type: 'SIGN_IN', token: result["session_token"]});
+                            dispatch({type: 'SIGN_IN', token: result["session_token"], email: data.emailAddress});
                         } else {
                             console.log(result["error"])
                             alert(result["error"])
@@ -123,7 +130,7 @@ export default function App() {
                     .then((result) => {
                         if (result["success"] === "login_successful") {
                             console.log(result["session_token"])
-                            dispatch({type: 'SIGN_IN', token: token});
+                            dispatch({type: 'SIGN_IN', token: token, email: email});
                         } else {
                             AsyncStorage.setItem('userAuthenticationToken', null)
                             console.log(result["error"])
@@ -157,7 +164,7 @@ export default function App() {
                             console.log(result["session_token"])
                             AsyncStorage.setItem('email', data.emailAddress)
                             AsyncStorage.setItem('userAuthenticationToken', result["session_token"])
-                            dispatch({type: 'SIGN_IN', token: result["session_token"]});
+                            dispatch({type: 'SIGN_IN', token: result["session_token"], email: data.emailAddress});
                         } else {
                             console.log(result["error"])
                             alert(result["error"])
@@ -165,8 +172,9 @@ export default function App() {
                     });
             },
             userAuthenticationToken: state.userAuthenticationToken,
+            email: state.email,
         }),
-        [state.userAuthenticationToken]
+        [state.userAuthenticationToken, state.email]
     );
 
 

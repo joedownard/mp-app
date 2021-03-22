@@ -22,7 +22,7 @@ export function BillList(props) {
         if (props.searchTerm !== "") {
             let tempData = []
             props.data.forEach( (item) => {
-                if (item.title.toUpperCase().includes(props.searchTerm.toUpperCase()) || item.desc.toUpperCase().includes(props.searchTerm.toUpperCase())) {
+                if (item.title.toUpperCase().includes(props.searchTerm.toUpperCase()) || item.description.toUpperCase().includes(props.searchTerm.toUpperCase())) {
                     tempData.push(item)
                 }
             })
@@ -34,14 +34,14 @@ export function BillList(props) {
 
     const billItemList = data.map((item) =>
         <BillItem key={item.id} userAuthenticationToken={userAuthenticationToken} backPage={props.backPage} navigation={props.navigation} id={item.id} name={item.title} date={item.date_added}
-                  billDescription={item.desc} likes={item.likes} dislikes={item.dislikes}
+                  billDescription={item.description} likes={item.likes} dislikes={item.dislikes}
                   shares={item.shares}/>
     );
 
     return (
-        <View style={{marginBottom: 10}}>
+        <ScrollView style={{marginBottom: 10}}>
             {billItemList}
-        </View>
+        </ScrollView>
     )
 }
 

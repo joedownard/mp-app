@@ -23,7 +23,7 @@ export default function BillDetails({route, navigation}) {
 
 
     if (!billData) {
-        fetch("https://bills-app-305000.ew.r.appspot.com/" + params.id + "/get")
+        fetch("https://bills-app-305000.ew.r.appspot.com/bill/" + params.id)
             .then((response) => response.json())
             .then((responseJson) => {
                 console.log(responseJson.result)

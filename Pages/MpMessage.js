@@ -3,6 +3,7 @@ import {Text, View, Image, SafeAreaView, Button, TextInput, KeyboardAvoidingView
 import DropDownPicker from "react-native-dropdown-picker";
 
 import {styles} from './Stylesheets/MpMessageStyles.js';
+import AuthContext from "../components/AuthContext";
 
 
 
@@ -11,6 +12,8 @@ export default function MpMessage({ navigation, route }) {
     const mpData = route.params;
 
     const [messageValue, onChangeText] = React.useState();
+
+    const { userAuthenticationToken, email } = React.useContext(AuthContext);
 
     return (
         <SafeAreaView style={{flex: 1}}>
@@ -68,7 +71,10 @@ export default function MpMessage({ navigation, route }) {
                     <Button
                         style={styles.messageButton}
                         color='#4d4d4d'
-                        onPress={() => message(messageValue)}
+                        onPress={() => {
+                            message(messageValue, userAuthenticationToken, email)
+                            onChangeText("")
+                        }}
                         title="Message"/>
                 </View>
             </KeyboardAvoidingView>
@@ -86,11 +92,14 @@ function votingHistory(navigation) {
     navigation.goBack()
 }
 
-function message(messageText) {
+function message(messageText, userAuthenticationToken, email) {
     logButtonPress("Message");
-    console.log(messageText);
-    //messageText is the message contents if it wasnt obvious
 
+    console.log(messageText);
+    console.log(userAuthenticationToken)
+    console.log(email)
+
+    alert("Sent!")
 }
 
 function logButtonPress(button) {
