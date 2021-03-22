@@ -6,12 +6,12 @@ import {styles} from './Stylesheets/MpMessageStyles.js';
 
 
 
-export default function MpMessage({ route }) {
+export default function MpMessage({ navigation, route }) {
 
     const mpData = route.params;
 
     const [messageValue, onChangeText] = React.useState();
-    
+
     return (
         <SafeAreaView style={{flex: 1}}>
             <KeyboardAvoidingView
@@ -33,7 +33,7 @@ export default function MpMessage({ route }) {
 
                 <Button style={styles.votingHistoryButton}
                     color='#4d4d4d'
-                    onPress={() => votingHistory()}
+                    onPress={() => votingHistory(navigation)}
                     title="Voting History"/>
             </View>
             <View style={styles.dropDownContainer}>
@@ -60,12 +60,12 @@ export default function MpMessage({ route }) {
                     placeholder=" Your Message..."
                     onFocus={(e) => e.target.placeholder=''}
                     onBlur ={(e) => e.target.placeholder=" Your Message..."}
-                    onChangeText={text => onChangeText(text)} 
+                    onChangeText={text => onChangeText(text)}
                     value={messageValue}
                     />
                 </View>
                 <View style={styles.bottomButton}>
-                    <Button 
+                    <Button
                         style={styles.messageButton}
                         color='#4d4d4d'
                         onPress={() => message(messageValue)}
@@ -81,9 +81,9 @@ function updateFormat(item) {
 
 }
 
-function votingHistory() {
+function votingHistory(navigation) {
     logButtonPress("Voting History");
-
+    navigation.goBack()
 }
 
 function message(messageText) {

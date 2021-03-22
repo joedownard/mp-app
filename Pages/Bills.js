@@ -23,7 +23,7 @@ export default function Bills({navigation}) {
 
     return (
         <View>
-            {!billData ?
+            {!billsData ?
                 (<SafeAreaView style={{flex: 1}}>
                 <Text style={styles.loadingDataText}>Loading Data</Text>
                 </SafeAreaView>)
