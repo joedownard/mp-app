@@ -67,7 +67,7 @@ export default function Signup({ navigation }) {
                 <View style={styles.signupButtonContainer}>
                 <Button
                     color='#4d4d4d'
-                    onPress={() => signUp(firstName, lastName, emailAddress, postCode, password, confirmPassword)}
+                    onPress={() => signUp({"firstName": firstName, "lastName": lastName, "emailAddress":emailAddress, "postcode":postCode, "password":password})}
                     title="Signup"
                 />
                 </View>

@@ -1,8 +1,6 @@
 import {Text, View, SafeAreaView, TextInput, TouchableOpacity, Switch} from "react-native";
 import React, {useState} from "react";
 import {styles} from './Stylesheets/PreferencesStyles.js';
-import CustomTextBox from '../components/CustomTextBox.js';
-import CustomButton from '../components/CustomButton.js';
 import AuthContext from "../components/AuthContext";
 
 
@@ -87,8 +85,8 @@ export default function Preferences( {navigation} ) {
 
     return (
         <SafeAreaView style={{flex: 1}}>
-            <Text style={styles.preferencesText}>Preferences</Text>
-            <View style={styles.pageTitleLine}/>
+            {/*<Text style={styles.preferencesText}>Preferences</Text>*/}
+            {/*<View style={styles.pageTitleLine}/>*/}
             <View style={styles.mainContainer}>
                 <View style={styles.postcodeTextBoxContainer}>
                     <Text style={styles.postcodeText}>PostCode</Text>

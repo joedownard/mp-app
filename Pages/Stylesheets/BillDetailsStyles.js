@@ -17,8 +17,8 @@ export const styles = StyleSheet.create({
     favouriteButton: {
         width: 25,
         height: 25,
-        marginTop: 8,
-        marginRight: -20,
+        marginTop: 5,
+        marginLeft: 5,
     },
 
     pageTitle: {
