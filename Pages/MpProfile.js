@@ -5,7 +5,7 @@ import {BillList} from "../components/BillList";
 
 const borisPicture = require('../assets/boris_pic.png');
 
-export default function MpProfile({ navigation }) {
+export default function MpProfile({navigation}) {
 
     const mpData = {
         name: 'Boris Johnson',
@@ -16,51 +16,22 @@ export default function MpProfile({ navigation }) {
 
     const [searchValue, setSearchValue] = useState("Search for Bill")
 
-    const [billsData, setBillsData] = useState([
-        {
-            "id": 1,
-            "name": "Bill 1 Name",
-            "date": "12/02/2019",
-            "likes": 102,
-            "dislikes": 168,
-            "shares": 57,
-            "billDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut"
-        },
-        {
-            "id": 2,
-            "name": "Bill 2 Name",
-            "date": "06/06/2018",
-            "likes": 5,
-            "dislikes": 7,
-            "shares": 2,
-            "billDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut"
-        },
-        {
-            "id": 3,
-            "name": "Bill 3 Name",
-            "date": "21/08/2018",
-            "likes": 46,
-            "dislikes": 22,
-            "shares": 19,
-            "billDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut"
-        },
-        {
-            "id": 4,
-            "name": "Bill 4 Name",
-            "date": "13/11/2018",
-            "likes": 55,
-            "dislikes": 12,
-            "shares": 35,
-            "billDescription": "My name jeff"
-        }
-    ]);
+    const [billsData, setBillsData] = useState();
+
+    if (!billsData) {
+        fetch("https://bills-app-305000.ew.r.appspot.com/top")
+            .then((response) => response.json())
+            .then((responseJson) => {
+                console.log(responseJson.result);
+                setBillsData(responseJson.result);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }
 
     return (
         <SafeAreaView style={{flex: 1}}>
-            {/*<View style={styles.pageTitleSection}>*/}
-            {/*    <Text style={styles.pageTitle}>MP Information</Text>*/}
-            {/*</View>*/}
-            {/*<View style={styles.pageTitleLine}/>*/}
 
             <View style={styles.mpInfoSection}>
                 <View style={{flexDirection: 'row'}}>
@@ -104,7 +75,14 @@ export default function MpProfile({ navigation }) {
             />
 
             <ScrollView style={styles.mpBillsSection}>
-                <BillList data={billsData} navigation={navigation} backPage={"MP Profile"} searchTerm={(searchValue === "Search for Bill") ? "" : searchValue}/>
+                {!billsData ? (
+                    <SafeAreaView style={{flex: 1}}>
+                        <Text style={styles.loadingDataText}>Loading Data</Text>
+                    </SafeAreaView>
+                ) : (
+                    <BillList data={billsData} navigation={navigation} backPage={"MP Profile"}
+                              searchTerm={(searchValue === "Search for Bill") ? "" : searchValue}/>
+                )}
             </ScrollView>
         </SafeAreaView>
     );

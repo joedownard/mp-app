@@ -23,14 +23,6 @@ import Signup from "./Pages/Signup";
 export default function App() {
     const [expoPushToken, setExpoPushToken] = useState('');
 
-    useEffect(() => {
-        registerForPushNotificationsAsync().then(token => {
-            setExpoPushToken(token)
-            console.log(token)
-        });
-
-    });
-
     const [state, dispatch] = React.useReducer(
         (prevState, action) => {
             switch (action.type) {
@@ -50,6 +42,7 @@ export default function App() {
                     return {
                         ...prevState,
                         isSignout: true,
+                        storedTokenInvalid: true,
                         userAuthenticationToken: null,
                     };
             }
@@ -57,11 +50,12 @@ export default function App() {
         {
             isLoading: true,
             isSignout: false,
+            storedTokenInvalid: false,
             userAuthenticationToken: null,
         },
     );
 
-    React.useEffect(() => {
+    useEffect(() => {
         const bootstrapAsync = async () => {
             let userToken;
             try {
@@ -73,6 +67,13 @@ export default function App() {
         };
 
         bootstrapAsync();
+
+        registerForPushNotificationsAsync().then(token => {
+            setExpoPushToken(token)
+        });
+        if (state.isSignout && !state.storedTokenInvalid) {
+            authContext.signInWithToken()
+        }
     }, []);
 
     const authContext = React.useMemo(
@@ -95,6 +96,7 @@ export default function App() {
                     .then((result) => {
                         if ("session_token" in result) {
                             console.log(result["session_token"])
+                            AsyncStorage.setItem('email', data.emailAddress)
                             AsyncStorage.setItem('userAuthenticationToken', result["session_token"])
                             dispatch({type: 'SIGN_IN', token: result["session_token"]});
                         } else {
@@ -105,8 +107,12 @@ export default function App() {
             },
             signInWithToken: async data => {
                 const formdata = new FormData();
-                formdata.append("email", data.emailAddress)
-                formdata.append("token", state.userAuthenticationToken)
+                const email = await AsyncStorage.getItem('email')
+                const token = await AsyncStorage.getItem('userAuthenticationToken')
+                formdata.append("email", email)
+                formdata.append("session_token", token)
+                console.log(token)
+                console.log(email)
 
                 fetch('https://bills-app-305000.ew.r.appspot.com/login_with_token', {
                     method: 'POST',
@@ -114,13 +120,13 @@ export default function App() {
                 })
                     .then((res) => res.json())
                     .then((result) => {
-                        if ("session_token" in result) {
+                        if (result["success"] === "login_successful") {
                             console.log(result["session_token"])
-                            AsyncStorage.setItem('userAuthenticationToken', result["session_token"])
-                            dispatch({type: 'SIGN_IN', token: result["session_token"]});
+                            dispatch({type: 'SIGN_IN', token: token});
                         } else {
+                            AsyncStorage.setItem('userAuthenticationToken', null)
                             console.log(result["error"])
-                            alert(result["error"])
+                            dispatch({type: 'SIGN_OUT'})
                         }
                     });
 
@@ -148,6 +154,7 @@ export default function App() {
                     .then((result) => {
                         if ("session_token" in result) {
                             console.log(result["session_token"])
+                            AsyncStorage.setItem('email', data.emailAddress)
                             AsyncStorage.setItem('userAuthenticationToken', result["session_token"])
                             dispatch({type: 'SIGN_IN', token: result["session_token"]});
                         } else {
@@ -193,7 +200,7 @@ export default function App() {
     return (
         <AuthContext.Provider value={authContext}>
             <NavigationContainer>
-                {state.userAuthenticationToken !== null ? (
+                {(state.userAuthenticationToken !== "null" && state.userAuthenticationToken !== null) ? (
                     <SafeAreaView style={paddingStyles.padding}>
                         <Tab.Navigator screenOptions={({route}) => ({
                             tabBarIcon: ({focused, color, size}) => {

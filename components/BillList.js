@@ -18,7 +18,6 @@ export function BillList(props) {
     const [data, setData] = useState(props.data)
 
     useEffect(() => {
-        console.log("test")
         if (props.searchTerm !== "") {
             let tempData = []
             props.data.forEach( (item) => {
