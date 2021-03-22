@@ -2,6 +2,7 @@ import {Image, Pressable, Text, View} from "react-native";
 import React, {useEffect, useState} from "react";
 import {styles} from "../Pages/Stylesheets/BillsStyles";
 import AuthContext from "./AuthContext.js";
+import { ScrollView } from "react-native-gesture-handler";
 
 const thumbsUp = require('../assets/thumbs_up.png');
 const thumbsUpFilled = require('../assets/thumbs_up_filled.png');
@@ -52,13 +53,13 @@ function BillItem(props) {
     return (
         <View style={styles.billContainer}>
             <View style={styles.billHeader}>
-                <View>
+                <ScrollView horizontal={true}>
                     <Pressable onPress={() => {
                         props.navigation.navigate("Bill Details", {id: data.id, backPage: props.backPage})
                     }}>
                         <Text style={styles.billTitle}> {data.name} </Text>
                     </Pressable>
-                </View>
+                </ScrollView>
                 <View style={styles.billHeaderFavouriteDate}>
                     <Pressable onPress={() => {
                         if (!userInteractions['favourited']) {
