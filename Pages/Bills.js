@@ -19,23 +19,23 @@ export default function Bills({navigation}) {
             .catch((error) => {
                 console.error(error);
             });
+    }
 
-        return (
-            <SafeAreaView style={{flex: 1}}>
+    return (
+        <View>
+            {!billData ?
+                (<SafeAreaView style={{flex: 1}}>
                 <Text style={styles.loadingDataText}>Loading Data</Text>
-            </SafeAreaView>
-        );
-    }
-
-    // If the bill data is loaded, then display the list of bills
-    if (billsData) {
-        return (
-            <SafeAreaView style={{flex: 1}}>
-                <ScrollView>
-                    <BillList data={billsData} navigation={navigation} backPage={"Bill Feed"} searchTerm={""}/>
-                    <StatusBar style="auto"/>
-                </ScrollView>
-            </SafeAreaView>
-        );
-    }
+                </SafeAreaView>)
+                : (
+                    <SafeAreaView style={{flex: 1}}>
+                        <ScrollView>
+                            <BillList data={billsData} navigation={navigation} backPage={"Bill Feed"} searchTerm={""}/>
+                            <StatusBar style="auto"/>
+                        </ScrollView>
+                    </SafeAreaView>
+                )
+            }
+        </View>
+    );
 }
