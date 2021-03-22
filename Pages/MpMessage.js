@@ -89,6 +89,7 @@ function votingHistory() {
 function message(messageText) {
     logButtonPress("Message");
     console.log(messageText);
+    //messageText is the message contents if it wasnt obvious
 
 }
 
