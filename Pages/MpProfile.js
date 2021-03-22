@@ -2,8 +2,8 @@ import {Text, View, Image, ScrollView, SafeAreaView, Button, TextInput} from "re
 import React, {useState} from "react";
 import {styles} from './Stylesheets/MpProfileStyles.js';
 import {BillList} from "../components/BillList";
-
-const borisPicture = require('../assets/boris_pic.png');
+import AuthContext from "../components/AuthContext.js";
+import MpMessage from "./MpMessage.js";
 
 export default function MpProfile({navigation}) {
 
@@ -11,7 +11,8 @@ export default function MpProfile({navigation}) {
         name: 'Boris Johnson',
         constituency: 'Uxbridge and South Ruslip',
         phoneNumber: '020 7219 4682',
-        emailAddress: 'boris.johnson.mp@parliament.uk'
+        emailAddress: 'boris.johnson.mp@parliament.uk',
+        mpPicture: require('../assets/boris_pic.png')
     }
 
     const [searchValue, setSearchValue] = useState("Search for Bill")
@@ -45,14 +46,13 @@ export default function MpProfile({navigation}) {
                         <Text style={styles.mpEmailAddress}>Email: {mpData.emailAddress}</Text>
                     </View>
                     <View>
-                        <Image style={styles.mpPicture} source={borisPicture}/>
+                        <Image style={styles.mpPicture} source={mpData.mpPicture}/>
                     </View>
                 </View>
 
                 <Button style={styles.messageMpButton}
                         color='#4d4d4d'
-                        onPress={() => {
-                        }}
+                        onPress={() => navigateToMpMessage(navigation, mpData)}
                         title="Message"/>
             </View>
 
@@ -86,4 +86,8 @@ export default function MpProfile({navigation}) {
             </ScrollView>
         </SafeAreaView>
     );
+}
+
+function navigateToMpMessage(navigation, data) {
+    navigation.navigate("MP Message", data)
 }

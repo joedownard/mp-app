@@ -19,6 +19,7 @@ import MpProfile from './Pages/MpProfile.js';
 import Preferences from './Pages/Preferences.js';
 import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
+import MpMessage from './Pages/MpMessage';
 
 export default function App() {
     const [expoPushToken, setExpoPushToken] = useState('');
@@ -185,6 +186,7 @@ export default function App() {
         return (
             <Stack.Navigator>
                 <Stack.Screen name="Mp Information" component={MpProfile}/>
+                <Stack.Screen name="MP Message" component={MpMessage}/>
             </Stack.Navigator>
         );
     }
