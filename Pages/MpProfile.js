@@ -9,40 +9,58 @@ export default function MpProfile({navigation}) {
 
     const {userAuthenticationToken, email} = React.useContext(AuthContext);
 
-    const mpData = {
-        name: 'Boris Johnson',
-        constituency: 'Uxbridge and South Ruslip',
-        phoneNumber: '020 7219 4682',
-        emailAddress: 'boris.johnson.mp@parliament.uk',
-        mpPicture: require('../assets/boris_pic.png')
+    // const mpData = {
+    //     name: 'Boris Johnson',
+    //     constituency: 'Uxbridge and South Ruslip',
+    //     phoneNumber: '020 7219 4682',
+    //     emailAddress: 'boris.johnson.mp@parliament.uk',
+    //     mpPicture: require('../assets/boris_pic.png')
+    // }
+
+    const [mpData, setMpData] = useState()
+    const [searchValue, setSearchValue] = useState("Search for Bill")
+    const [billsData, setBillsData] = useState();
+
+    if (!mpData) {
+        const formdata = new FormData();
+        formdata.append("email", email)
+        formdata.append("session_token", userAuthenticationToken)
+
+        fetch('https://bills-app-305000.ew.r.appspot.com/local_mp', {
+            method: 'POST',
+            body: formdata
+        })
+            .then((res) => res.text())
+            .then((result) => {
+                let responseJson = JSON.parse(result)
+                console.log(responseJson)
+                setMpData(responseJson)
+                updateBillData(responseJson.mp_id)
+            }).catch((error) => {
+            console.error(error);
+        });
     }
 
-    const [searchValue, setSearchValue] = useState("Search for Bill")
-
-    const [billsData, setBillsData] = useState();
-    const [mpVotesData, setMpVotesData] = useState();
-
-    if (!billsData) {
-        fetch("https://bills-app-305000.ew.r.appspot.com/bills/1423")
+    function updateBillData(mp_id) {
+        fetch("https://bills-app-305000.ew.r.appspot.com/bills/" + mp_id)
             .then((response) => response.text())
             .then((responseText) => {
                 let responseJson = responseText.replaceAll("\'", "\"")
                 responseJson = responseJson.replaceAll("None", "\"None\"")
                 responseJson = responseJson.substring(1, responseJson.length - 2)
                 responseJson = JSON.parse(responseJson)
-                console.log(responseJson)
-                updateMpVotesData(responseJson)
+                updateMpVotesData(responseJson, mp_id)
             })
             .catch((error) => {
                 console.error(error);
             });
     }
 
-    function updateMpVotesData(data) {
+    function updateMpVotesData(data, mp_id) {
         const formdata = new FormData();
         formdata.append("email", email)
         formdata.append("session_token", userAuthenticationToken)
-        formdata.append("mp_id", "1423")
+        formdata.append("mp_id", mp_id)
 
         fetch('https://bills-app-305000.ew.r.appspot.com/mp_bills', {
             method: 'POST',
@@ -84,29 +102,37 @@ export default function MpProfile({navigation}) {
     return (
         <SafeAreaView style={{flex: 1}}>
 
-            <View style={styles.mpInfoSection}>
-                <View style={{flexDirection: 'row'}}>
-                    <View style={styles.textSection}>
+            {!mpData ? (
+                <SafeAreaView style={{flex: 1}}>
+                    <Text style={styles.loadingDataText}>Loading Data</Text>
+                </SafeAreaView>
+            ) : (
+                <View style={styles.mpInfoSection}>
+                    <View style={{flexDirection: 'row'}}>
+                        <View style={styles.textSection}>
 
-                        <Text style={styles.mpName}>{mpData.name}</Text>
-                        <Text style={styles.mpConstituency}>{mpData.constituency}</Text>
+                            <Text style={styles.mpName}>{mpData.first_name + " " + mpData.last_name}</Text>
+                            <Text style={styles.mpConstituency}>{mpData.area}</Text>
 
-                        <Text style={styles.contactDetailsTitle}>Contact Details</Text>
-                        <Text style={styles.mpPhoneNumber}>Phone: {mpData.phoneNumber}</Text>
-                        <Text style={styles.mpEmailAddress}>Email: {mpData.emailAddress}</Text>
+                            <Text style={styles.contactDetailsTitle}>Contact Details</Text>
+                            <Text style={styles.mpPhoneNumber}>Phone: {mpData.phone_num}</Text>
+                            <Text style={styles.mpEmailAddress}>Email: {mpData.email}</Text>
+                        </View>
+                        <View>
+                            <Image style={styles.mpPicture} source={{
+                                uri: 'https://members-api.parliament.uk/api/Members/' + mpData.mp_id + '/Portrait?cropType=OneOne',
+                            }}/>
+                        </View>
                     </View>
-                    <View>
-                        <Image style={styles.mpPicture} source={mpData.mpPicture}/>
+
+                    <View style={styles.buttonContainer}>
+                        <Button style={styles.messageMpButton}
+                                color='#4d4d4d'
+                                onPress={() => navigateToMpMessage(navigation, mpData)}
+                                title="Message"/>
                     </View>
                 </View>
-
-                <View style={styles.buttonContainer}>
-                    <Button style={styles.messageMpButton}
-                            color='#4d4d4d'
-                            onPress={() => navigateToMpMessage(navigation, mpData)}
-                            title="Message"/>
-                </View>
-            </View>
+            )}
 
             <TextInput style={styles.searchBar} value={searchValue}
                        onChangeText={text => {

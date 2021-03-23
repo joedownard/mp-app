@@ -13,6 +13,7 @@ const wait = (timeout) => {
 export default function Bills({navigation}) {
 
     const [billsData, setBillsData] = useState()
+    const [mpData, setMpData] = useState()
     const [searchValue, setSearchValue] = useState("Search for Bill")
     const {userAuthenticationToken, email} = React.useContext(AuthContext);
     const [refreshing, setRefreshing] = React.useState(false);
@@ -36,6 +37,26 @@ export default function Bills({navigation}) {
     }, []);
 
     useEffect(() => {
+        const formdata = new FormData();
+        formdata.append("email", email)
+        formdata.append("session_token", userAuthenticationToken)
+
+        fetch('https://bills-app-305000.ew.r.appspot.com/local_mp', {
+            method: 'POST',
+            body: formdata
+        })
+            .then((res) => res.text())
+            .then((result) => {
+                let responseJson = JSON.parse(result)
+                console.log(responseJson)
+                setMpData(responseJson)
+                updateBillData(responseJson.mp_id)
+            }).catch((error) => {
+            console.error(error);
+        });
+    }, []);
+
+    function updateBillData(mp_id) {
         fetch("https://bills-app-305000.ew.r.appspot.com/bills")
             .then((response) => response.text())
             .then((responseText) => {
@@ -43,20 +64,19 @@ export default function Bills({navigation}) {
                 responseJson = responseJson.replaceAll("None", "\"None\"")
                 responseJson = responseJson.substring(1, responseJson.length - 2)
                 responseJson = JSON.parse(responseJson)
-                console.log(responseJson)
-                updateMpVotesData(responseJson)
+                updateMpVotesData(responseJson, mp_id)
             })
             .catch((error) => {
                 console.error(error);
             });
-    }, []);
+    }
 
 
-    function updateMpVotesData(data) {
+    function updateMpVotesData(data, mp_id) {
         const formdata = new FormData();
         formdata.append("email", email)
         formdata.append("session_token", userAuthenticationToken)
-        formdata.append("mp_id", "1423")
+        formdata.append("mp_id", mp_id)
 
         fetch('https://bills-app-305000.ew.r.appspot.com/mp_bills', {
             method: 'POST',

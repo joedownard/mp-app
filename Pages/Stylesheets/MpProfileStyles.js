@@ -26,6 +26,7 @@ export const styles = StyleSheet.create({
     },
 
     mpPicture: {
+        borderRadius: 50,
         left: -10,
         top: 5,
         width: 100,
