@@ -1,9 +1,7 @@
 import {Text, View, Image, ScrollView, SafeAreaView, Pressable, TextInput, RefreshControl} from "react-native";
 import {StatusBar} from "expo-status-bar";
-import React, {useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {styles} from './Stylesheets/BillsStyles.js';
-
-import {bills} from './bill_content.js'
 
 import {BillList} from '../components/BillList.js'
 
@@ -36,7 +34,7 @@ export default function Bills({navigation}) {
         wait(500).then(() => setRefreshing(false));
     }, []);
 
-    if (!billsData) {
+    useEffect(() => {
         fetch("https://bills-app-305000.ew.r.appspot.com/bills")
             .then((response) => response.text())
             .then((responseText) => {
@@ -44,13 +42,12 @@ export default function Bills({navigation}) {
                 responseJson = responseJson.replaceAll("None", "\"None\"")
                 responseJson = responseJson.substring(1, responseJson.length-2)
                 responseJson = JSON.parse(responseJson)
-                console.log(responseJson)
                 setBillsData(responseJson);
             })
             .catch((error) => {
                 console.error(error);
             });
-    }
+    }, []);
 
     // if (!billsData) {
     //     console.log(bills)

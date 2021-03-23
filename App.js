@@ -26,7 +26,6 @@ export default function App() {
 
     const [state, dispatch] = React.useReducer(
         (prevState, action) => {
-            console.log(action)
             switch (action.type) {
                 case 'RESTORE_TOKEN':
                     return {
@@ -54,7 +53,7 @@ export default function App() {
         },
         {
             isLoading: true,
-            isSignout: false,
+            isSignout: true,
             storedTokenInvalid: false,
             userAuthenticationToken: null,
             email: "",
@@ -62,20 +61,6 @@ export default function App() {
     );
 
     useEffect(() => {
-        const bootstrapAsync = async () => {
-            let userToken;
-            let email;
-            try {
-                userToken = await AsyncStorage.getItem('userAuthenticationToken');
-                email = await AsyncStorage.getItem('email');
-            } catch (e) {
-                console.log("Failed to restore user authentication token")
-            }
-            dispatch({type: 'RESTORE_TOKEN', token: userToken, email: email});
-        };
-
-        bootstrapAsync();
-
         registerForPushNotificationsAsync().then(token => {
             setExpoPushToken(token)
         });
@@ -119,8 +104,6 @@ export default function App() {
                 const token = await AsyncStorage.getItem('userAuthenticationToken')
                 formdata.append("email", email)
                 formdata.append("session_token", token)
-                console.log(token)
-                console.log(email)
 
                 fetch('https://bills-app-305000.ew.r.appspot.com/login_with_token', {
                     method: 'POST',

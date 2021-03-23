@@ -84,7 +84,7 @@ export default function MpMessage({ navigation, route }) {
 function updateFormat(item) {
     logButtonPress("Dropdown Menu: " + item)
     if (item === "simple_greeting") {
-        return "Dear Boris Johnson\n\n\n\nKind Regards."
+        return "Dear Boris Johnson,\n\n\n\nKind Regards,\nyour local constituent."
     }
 }
 

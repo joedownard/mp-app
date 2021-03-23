@@ -54,6 +54,42 @@ function BillItem(props) {
         setData({...data, likes: 0, dislikes: 0, date: "01/01/2020"})
     }, []);
 
+    function toggleLike() {
+        if (!userInteractions['liked']) {
+            onUserInteraction(props.id, 'like', props.userAuthenticationToken);
+            if (userInteractions['disliked']) {
+                setData({...data, dislikes: data.dislikes - 1, likes: data.likes+1})
+                setUserInteractions({...userInteractions, disliked: false, liked: true});
+                onUserInteraction(props.id, 'undislike', props.userAuthenticationToken);
+            } else {
+                setData({...data, likes: data.likes + 1})
+                setUserInteractions({...userInteractions, liked: true});
+            }
+        } else {
+            setData({...data, likes: data.likes - 1})
+            setUserInteractions({...userInteractions, liked: false});
+            onUserInteraction(props.id, 'unlike', props.userAuthenticationToken);
+        }
+    }
+
+    function toggleDislike() {
+        if (!userInteractions['disliked']) {
+            onUserInteraction(props.id, 'dislike', props.userAuthenticationToken);
+            if (userInteractions['liked']) {
+                setData({...data, dislikes: data.dislikes + 1, likes: data.likes-1})
+                setUserInteractions({...userInteractions, disliked: true, liked: false});
+                onUserInteraction(props.id, 'unlike', props.userAuthenticationToken);
+            } else {
+                setData({...data, dislikes: data.dislikes + 1})
+                setUserInteractions({...userInteractions, disliked: true});
+            }
+        } else {
+            setData({...data, dislikes: data.dislikes - 1})
+            setUserInteractions({...userInteractions, disliked: false});
+            onUserInteraction(props.id, 'undislike', props.userAuthenticationToken);
+        }
+    }
+
     return (
         <View style={styles.billContainer}>
             <View style={styles.billHeader}>
@@ -84,34 +120,14 @@ function BillItem(props) {
             <Text style={styles.billDescription}>{data.billDescription}</Text>
             <View style={styles.billFooter}>
                 <View style={styles.likesContainer}>
-                    <Pressable onPress={() => {
-                        if (!userInteractions['liked']) {
-                            setData({...data, likes: data.likes + 1})
-                            setUserInteractions({...userInteractions, liked: true});
-                            onUserInteraction(props.id, 'like', props.userAuthenticationToken);
-                        } else {
-                            setData({...data, likes: data.likes - 1})
-                            setUserInteractions({...userInteractions, liked: false});
-                            onUserInteraction(props.id, 'unlike', props.userAuthenticationToken);
-                        }
-                    }}>
+                    <Pressable onPress={() => toggleLike()}>
                         <Image style={styles.thumbsUp}
                                source={userInteractions['liked'] ? thumbsUpFilled : thumbsUp}/>
                     </Pressable>
                     <Text style={styles.thumbsUpNumber}>{data.likes}</Text>
                 </View>
                 <View style={styles.dislikesContainer}>
-                    <Pressable onPress={() => {
-                        if (!userInteractions['disliked']) {
-                            setData({...data, dislikes: data.dislikes + 1})
-                            setUserInteractions({...userInteractions, disliked: true});
-                            onUserInteraction(props.id, 'dislike', props.userAuthenticationToken);
-                        } else {
-                            setData({...data, dislikes: data.dislikes - 1})
-                            setUserInteractions({...userInteractions, disliked: false});
-                            onUserInteraction(props.id, 'undislike', props.userAuthenticationToken);
-                        }
-                    }}>
+                    <Pressable onPress={() => toggleDislike()}>
                         <Image style={styles.thumbsDown}
                                source={userInteractions['disliked'] ? thumbsDownFilled : thumbsDown}/>
                     </Pressable>
