@@ -3,6 +3,7 @@ import React, {useEffect, useState} from "react";
 import {styles} from "../Pages/Stylesheets/BillsStyles";
 import AuthContext from "./AuthContext.js";
 import { ScrollView } from "react-native-gesture-handler";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const thumbsUp = require('../assets/thumbs_up.png');
 const thumbsUpFilled = require('../assets/thumbs_up_filled.png');
@@ -39,15 +40,19 @@ export function BillList(props) {
     );
 
     return (
-        <ScrollView style={{marginBottom: 10}}>
+        <View style={{marginBottom: 10}}>
             {billItemList}
-        </ScrollView>
+        </View>
     )
 }
 
 function BillItem(props) {
     const [data, setData] = useState(props);
     const [userInteractions, setUserInteractions] = useState({});
+
+    useEffect(() => {
+        setData({...data, likes: 0, dislikes: 0, date: "01/01/2020"})
+    }, []);
 
     return (
         <View style={styles.billContainer}>

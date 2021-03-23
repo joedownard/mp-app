@@ -20,8 +20,8 @@ export const styles = StyleSheet.create({
 
     searchBar: {
         textAlign: 'center',
-        marginLeft: 50,
-        marginRight: 50,
+        marginLeft: 20,
+        marginRight: 20,
         marginTop: 10,
         marginBottom: 10,
         borderWidth: 2,

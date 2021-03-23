@@ -26,6 +26,7 @@ export const styles = StyleSheet.create({
         fontSize: 28,
         fontWeight: '900',
         marginLeft: 30,
+        marginTop: 20,
     },
 
     shareButton: {

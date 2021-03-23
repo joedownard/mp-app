@@ -39,7 +39,7 @@ export const styles = StyleSheet.create({
     },
 
     mpPicture: {
-        left: -55,
+        left: -10,
         top: 5,
         width: 100,
         height: 100,
@@ -52,23 +52,31 @@ export const styles = StyleSheet.create({
     dropDownContainer: {
         flex: 1,
         padding: "1%",
-        height: 40, 
+        paddingTop: 0,
+        height: 100,
         width: "50%", //98
         alignSelf: "flex-end",
+        fontSize: 18,
     },
 
     dropDownBox: {
-        
-        borderWidth: 2,
-        borderColor: '#C4C4C4',
+        marginTop: 0,
+        marginBottom: 0,
+        height: 10,
+        fontSize: 18,
     },
 
     messageBox: {
-        height: "80%",
-        width: "96%",
+        marginTop: -400,
+        height: 175,
         marginLeft: "2%",
+        marginRight: "2%",
         backgroundColor: "white",
         textAlignVertical: "top",
+    },
+
+    buttonContainer: {
+        backgroundColor: 'white'
     },
 
     messageButton: {
@@ -76,10 +84,12 @@ export const styles = StyleSheet.create({
     },
 
     bottomButton: {
+        backgroundColor: '#C4C4C4',
         position: "absolute",
         bottom: 0,
         width: "96%",
-        marginLeft: "2%",
-        marginTop: "2%",
+        marginLeft: "4%",
+        marginRight: "14%",
+        marginBottom: 235,
     }
 });

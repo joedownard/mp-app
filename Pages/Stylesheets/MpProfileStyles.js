@@ -26,7 +26,7 @@ export const styles = StyleSheet.create({
     },
 
     mpPicture: {
-        left: -55,
+        left: -10,
         top: 5,
         width: 100,
         height: 100,
@@ -63,14 +63,18 @@ export const styles = StyleSheet.create({
         color: 'grey',
     },
 
+    buttonContainer: {
+        backgroundColor: 'white'
+    },
+
     messageMpButton: {
         backgroundColor: '#C4C4C4',
     },
 
     searchBar: {
         textAlign: 'center',
-        marginLeft: 10,
-        marginRight: 10,
+        marginLeft: 20,
+        marginRight: 20,
         marginTop: 10,
         marginBottom: 10,
         borderWidth: 2,

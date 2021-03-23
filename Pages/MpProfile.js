@@ -20,11 +20,15 @@ export default function MpProfile({navigation}) {
     const [billsData, setBillsData] = useState();
 
     if (!billsData) {
-        fetch("https://bills-app-305000.ew.r.appspot.com/top")
-            .then((response) => response.json())
-            .then((responseJson) => {
-                console.log(responseJson.result);
-                setBillsData(responseJson.result);
+        fetch("https://bills-app-305000.ew.r.appspot.com/bills")
+            .then((response) => response.text())
+            .then((responseText) => {
+                let responseJson = responseText.replaceAll("\'", "\"")
+                responseJson = responseJson.replaceAll("None", "\"None\"")
+                responseJson = responseJson.substring(1, responseJson.length-2)
+                responseJson = JSON.parse(responseJson)
+                console.log(responseJson)
+                setBillsData(responseJson);
             })
             .catch((error) => {
                 console.error(error);
@@ -50,10 +54,12 @@ export default function MpProfile({navigation}) {
                     </View>
                 </View>
 
+                <View style={styles.buttonContainer}>
                 <Button style={styles.messageMpButton}
                         color='#4d4d4d'
                         onPress={() => navigateToMpMessage(navigation, mpData)}
                         title="Message"/>
+                </View>
             </View>
 
             <TextInput style={styles.searchBar} value={searchValue}
