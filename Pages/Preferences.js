@@ -6,8 +6,9 @@ import AuthContext from "../components/AuthContext";
 
 export default function Preferences( {navigation} ) {
 
-    const { signOut } = React.useContext(AuthContext);
+    const { signOut, postcodeUpdate } = React.useContext(AuthContext);
     const [value, onChangeText] = React.useState();
+    const { userAuthenticationToken, email } = React.useContext(AuthContext);
 
     const PostCodeButton = () => {
 
@@ -98,20 +99,35 @@ export default function Preferences( {navigation} ) {
             </View>
         </SafeAreaView>
     );
-}
 
-function updatePostcode(value) {
-    logButtonPress("Update PostCode");
-    if (valid_postcode(value)) {
+    function updatePostcode(value) {
+        logButtonPress("Update PostCode");
+        if (valid_postcode(value)) {
+            const formdata = new FormData();
+            formdata.append("email", email)
+            formdata.append("session_token", userAuthenticationToken)
+            formdata.append("postcode", value)
 
-    } else {
-        alert("Postcode not valid!")
+            fetch('https://bills-app-305000.ew.r.appspot.com/update_postcode', {
+                method: 'POST',
+                body: formdata
+            })
+                .then((res) => res.text())
+                .then((result) => {
+                    console.log(result)
+                    postcodeUpdate()
+                    alert("Success!")
+                });
+        } else {
+            alert("Postcode not valid!")
+        }
+        //read postcode textbox
+        //If user uncapitalises keyboard, next letter will not be capital
+        //So ensure text read is converted using .ToUpperCase()
+
     }
-    //read postcode textbox
-    //If user uncapitalises keyboard, next letter will not be capital
-    //So ensure text read is converted using .ToUpperCase()
-
 }
+
 
 function valid_postcode(postcode) {
     postcode = postcode.replace(/\s/g, "");

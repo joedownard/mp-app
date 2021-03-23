@@ -49,6 +49,16 @@ export default function App() {
                         userAuthenticationToken: null,
                         email: null,
                     };
+                case 'POSTCODE_UPDATE':
+                    return {
+                        ...prevState,
+                        postcodeUpdated: true,
+                    };
+                case 'POSTCODE_UPDATE_CONFIRM':
+                    return {
+                        ...prevState,
+                        postcodeUpdated: false,
+                    }
             }
         },
         {
@@ -57,6 +67,7 @@ export default function App() {
             storedTokenInvalid: false,
             userAuthenticationToken: null,
             email: "",
+            postcodeUpdated: false,
         },
     );
 
@@ -154,10 +165,17 @@ export default function App() {
                         }
                     });
             },
+            postcodeUpdate: async data => {
+                dispatch({type: 'POSTCODE_UPDATE'})
+            },
+            postcodeUpdateConfirm: async data => {
+                dispatch({type: 'POSTCODE_UPDATE_CONFIRM'})
+            },
             userAuthenticationToken: state.userAuthenticationToken,
             email: state.email,
+            postcodeUpdated: state.postcodeUpdated,
         }),
-        [state.userAuthenticationToken, state.email]
+        [state.userAuthenticationToken, state.email, state.postcodeUpdated]
     );
 
 

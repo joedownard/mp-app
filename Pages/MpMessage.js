@@ -12,9 +12,7 @@ import {Picker} from "@react-native-picker/picker";
 export default function MpMessage({ navigation, route }) {
 
     const mpData = route.params;
-
     const [messageValue, onChangeText] = React.useState();
-
     const { userAuthenticationToken, email } = React.useContext(AuthContext);
 
     return (
@@ -110,11 +108,6 @@ function message(messageText, userAuthenticationToken, email) {
         .then((result) => {
             console.log(result)
         });
-
-
-    console.log(messageText);
-    console.log(userAuthenticationToken)
-    console.log(email)
 
     alert("Sent!")
 }

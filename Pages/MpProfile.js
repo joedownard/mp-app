@@ -1,5 +1,5 @@
 import {Text, View, Image, ScrollView, SafeAreaView, Button, TextInput} from "react-native";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {styles} from './Stylesheets/MpProfileStyles.js';
 import {BillList} from "../components/BillList";
 import AuthContext from "../components/AuthContext.js";
@@ -9,12 +9,12 @@ const no_photo = require('../assets/no_photo.jpg')
 
 export default function MpProfile({navigation}) {
 
-    const {userAuthenticationToken, email} = React.useContext(AuthContext);
+    const {userAuthenticationToken, email, postcodeUpdated, postcodeUpdateConfirm} = React.useContext(AuthContext);
     const [mpData, setMpData] = useState()
     const [searchValue, setSearchValue] = useState("Search for Bill")
     const [billsData, setBillsData] = useState();
 
-    if (!mpData) {
+    useEffect(() => {
         const formdata = new FormData();
         formdata.append("email", email)
         formdata.append("session_token", userAuthenticationToken)
@@ -31,7 +31,7 @@ export default function MpProfile({navigation}) {
             }).catch((error) => {
             console.error(error);
         });
-    }
+    }, [postcodeUpdated]);
 
     function getMpPhoneNumber (mpData, mp_id) {
         fetch("https://members-api.parliament.uk/api/Members/" + mp_id + "/Contact")

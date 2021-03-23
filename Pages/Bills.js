@@ -119,7 +119,14 @@ export default function Bills({navigation}) {
     if (!billsData) {
         return (
         <SafeAreaView style={{flex: 1}}>
+            <ScrollView contentContainerStyle={styles.scrollView}
+                        refreshControl={
+                            <RefreshControl
+                                refreshing={refreshing}
+                                onRefresh={onRefresh}
+                            />}>
             <Text style={styles.loadingDataText}>Loading Data</Text>
+                            </ScrollView>
         </SafeAreaView>
         )
     } else {
