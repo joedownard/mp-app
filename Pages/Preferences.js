@@ -7,31 +7,14 @@ import AuthContext from "../components/AuthContext";
 export default function Preferences( {navigation} ) {
 
     const { signOut } = React.useContext(AuthContext);
-
-    const PostCodeInput = () => {
-        const [value, onChangeText] = React.useState();
-
-        return (
-            <TextInput
-                style={styles.postcodeTextBox}
-                placeholder="PostCode"
-                onFocus={(e) => e.target.placeholder = ''}
-                onBlur={(e) => e.target.placeholder = 'PostCode'}
-                autoCapitalize="characters"
-                onChangeText={text => onChangeText(text)}
-                value={value}
-                autoCompleteType="postal-code"
-                maxLength={8}
-            />
-        );
-    }
+    const [value, onChangeText] = React.useState();
 
     const PostCodeButton = () => {
 
         return (
             <TouchableOpacity
                 style={[styles.button, styles.updatePostcodeButton]}
-                onPress={updatePostcode}>
+                onPress={() => updatePostcode(value)}>
                 <Text style={styles.buttonText}>
                     Update PostCode
                 </Text>
@@ -85,12 +68,20 @@ export default function Preferences( {navigation} ) {
 
     return (
         <SafeAreaView style={{flex: 1}}>
-            {/*<Text style={styles.preferencesText}>Preferences</Text>*/}
-            {/*<View style={styles.pageTitleLine}/>*/}
             <View style={styles.mainContainer}>
                 <View style={styles.postcodeTextBoxContainer}>
                     <Text style={styles.postcodeText}>PostCode</Text>
-                    <PostCodeInput/>
+                    <TextInput
+                        style={styles.postcodeTextBox}
+                        placeholder="PostCode"
+                        onFocus={(e) => e.target.placeholder = ''}
+                        onBlur={(e) => e.target.placeholder = 'PostCode'}
+                        autoCapitalize="characters"
+                        onChangeText={text => onChangeText(text.toString().toUpperCase())}
+                        value={value}
+                        autoCompleteType="postal-code"
+                        maxLength={8}
+                    />
                 </View>
                 <PostCodeButton/>
                 <Text style={styles.notificationText}>Notifications</Text>
@@ -109,12 +100,23 @@ export default function Preferences( {navigation} ) {
     );
 }
 
-function updatePostcode() {
+function updatePostcode(value) {
     logButtonPress("Update PostCode");
+    if (valid_postcode(value)) {
+
+    } else {
+        alert("Postcode not valid!")
+    }
     //read postcode textbox
     //If user uncapitalises keyboard, next letter will not be capital
     //So ensure text read is converted using .ToUpperCase()
 
+}
+
+function valid_postcode(postcode) {
+    postcode = postcode.replace(/\s/g, "");
+    var regex = /^[A-Z]{1,2}[0-9]{1,2} ?[0-9][A-Z]{2}$/i;
+    return regex.test(postcode);
 }
 
 

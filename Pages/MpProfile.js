@@ -5,18 +5,11 @@ import {BillList} from "../components/BillList";
 import AuthContext from "../components/AuthContext.js";
 import MpMessage from "./MpMessage.js";
 
+const no_photo = require('../assets/no_photo.jpg')
+
 export default function MpProfile({navigation}) {
 
     const {userAuthenticationToken, email} = React.useContext(AuthContext);
-
-    // const mpData = {
-    //     name: 'Boris Johnson',
-    //     constituency: 'Uxbridge and South Ruslip',
-    //     phoneNumber: '020 7219 4682',
-    //     emailAddress: 'boris.johnson.mp@parliament.uk',
-    //     mpPicture: require('../assets/boris_pic.png')
-    // }
-
     const [mpData, setMpData] = useState()
     const [searchValue, setSearchValue] = useState("Search for Bill")
     const [billsData, setBillsData] = useState();
@@ -33,12 +26,25 @@ export default function MpProfile({navigation}) {
             .then((res) => res.text())
             .then((result) => {
                 let responseJson = JSON.parse(result)
-                console.log(responseJson)
-                setMpData(responseJson)
+                getMpPhoneNumber(responseJson, responseJson.mp_id)
                 updateBillData(responseJson.mp_id)
             }).catch((error) => {
             console.error(error);
         });
+    }
+
+    function getMpPhoneNumber (mpData, mp_id) {
+        fetch("https://members-api.parliament.uk/api/Members/" + mp_id + "/Contact")
+            .then((response) => response.text())
+            .then((responseText) => {
+                let responseJson = JSON.parse(responseText)
+                console.log(mpData)
+                setMpData({...mpData, phone: responseJson.value[0].phone})
+                console.log(responseJson.value[0].phone)
+            })
+            .catch((error) => {
+                console.error(error);
+            });
     }
 
     function updateBillData(mp_id) {
@@ -80,7 +86,6 @@ export default function MpProfile({navigation}) {
                     let newBill = bill
                     responseJson.forEach((voteBill) => {
                         if (voteBill.id === bill.id) {
-                            console.log(voteBill.id)
                             if (voteBill["positive"]) {
                                 newBill.voted = "voted YES"
                             } else {
@@ -108,20 +113,21 @@ export default function MpProfile({navigation}) {
                 </SafeAreaView>
             ) : (
                 <View style={styles.mpInfoSection}>
-                    <View style={{flexDirection: 'row'}}>
+                    <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                         <View style={styles.textSection}>
 
                             <Text style={styles.mpName}>{mpData.first_name + " " + mpData.last_name}</Text>
                             <Text style={styles.mpConstituency}>{mpData.area}</Text>
 
+                            <Text></Text>
                             <Text style={styles.contactDetailsTitle}>Contact Details</Text>
-                            <Text style={styles.mpPhoneNumber}>Phone: {mpData.phone_num}</Text>
-                            <Text style={styles.mpEmailAddress}>Email: {mpData.email}</Text>
+                            <Text style={styles.mpPhoneNumber}>{mpData.phone}</Text>
+                            <Text style={styles.mpEmailAddress}>{mpData.email}</Text>
                         </View>
                         <View>
                             <Image style={styles.mpPicture} source={{
                                 uri: 'https://members-api.parliament.uk/api/Members/' + mpData.mp_id + '/Portrait?cropType=OneOne',
-                            }}/>
+                            }} defaultSource={no_photo}/>
                         </View>
                     </View>
 

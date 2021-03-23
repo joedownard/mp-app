@@ -48,7 +48,6 @@ export default function Bills({navigation}) {
             .then((res) => res.text())
             .then((result) => {
                 let responseJson = JSON.parse(result)
-                console.log(responseJson)
                 setMpData(responseJson)
                 updateBillData(responseJson.mp_id)
             }).catch((error) => {

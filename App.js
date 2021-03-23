@@ -134,7 +134,7 @@ export default function App() {
                 const formdata = new FormData();
                 formdata.append("email", data.emailAddress)
                 formdata.append("password", hashedPassword)
-                formdata.append("notification_token", "ExponentPushToken[dTC1ViHeJ36_SqB7MPj6B7]")
+                formdata.append("notification_token", expoPushToken)
                 formdata.append("postcode", data.postcode)
 
                 fetch('https://bills-app-305000.ew.r.appspot.com/register', {
@@ -176,7 +176,7 @@ export default function App() {
     function MpProfileStack() {
         return (
             <Stack.Navigator>
-                <Stack.Screen name="Mp Information" component={MpProfile}/>
+                <Stack.Screen name="MP Information" component={MpProfile}/>
                 <Stack.Screen name="MP Message" component={MpMessage}/>
             </Stack.Navigator>
         );
@@ -201,7 +201,7 @@ export default function App() {
 
                                 if (route.name === 'Bill Feed') {
                                     icon = focused ? 'layers' : 'layers-outline';
-                                } else if (route.name === 'Mp Information') {
+                                } else if (route.name === 'MP Information') {
                                     icon = focused ? 'person' : 'person-outline';
                                 } else if (route.name === 'Preferences')
                                     icon = focused ? 'ellipsis-horizontal' : 'ellipsis-horizontal-outline';
@@ -209,7 +209,7 @@ export default function App() {
                             },
                         })}>
                             <Tab.Screen name="Bill Feed" component={BillsStack} options={{title: ''}}/>
-                            <Tab.Screen name="Mp Information" component={MpProfileStack} options={{title: ''}}/>
+                            <Tab.Screen name="MP Information" component={MpProfileStack} options={{title: ''}}/>
                             <Tab.Screen name="Preferences" component={PreferencesStack} options={{title: ''}}/>
                         </Tab.Navigator>
                     </SafeAreaView>
