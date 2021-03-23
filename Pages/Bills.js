@@ -4,6 +4,7 @@ import React, {useEffect, useRef, useState} from "react";
 import {styles} from './Stylesheets/BillsStyles.js';
 
 import {BillList} from '../components/BillList.js'
+import AuthContext from "../components/AuthContext";
 
 const wait = (timeout) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
@@ -13,7 +14,7 @@ export default function Bills({navigation}) {
 
     const [billsData, setBillsData] = useState()
     const [searchValue, setSearchValue] = useState("Search for Bill")
-
+    const {userAuthenticationToken, email} = React.useContext(AuthContext);
     const [refreshing, setRefreshing] = React.useState(false);
 
     const onRefresh = React.useCallback(() => {
@@ -40,19 +41,61 @@ export default function Bills({navigation}) {
             .then((responseText) => {
                 let responseJson = responseText.replaceAll("\'", "\"")
                 responseJson = responseJson.replaceAll("None", "\"None\"")
-                responseJson = responseJson.substring(1, responseJson.length-2)
+                responseJson = responseJson.substring(1, responseJson.length - 2)
                 responseJson = JSON.parse(responseJson)
-                setBillsData(responseJson);
+                console.log(responseJson)
+                updateMpVotesData(responseJson)
             })
             .catch((error) => {
                 console.error(error);
             });
     }, []);
 
-    // if (!billsData) {
-    //     console.log(bills)
-    //     setBillsData(bills)
-    // }
+
+    function updateMpVotesData(data) {
+        const formdata = new FormData();
+        formdata.append("email", email)
+        formdata.append("session_token", userAuthenticationToken)
+        formdata.append("mp_id", "1423")
+
+        fetch('https://bills-app-305000.ew.r.appspot.com/mp_bills', {
+            method: 'POST',
+            body: formdata
+        })
+            .then((res) => res.text())
+            .then((result) => {
+                let responseJson = JSON.parse(result)
+                responseJson = responseJson["success"]
+                responseJson = responseJson.replaceAll("\'", "\"")
+                responseJson = responseJson.replaceAll("None", "\"None\"")
+                responseJson = JSON.parse(responseJson)
+
+                let newBillsData = []
+
+                data.forEach((bill) => {
+                    let newBill = bill
+                    responseJson.forEach((voteBill) => {
+                        if (voteBill.id === bill.id) {
+                            console.log(voteBill.id)
+                            if (voteBill["positive"]) {
+                                newBill.voted = "voted YES"
+                            } else {
+                                newBill.voted = "voted NO"
+                            }
+                        }
+                    })
+                    if (!newBill.voted) {
+                        newBill.voted = "didn't vote"
+                    }
+                    newBillsData.push(newBill)
+                })
+                setBillsData(newBillsData);
+            }).catch((error) => {
+            console.error(error);
+        });
+    }
+
+
 
     if (!billsData) {
         return (

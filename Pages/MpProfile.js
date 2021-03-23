@@ -7,6 +7,8 @@ import MpMessage from "./MpMessage.js";
 
 export default function MpProfile({navigation}) {
 
+    const {userAuthenticationToken, email} = React.useContext(AuthContext);
+
     const mpData = {
         name: 'Boris Johnson',
         constituency: 'Uxbridge and South Ruslip',
@@ -18,21 +20,65 @@ export default function MpProfile({navigation}) {
     const [searchValue, setSearchValue] = useState("Search for Bill")
 
     const [billsData, setBillsData] = useState();
+    const [mpVotesData, setMpVotesData] = useState();
 
     if (!billsData) {
-        fetch("https://bills-app-305000.ew.r.appspot.com/bills")
+        fetch("https://bills-app-305000.ew.r.appspot.com/bills/1423")
             .then((response) => response.text())
             .then((responseText) => {
                 let responseJson = responseText.replaceAll("\'", "\"")
                 responseJson = responseJson.replaceAll("None", "\"None\"")
-                responseJson = responseJson.substring(1, responseJson.length-2)
+                responseJson = responseJson.substring(1, responseJson.length - 2)
                 responseJson = JSON.parse(responseJson)
                 console.log(responseJson)
-                setBillsData(responseJson);
+                updateMpVotesData(responseJson)
             })
             .catch((error) => {
                 console.error(error);
             });
+    }
+
+    function updateMpVotesData(data) {
+        const formdata = new FormData();
+        formdata.append("email", email)
+        formdata.append("session_token", userAuthenticationToken)
+        formdata.append("mp_id", "1423")
+
+        fetch('https://bills-app-305000.ew.r.appspot.com/mp_bills', {
+            method: 'POST',
+            body: formdata
+        })
+            .then((res) => res.text())
+            .then((result) => {
+                let responseJson = JSON.parse(result)
+                responseJson = responseJson["success"]
+                responseJson = responseJson.replaceAll("\'", "\"")
+                responseJson = responseJson.replaceAll("None", "\"None\"")
+                responseJson = JSON.parse(responseJson)
+
+                let newBillsData = []
+
+                data.forEach((bill) => {
+                    let newBill = bill
+                    responseJson.forEach((voteBill) => {
+                        if (voteBill.id === bill.id) {
+                            console.log(voteBill.id)
+                            if (voteBill["positive"]) {
+                                newBill.voted = "voted YES"
+                            } else {
+                                newBill.voted = "voted NO"
+                            }
+                        }
+                    })
+                    if (!newBill.voted) {
+                        newBill.voted = "didn't vote"
+                    }
+                    newBillsData.push(newBill)
+                })
+                setBillsData(newBillsData);
+            }).catch((error) => {
+            console.error(error);
+        });
     }
 
     return (
@@ -55,10 +101,10 @@ export default function MpProfile({navigation}) {
                 </View>
 
                 <View style={styles.buttonContainer}>
-                <Button style={styles.messageMpButton}
-                        color='#4d4d4d'
-                        onPress={() => navigateToMpMessage(navigation, mpData)}
-                        title="Message"/>
+                    <Button style={styles.messageMpButton}
+                            color='#4d4d4d'
+                            onPress={() => navigateToMpMessage(navigation, mpData)}
+                            title="Message"/>
                 </View>
             </View>
 

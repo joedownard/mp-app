@@ -123,15 +123,12 @@ export const styles = StyleSheet.create({
         flexDirection: 'row-reverse',
     },
 
-    shareButton: {
-        width: 35,
-        height: 35,
+    mpVotedText: {
+        marginTop: 10,
+      marginRight: 15,
     },
 
-    shareNumber: {
-        marginTop: 10,
-        marginLeft: 10,
-    },
+
 
     loadingDataText: {
         textAlign: "center",

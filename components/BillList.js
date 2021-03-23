@@ -2,7 +2,7 @@ import {Image, Pressable, Text, View} from "react-native";
 import React, {useEffect, useState} from "react";
 import {styles} from "../Pages/Stylesheets/BillsStyles";
 import AuthContext from "./AuthContext.js";
-import { ScrollView } from "react-native-gesture-handler";
+import {ScrollView} from "react-native-gesture-handler";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const thumbsUp = require('../assets/thumbs_up.png');
@@ -14,7 +14,7 @@ const favouriteFilled = require('../assets/favourite_icon_filled.png');
 const share = require('../assets/share_icon.png')
 
 export function BillList(props) {
-    const { userAuthenticationToken } = React.useContext(AuthContext);
+    const {userAuthenticationToken} = React.useContext(AuthContext);
 
     // Create a bill listing for every bill in the dataset
     const [data, setData] = useState(props.data)
@@ -22,7 +22,7 @@ export function BillList(props) {
     useEffect(() => {
         if (props.searchTerm !== "") {
             let tempData = []
-            props.data.forEach( (item) => {
+            props.data.forEach((item) => {
                 if (item.title.toUpperCase().includes(props.searchTerm.toUpperCase()) || item.description.toUpperCase().includes(props.searchTerm.toUpperCase())) {
                     tempData.push(item)
                 }
@@ -34,9 +34,10 @@ export function BillList(props) {
     }, [props.data, props.searchTerm]);
 
     const billItemList = data.map((item) =>
-        <BillItem key={item.id} userAuthenticationToken={userAuthenticationToken} backPage={props.backPage} navigation={props.navigation} id={item.id} name={item.title} date={item.date_added}
+        <BillItem key={item.id} userAuthenticationToken={userAuthenticationToken} backPage={props.backPage}
+                  navigation={props.navigation} id={item.id} name={item.title} date={item.date_added}
                   billDescription={item.description} likes={item.likes} dislikes={item.dislikes}
-                  shares={item.shares}/>
+                  shares={item.shares} mpVote={item.voted}/>
     );
 
     return (
@@ -58,7 +59,7 @@ function BillItem(props) {
         if (!userInteractions['liked']) {
             onUserInteraction(props.id, 'like', props.userAuthenticationToken);
             if (userInteractions['disliked']) {
-                setData({...data, dislikes: data.dislikes - 1, likes: data.likes+1})
+                setData({...data, dislikes: data.dislikes - 1, likes: data.likes + 1})
                 setUserInteractions({...userInteractions, disliked: false, liked: true});
                 onUserInteraction(props.id, 'undislike', props.userAuthenticationToken);
             } else {
@@ -76,7 +77,7 @@ function BillItem(props) {
         if (!userInteractions['disliked']) {
             onUserInteraction(props.id, 'dislike', props.userAuthenticationToken);
             if (userInteractions['liked']) {
-                setData({...data, dislikes: data.dislikes + 1, likes: data.likes-1})
+                setData({...data, dislikes: data.dislikes + 1, likes: data.likes - 1})
                 setUserInteractions({...userInteractions, disliked: true, liked: false});
                 onUserInteraction(props.id, 'unlike', props.userAuthenticationToken);
             } else {
@@ -133,13 +134,13 @@ function BillItem(props) {
                     </Pressable>
                     <Text style={styles.thumbsDownNumber}>{data.dislikes}</Text>
                 </View>
-                <View style={styles.sharesContainer}>
-                    <Text style={styles.shareNumber}>{data.shares}</Text>
-                    <Image style={styles.shareButton} source={share}/>
-                </View>
+                    <View style={styles.mpVotedStatus}>
+                        <Text style={styles.mpVotedText}>Your MP {data.mpVote}</Text>
+                    </View>
             </View>
         </View>
     )
+
     function onUserInteraction(billId, interaction, userAuthenticationToken) {
 
         //communicate the interaction with the backend here
