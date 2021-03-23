@@ -78,6 +78,7 @@ export default function BillDetails({route, navigation}) {
     } else {
         return (
         <SafeAreaView style={{flex: 1}}>
+            <ScrollView>
             <View>
                 <Text style={styles.pageTitle}>{billData.title}</Text>
             </View>
@@ -137,6 +138,7 @@ export default function BillDetails({route, navigation}) {
                     <Text style={styles.dislikesText}>{billData.dislikes}</Text>
                 </View>
             </View>
+            </ScrollView>
         </SafeAreaView>)
     }
 }

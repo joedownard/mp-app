@@ -51,10 +51,7 @@ export default function MpProfile({navigation}) {
         fetch("https://bills-app-305000.ew.r.appspot.com/bills/" + mp_id)
             .then((response) => response.text())
             .then((responseText) => {
-                let responseJson = responseText.replaceAll("\'", "\"")
-                responseJson = responseJson.replaceAll("None", "\"None\"")
-                responseJson = responseJson.substring(1, responseJson.length - 2)
-                responseJson = JSON.parse(responseJson)
+                let responseJson = JSON.parse(responseText)
                 updateMpVotesData(responseJson, mp_id)
             })
             .catch((error) => {
@@ -75,10 +72,6 @@ export default function MpProfile({navigation}) {
             .then((res) => res.text())
             .then((result) => {
                 let responseJson = JSON.parse(result)
-                responseJson = responseJson["success"]
-                responseJson = responseJson.replaceAll("\'", "\"")
-                responseJson = responseJson.replaceAll("None", "\"None\"")
-                responseJson = JSON.parse(responseJson)
 
                 let newBillsData = []
 

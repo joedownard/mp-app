@@ -19,19 +19,22 @@ export default function Bills({navigation}) {
     const [refreshing, setRefreshing] = React.useState(false);
 
     const onRefresh = React.useCallback(() => {
-        fetch("https://bills-app-305000.ew.r.appspot.com/bills")
-            .then((response) => response.text())
-            .then((responseText) => {
-                let responseJson = responseText.replaceAll("\'", "\"")
-                responseJson = responseJson.replaceAll("None", "\"None\"")
-                responseJson = responseJson.substring(1, responseJson.length-2)
-                responseJson = JSON.parse(responseJson)
-                console.log(responseJson)
-                setBillsData(responseJson);
-            })
-            .catch((error) => {
-                console.error(error);
-            });
+        const formdata = new FormData();
+        formdata.append("email", email)
+        formdata.append("session_token", userAuthenticationToken)
+
+        fetch('https://bills-app-305000.ew.r.appspot.com/local_mp', {
+            method: 'POST',
+            body: formdata
+        })
+            .then((res) => res.text())
+            .then((result) => {
+                let responseJson = JSON.parse(result)
+                setMpData(responseJson)
+                updateBillData(responseJson.mp_id)
+            }).catch((error) => {
+            console.error(error);
+        });
         setRefreshing(true);
         wait(500).then(() => setRefreshing(false));
     }, []);
@@ -59,10 +62,7 @@ export default function Bills({navigation}) {
         fetch("https://bills-app-305000.ew.r.appspot.com/bills")
             .then((response) => response.text())
             .then((responseText) => {
-                let responseJson = responseText.replaceAll("\'", "\"")
-                responseJson = responseJson.replaceAll("None", "\"None\"")
-                responseJson = responseJson.substring(1, responseJson.length - 2)
-                responseJson = JSON.parse(responseJson)
+                let responseJson = JSON.parse(responseText)
                 updateMpVotesData(responseJson, mp_id)
             })
             .catch((error) => {
@@ -84,10 +84,6 @@ export default function Bills({navigation}) {
             .then((res) => res.text())
             .then((result) => {
                 let responseJson = JSON.parse(result)
-                responseJson = responseJson["success"]
-                responseJson = responseJson.replaceAll("\'", "\"")
-                responseJson = responseJson.replaceAll("None", "\"None\"")
-                responseJson = JSON.parse(responseJson)
 
                 let newBillsData = []
 

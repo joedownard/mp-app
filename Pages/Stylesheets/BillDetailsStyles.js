@@ -5,6 +5,7 @@ export const styles = StyleSheet.create({
     pageTitleSection: {
         flexDirection: 'row',
         justifyContent: 'space-between',
+        textAlign: "center",
     },
 
     backButton: {
@@ -17,7 +18,8 @@ export const styles = StyleSheet.create({
     favouriteButton: {
         width: 25,
         height: 25,
-        marginTop: 5,
+        marginTop: 2,
+        marginBottom: 0,
         marginLeft: 5,
     },
 
@@ -32,7 +34,8 @@ export const styles = StyleSheet.create({
         textAlign: "center",
         fontSize: 28,
         fontWeight: '900',
-        marginLeft: 30,
+        marginLeft: 5,
+        marginRight: 5,
         marginTop: 20,
     },
 
@@ -75,7 +78,7 @@ export const styles = StyleSheet.create({
     },
 
     billStatusSection: {
-        marginTop: 30,
+        marginTop: 15,
         margin: 10,
     },
 
@@ -90,6 +93,7 @@ export const styles = StyleSheet.create({
     },
 
     billReactionSection: {
+        marginTop: -30,
         margin: 30,
         flexDirection: 'row',
         justifyContent: 'space-between',
