@@ -114,7 +114,7 @@ function BillItem(props) {
                         <Image style={styles.favouriteButton}
                                source={userInteractions['favourited'] ? favouriteFilled : favourite}/>
                     </Pressable>
-                    <Text style={styles.dateText}>{data.date}</Text>
+                    {/*<Text style={styles.dateText}>{data.date}</Text>*/}
                 </View>
             </View>
             <View style={styles.horizontalLine}/>

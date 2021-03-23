@@ -21,6 +21,13 @@ export const styles = StyleSheet.create({
         marginLeft: 5,
     },
 
+    link: {
+        marginTop: 20,
+        color: '#5099de',
+        fontSize: 28,
+        textAlign: "center"
+    },
+
     pageTitle: {
         textAlign: "center",
         fontSize: 28,

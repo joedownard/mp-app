@@ -1,4 +1,4 @@
-import {Image, Pressable, SafeAreaView, Text, View, ScrollView} from "react-native";
+import {Image, Pressable, SafeAreaView, Text, View, ScrollView, Linking} from "react-native";
 import {StatusBar} from "expo-status-bar";
 import React, {useEffect, useState} from "react";
 import {styles} from './Stylesheets/BillDetailsStyles.js';
@@ -26,12 +26,47 @@ export default function BillDetails({route, navigation}) {
         fetch("https://bills-app-305000.ew.r.appspot.com/bill/" + params.id)
             .then((response) => response.json())
             .then((responseJson) => {
-                console.log("Loaded!")
-                setBillData({...responseJson, likes: 0, dislikes: 0, date: "01/01/2020"})
+                setBillData({...responseJson, likes: 0, dislikes: 0})
             })
             .catch((error) => {
                 console.error(error);
             });
+    }
+
+    function toggleLike() {
+        if (!userInteractions['liked']) {
+            onUserInteraction(params.id, 'like', params.userAuthenticationToken);
+            if (userInteractions['disliked']) {
+                setBillData({...billData, dislikes: billData.dislikes - 1, likes: billData.likes + 1})
+                setUserInteractions({...userInteractions, disliked: false, liked: true});
+                onUserInteraction(params.id, 'undislike', params.userAuthenticationToken);
+            } else {
+                setBillData({...billData, likes: billData.likes + 1})
+                setUserInteractions({...userInteractions, liked: true});
+            }
+        } else {
+            setBillData({...billData, likes: billData.likes - 1})
+            setUserInteractions({...userInteractions, liked: false});
+            onUserInteraction(params.id, 'unlike', params.userAuthenticationToken);
+        }
+    }
+
+    function toggleDislike() {
+        if (!userInteractions['disliked']) {
+            onUserInteraction(params.id, 'dislike', params.userAuthenticationToken);
+            if (userInteractions['liked']) {
+                setBillData({...billData, dislikes: billData.dislikes + 1, likes: billData.likes - 1})
+                setUserInteractions({...userInteractions, disliked: true, liked: false});
+                onUserInteraction(params.id, 'unlike', params.userAuthenticationToken);
+            } else {
+                setBillData({...billData, dislikes: billData.dislikes + 1})
+                setUserInteractions({...userInteractions, disliked: true});
+            }
+        } else {
+            setBillData({...billData, dislikes: billData.dislikes - 1})
+            setUserInteractions({...userInteractions, disliked: false});
+            onUserInteraction(params.id, 'undislike', params.userAuthenticationToken);
+        }
     }
 
     if (!billData) {
@@ -63,9 +98,9 @@ export default function BillDetails({route, navigation}) {
                                    source={userInteractions['favourited'] ? favouriteFilled : favourite}/>
                         </Pressable>
                     </View>
-                    <View style={styles.billHeaderFavouriteDate}>
-                        <Text style={styles.billDescriptionDateText}>{billData.date_added}</Text>
-                    </View>
+                    {/*<View style={styles.billHeaderFavouriteDate}>*/}
+                    {/*    <Text style={styles.billDescriptionDateText}>{billData.date_added}</Text>*/}
+                    {/*</View>*/}
                 </View>
                 <View style={styles.horizontalLine}/>
                 <Text style={styles.billDescriptionText}>{billData.description}</Text>
@@ -73,8 +108,13 @@ export default function BillDetails({route, navigation}) {
 
 
             <View style={styles.billStatusSection}>
-                <Text style={styles.billStatusTitleText}>Bill Status</Text>
+                <Text style={styles.billStatusTitleText}>Bill Link</Text>
                 <View style={styles.horizontalLine}/>
+
+                <Text style={styles.link}
+                      onPress={() => Linking.openURL(billData.link)}>
+                    Link to {billData.title}
+                </Text>
             </View>
 
             <View style={styles.messageMPSection}>
@@ -83,34 +123,14 @@ export default function BillDetails({route, navigation}) {
 
             <View style={styles.billReactionSection}>
                 <View>
-                    <Pressable onPress={() => {
-                        if (!userInteractions['liked']) {
-                            setBillData({...billData, likes: billData.likes + 1})
-                            setUserInteractions({...userInteractions, liked: true});
-                            onUserInteraction(billData.id, 'like');
-                        } else {
-                            setBillData({...billData, likes: billData.likes - 1})
-                            setUserInteractions({...userInteractions, liked: false});
-                            onUserInteraction(billData.id, 'unlike');
-                        }
-                    }}>
+                    <Pressable onPress={() => toggleLike()}>
                         <Image style={styles.largeThumbsUp}
                                source={userInteractions['liked'] ? thumbsUpFilled : thumbsUp}/>
                     </Pressable>
                     <Text style={styles.likesText}>{billData.likes}</Text>
                 </View>
                 <View>
-                    <Pressable onPress={() => {
-                        if (!userInteractions['disliked']) {
-                            setBillData({...billData, dislikes: billData.dislikes + 1})
-                            setUserInteractions({...userInteractions, disliked: true});
-                            onUserInteraction(billData.id, 'dislike');
-                        } else {
-                            setBillData({...billData, dislikes: billData.dislikes - 1})
-                            setUserInteractions({...userInteractions, disliked: false});
-                            onUserInteraction(billData.id, 'undislike');
-                        }
-                    }}>
+                    <Pressable onPress={() => toggleDislike()}>
                         <Image style={styles.largeThumbsDown}
                                source={userInteractions['disliked'] ? thumbsDownFilled : thumbsDown}/>
                     </Pressable>

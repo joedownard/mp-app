@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {Text, View, Image, SafeAreaView, Button, TextInput, KeyboardAvoidingView, Platform} from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
 
@@ -7,27 +7,33 @@ import AuthContext from "../components/AuthContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {Picker} from "@react-native-picker/picker";
 
-
+const no_photo = require('../assets/no_photo.jpg')
 
 export default function MpMessage({ navigation, route }) {
 
     const mpData = route.params;
     const [messageValue, onChangeText] = React.useState();
-    const { userAuthenticationToken, email } = React.useContext(AuthContext);
+    const {userAuthenticationToken, email, postcodeUpdated, postcodeUpdateConfirm} = React.useContext(AuthContext);
+    const [searchValue, setSearchValue] = useState("Search for Bill")
+    const [billsData, setBillsData] = useState();
 
     return (
         <SafeAreaView style={{flex: 1}}>
             <View style={styles.mpInfoSection}>
-                <View style={{flexDirection: 'row'}}>
+                <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                     <View style={styles.textSection}>
-                        <Text style={styles.mpName}>{mpData.name}</Text>
-                        <Text style={styles.mpConstituency}>{mpData.constituency}</Text>
+                        <Text style={styles.mpName}>{mpData.first_name + " " + mpData.last_name}</Text>
+                        <Text style={styles.mpConstituency}>{mpData.area}</Text>
+
+                        <Text></Text>
                         <Text style={styles.contactDetailsTitle}>Contact Details</Text>
-                        <Text style={styles.mpPhoneNumber}>Phone: {mpData.phoneNumber}</Text>
-                        <Text style={styles.mpEmailAddress}>Email: {mpData.emailAddress}</Text>
+                        <Text style={styles.mpPhoneNumber}>{mpData.phone}</Text>
+                        <Text style={styles.mpEmailAddress}>{mpData.email}</Text>
                     </View>
                     <View>
-                        <Image style={styles.mpPicture} source={mpData.mpPicture}/>
+                        <Image style={styles.mpPicture} source={{
+                            uri: 'https://members-api.parliament.uk/api/Members/' + mpData.mp_id + '/Portrait?cropType=OneOne',
+                        }} defaultSource={no_photo}/>
                     </View>
                 </View>
                 <View style={styles.buttonContainer}>

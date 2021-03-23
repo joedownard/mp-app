@@ -49,6 +49,7 @@ export const styles = StyleSheet.create({
 
     favouriteButton: {
         marginRight: 10,
+        marginLeft: 5,
         marginTop: 2,
         width: 25,
         height: 25,
