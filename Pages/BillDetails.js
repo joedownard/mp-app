@@ -26,7 +26,8 @@ export default function BillDetails({route, navigation}) {
         fetch("https://bills-app-305000.ew.r.appspot.com/bill/" + params.id)
             .then((response) => response.json())
             .then((responseJson) => {
-                setBillData({...responseJson, likes: 0, dislikes: 0})
+                console.log(responseJson)
+                setBillData(responseJson)
             })
             .catch((error) => {
                 console.error(error);

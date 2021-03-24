@@ -38,9 +38,20 @@ export default function MpProfile({navigation}) {
             .then((response) => response.text())
             .then((responseText) => {
                 let responseJson = JSON.parse(responseText)
-                console.log(mpData)
-                setMpData({...mpData, phone: responseJson.value[0].phone})
-                console.log(responseJson.value[0].phone)
+                mpData.phone = responseJson.value[0].phone
+                getMpName(mpData, mp_id)
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }
+
+    function getMpName(mpData, mp_id) {
+        fetch("https://members-api.parliament.uk/api/Members/" + mp_id)
+            .then((response) => response.text())
+            .then((responseText) => {
+                let responseJson = JSON.parse(responseText)
+                setMpData({...mpData, name  : responseJson.value.nameAddressAs})
             })
             .catch((error) => {
                 console.error(error);
@@ -109,7 +120,7 @@ export default function MpProfile({navigation}) {
                     <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                         <View style={styles.textSection}>
 
-                            <Text style={styles.mpName}>{mpData.first_name + " " + mpData.last_name}</Text>
+                            <Text style={styles.mpName}>{mpData.name}</Text>
                             <Text style={styles.mpConstituency}>{mpData.area}</Text>
 
                             <Text></Text>
