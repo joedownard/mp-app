@@ -14,7 +14,7 @@ export default function Login({ route, navigation }) {
     const { signIn } = React.useContext(AuthContext);
 
     return (
-        <SafeAreaView style={{flex: 1}}>
+        <SafeAreaView style={{flex: 1, alignItems: "center"}}>
 
         <View style={styles.loginContainer}>
             <TextInput style={styles.textInput} value={emailAddress} onChangeText={text => setEmailAddress(text)}

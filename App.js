@@ -6,7 +6,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import * as Notifications from 'expo-notifications';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {SafeAreaView} from "react-native";
+import {Alert, SafeAreaView} from "react-native";
 import {Platform, StatusBar, StyleSheet} from 'react-native';
 import * as CryptoES from "crypto-es";
 
@@ -105,7 +105,21 @@ export default function App() {
                             dispatch({type: 'SIGN_IN', token: result["session_token"], email: data.emailAddress});
                         } else {
                             console.log(result["error"])
-                            alert(result["error"])
+
+                            let errorMessage = "Error"
+                            if (result["error"] === "new_email_error") {
+                                errorMessage = "No account exists for this email"
+                            }
+
+                            Alert.alert(
+                                "Error",
+                                errorMessage,
+                                [
+                                    { text: "OK", onPress: () => console.log("OK Pressed") }
+                                ],
+                                { cancelable: false }
+                            );
+
                         }
                     });
             },
@@ -127,7 +141,6 @@ export default function App() {
                             dispatch({type: 'SIGN_IN', token: token, email: email});
                         } else {
                             AsyncStorage.setItem('userAuthenticationToken', null)
-                            console.log(result["error"])
                             dispatch({type: 'SIGN_OUT'})
                         }
                     });
@@ -138,6 +151,7 @@ export default function App() {
                 dispatch({type: 'SIGN_OUT'})
             },
             signUp: async data => {
+
                 const salt = CryptoES.default.enc.Base64.parse('insightsalt');
                 const hashedPasswordWords = CryptoES.default.PBKDF2(data.password, salt, { keySize: 128/32 });
                 const hashedPassword = CryptoES.default.enc.Base64.stringify(hashedPasswordWords);
@@ -160,8 +174,28 @@ export default function App() {
                             AsyncStorage.setItem('userAuthenticationToken', result["session_token"])
                             dispatch({type: 'SIGN_IN', token: result["session_token"], email: data.emailAddress});
                         } else {
+                            let errorMessage = "Error"
+                            if (result["error"] === "password_error") {
+                                errorMessage = "Invalid password"
+                            } else if (result["error"] === "notification_token_error") {
+                                errorMessage = "There was an issue fetching your notification token"
+                            } else if (result["error"] === "postcode_error") {
+                                errorMessage = "Invalid postcode"
+                            } else if (result["error"] === "email_error") {
+                                errorMessage = "Invalid email"
+                            } else if (result["error"] === "email_in_use_error") {
+                                errorMessage = "That email is already in use"
+                            }
+
+                                Alert.alert(
+                                    "Error",
+                                    errorMessage,
+                                    [
+                                        { text: "OK", onPress: () => console.log("OK Pressed") }
+                                    ],
+                                    { cancelable: false }
+                                );
                             console.log(result["error"])
-                            alert(result["error"])
                         }
                     });
             },

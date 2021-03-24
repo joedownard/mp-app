@@ -1,4 +1,4 @@
-import {Text, View, SafeAreaView, TextInput, TouchableOpacity, Switch} from "react-native";
+import {Text, View, SafeAreaView, TextInput, TouchableOpacity, Switch, Alert} from "react-native";
 import React, {useState} from "react";
 import {styles} from './Stylesheets/PreferencesStyles.js';
 import AuthContext from "../components/AuthContext";
@@ -116,10 +116,24 @@ export default function Preferences( {navigation} ) {
                 .then((result) => {
                     console.log(result)
                     postcodeUpdate()
-                    alert("Success!")
+                    Alert.alert(
+                        "Success",
+                        "Postcode Updated",
+                        [
+                            { text: "OK", onPress: () => console.log("OK Pressed") }
+                        ],
+                        { cancelable: false }
+                    );
                 });
         } else {
-            alert("Postcode not valid!")
+            Alert.alert(
+                "Error",
+                "Invalid Postcode",
+                [
+                    { text: "OK", onPress: () => console.log("OK Pressed") }
+                ],
+                { cancelable: false }
+            );
         }
         //read postcode textbox
         //If user uncapitalises keyboard, next letter will not be capital
