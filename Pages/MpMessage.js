@@ -55,7 +55,7 @@ export default function MpMessage({ navigation, route }) {
                     globalTextStyle={{fontSize: 16, textAlign: "center"}}
                     defaultValue={'no_format'}
                     onChangeItem={
-                        item => onChangeText(updateFormat(item.value))
+                        item => onChangeText(updateFormat(item.value, mpData.name))
                     }/>
             </View>
             <View>
@@ -85,10 +85,10 @@ export default function MpMessage({ navigation, route }) {
     );
 }
 
-function updateFormat(item) {
+function updateFormat(item, name) {
     logButtonPress("Dropdown Menu: " + item)
     if (item === "simple_greeting") {
-        return "Dear Boris Johnson,\n\n\n\nKind Regards,\nyour local constituent."
+        return "Dear "+ name +",\n\n\n\nKind Regards,\nyour local constituent."
     }
 }
 
