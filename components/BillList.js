@@ -51,10 +51,6 @@ function BillItem(props) {
     const [data, setData] = useState(props);
     const [userInteractions, setUserInteractions] = useState({});
 
-    useEffect(() => {
-        setData(data)
-    }, []);
-
     function toggleLike() {
         if (!userInteractions['liked']) {
             onUserInteraction(props.id, 'like', props.userAuthenticationToken);
@@ -114,7 +110,7 @@ function BillItem(props) {
                         <Image style={styles.favouriteButton}
                                source={userInteractions['favourited'] ? favouriteFilled : favourite}/>
                     </Pressable>
-                    <Text style={styles.dateText}>{data.date}</Text>
+                    <Text style={styles.dateText}>{data.date !== "None" ? data.date : "Unknown"}</Text>
                 </View>
             </View>
             <View style={styles.horizontalLine}/>
