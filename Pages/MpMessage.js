@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Text, View, Image, SafeAreaView, Button, TextInput, KeyboardAvoidingView, Platform} from "react-native";
+import {Text, View, Image, SafeAreaView, Button, TextInput, KeyboardAvoidingView, Platform, Alert} from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
 
 import {styles} from './Stylesheets/MpMessageStyles.js';
@@ -75,7 +75,7 @@ export default function MpMessage({ navigation, route }) {
                         style={styles.messageButton}
                         color='#4d4d4d'
                         onPress={() => {
-                            message(messageValue, userAuthenticationToken, email)
+                            message(messageValue, userAuthenticationToken, email, mpData.name)
                             onChangeText("")
                         }}
                         title="Message"/>
@@ -97,7 +97,7 @@ function votingHistory(navigation) {
     navigation.goBack()
 }
 
-function message(messageText, userAuthenticationToken, email) {
+function message(messageText, userAuthenticationToken, email, name) {
     logButtonPress("Message");
 
     const formdata = new FormData();
@@ -113,9 +113,15 @@ function message(messageText, userAuthenticationToken, email) {
         .then((res) => res.text())
         .then((result) => {
             console.log(result)
+            Alert.alert(
+                "Success",
+                "Your message has been sent to " + name,
+                [
+                    { text: "OK", onPress: () => console.log("OK Pressed") }
+                ],
+                { cancelable: false }
+            );
         });
-
-    alert("Sent!")
 }
 
 function logButtonPress(button) {
