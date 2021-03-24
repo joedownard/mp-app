@@ -51,7 +51,7 @@ export default function MpProfile({navigation}) {
             .then((response) => response.text())
             .then((responseText) => {
                 let responseJson = JSON.parse(responseText)
-                setMpData({...mpData, name  : responseJson.value.nameAddressAs})
+                setMpData({...mpData, name  : responseJson.value.nameDisplayAs})
             })
             .catch((error) => {
                 console.error(error);
