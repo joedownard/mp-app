@@ -129,7 +129,7 @@ export function BillItem(props) {
             formdata.append("positive", positive)
 
             // Send the like/dislike/unlike interaction to the server
-            fetch('https://bills-app-305000.ew.r.appspot.com/add_vote', {
+            fetch('https://bills-app-305000.ew.r.appspot.com/set_user_vote', {
                 method: 'POST',
                 body: formdata
             })

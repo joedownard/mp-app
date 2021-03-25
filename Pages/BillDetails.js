@@ -170,7 +170,7 @@ function onUserInteraction(billId, interaction, userAuthenticationToken, email) 
         formdata.append("bill_id", billId)
         formdata.append("positive", positive)
 
-        fetch('https://bills-app-305000.ew.r.appspot.com/add_vote', {
+        fetch('https://bills-app-305000.ew.r.appspot.com/set_user_vote', {
             method: 'POST',
             body: formdata
         })
