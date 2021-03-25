@@ -1,5 +1,4 @@
 import {Button, SafeAreaView, Text, TextInput, View} from "react-native";
-import {StatusBar} from "expo-status-bar";
 import React, {useState} from "react";
 import {styles} from './Stylesheets/LoginStyles.js';
 

@@ -1,5 +1,4 @@
 import {Image, Pressable, SafeAreaView, Text, View, ScrollView, Linking} from "react-native";
-import {StatusBar} from "expo-status-bar";
 import React, {useEffect, useState} from "react";
 import {styles} from './Stylesheets/BillDetailsStyles.js';
 import AuthContext from "../components/AuthContext";

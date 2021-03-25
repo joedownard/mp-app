@@ -1,11 +1,9 @@
-import React, {useState} from "react";
-import {Text, View, Image, SafeAreaView, Button, TextInput, KeyboardAvoidingView, Platform, Alert} from "react-native";
+import React from "react";
+import {Text, View, Image, SafeAreaView, Button, TextInput, Alert} from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
 
 import {styles} from './Stylesheets/MpMessageStyles.js';
 import AuthContext from "../components/AuthContext";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import {Picker} from "@react-native-picker/picker";
 
 const no_photo = require('../assets/no_photo.jpg')
 
