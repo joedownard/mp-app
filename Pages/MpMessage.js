@@ -73,7 +73,7 @@ export default function MpMessage({ navigation, route }) {
                         style={styles.messageButton}
                         color='#4d4d4d'
                         onPress={() => {
-                            message(messageValue, userAuthenticationToken, email, mpData.name)
+                            message(messageValue, userAuthenticationToken, email, mpData.name, mpData.mp_id)
                             onChangeText("")
                         }}
                         title="Message"/>
@@ -95,15 +95,16 @@ function votingHistory(navigation) {
     navigation.goBack()
 }
 
-function message(messageText, userAuthenticationToken, email, name) {
+function message(messageText, userAuthenticationToken, email, name, mpId) {
     logButtonPress("Message");
 
     const formdata = new FormData();
     formdata.append("email", email)
     formdata.append("session_token", userAuthenticationToken)
-    formdata.append("mp_id", "6005")
+    formdata.append("mp_id", mpId)
     formdata.append("message", messageText)
 
+    // Send the message to the server
     fetch('https://bills-app-305000.ew.r.appspot.com/message', {
         method: 'POST',
         body: formdata

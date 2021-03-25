@@ -3,7 +3,6 @@ import React, {useEffect, useState} from "react";
 import {styles} from './Stylesheets/MpProfileStyles.js';
 import {BillList} from "../components/BillList";
 import AuthContext from "../components/AuthContext.js";
-import MpMessage from "./MpMessage.js";
 
 const no_photo = require('../assets/no_photo.jpg')
 
@@ -19,6 +18,7 @@ export default function MpProfile({navigation}) {
         formdata.append("email", email)
         formdata.append("session_token", userAuthenticationToken)
 
+        // Gets the local mp for the user
         fetch('https://bills-app-305000.ew.r.appspot.com/local_mp', {
             method: 'POST',
             body: formdata
@@ -36,6 +36,7 @@ export default function MpProfile({navigation}) {
     }, [postcodeUpdated]);
 
     function getMpPhoneNumber(mpData, mp_id) {
+        // Get the mps phone number
         fetch("https://members-api.parliament.uk/api/Members/" + mp_id + "/Contact")
             .then((response) => response.text())
             .then((responseText) => {
@@ -49,6 +50,7 @@ export default function MpProfile({navigation}) {
     }
 
     function getMpName(mpData, mp_id) {
+        // Gets the mps name
         fetch("https://members-api.parliament.uk/api/Members/" + mp_id)
             .then((response) => response.text())
             .then((responseText) => {
@@ -66,6 +68,7 @@ export default function MpProfile({navigation}) {
         formdata.append("session_token", userAuthenticationToken)
         formdata.append("mp_id", mp_id)
 
+        // Gets the bills that the mp has voted on
         fetch('https://bills-app-305000.ew.r.appspot.com/get_mp_bills', {
             method: 'POST',
             body: formdata
@@ -82,13 +85,13 @@ export default function MpProfile({navigation}) {
             });
     }
 
-
     function updateMpVotesData(data, mp_id) {
         const formdata = new FormData();
         formdata.append("email", email)
         formdata.append("session_token", userAuthenticationToken)
         formdata.append("mp_id", mp_id)
 
+        // Get a dictionary of how the mp voted on bills
         fetch('https://bills-app-305000.ew.r.appspot.com/get_mp_votes', {
             method: 'POST',
             body: formdata

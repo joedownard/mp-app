@@ -12,9 +12,6 @@ const thumbsDownFilled = require('../assets/large_thumbs_down_filled.png');
 const favourite = require('../assets/favourite_icon.png');
 const favouriteFilled = require('../assets/favourite_icon_filled.png');
 
-const share = require('../assets/share_icon.png')
-const back = require('../assets/back_button_icon.png')
-
 export default function BillDetails({route, navigation}) {
 
     const params = route.params;
@@ -48,6 +45,7 @@ export default function BillDetails({route, navigation}) {
             });
     }, []);
 
+    // Toggle Like on/off (Toggle dislike off too if that is on)
     function toggleLike() {
         if (!userInteractions['liked']) {
             if (userInteractions['disliked']) {
@@ -178,7 +176,7 @@ function onUserInteraction(billId, interaction, userAuthenticationToken, email) 
         })
             .then((res) => res.json())
             .then((responseJson) => {
-                console.log(responseJson)
+                // If the session token has expired sign the user out
                 if (responseJson["error"]) {
                     if (responseJson["error"] === "invalid_credentials") signOut()
                 }

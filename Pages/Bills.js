@@ -13,39 +13,28 @@ const wait = (timeout) => {
 export default function Bills({navigation}) {
 
     const [billsData, setBillsData] = useState()
-    const [mpData, setMpData] = useState()
     const [searchValue, setSearchValue] = useState("Search for Bill")
     const {userAuthenticationToken, email} = React.useContext(AuthContext);
     const [refreshing, setRefreshing] = React.useState(false);
 
     const onRefresh = React.useCallback(() => {
-        const formdata = new FormData();
-        formdata.append("email", email)
-        formdata.append("session_token", userAuthenticationToken)
-
-        fetch('https://bills-app-305000.ew.r.appspot.com/local_mp', {
-            method: 'POST',
-            body: formdata
-        })
-            .then((res) => res.json())
-            .then((responseJson) => {
-                if (responseJson["error"]) {
-                    if (responseJson["error"] === "invalid_credentials") signOut()
-                }
-                setMpData(responseJson)
-                updateBillData(responseJson.mp_id)
-            }).catch((error) => {
-            console.error(error);
-        });
+        // Refresh bills on drag down
+        getLocalMp()
         setRefreshing(true);
         wait(500).then(() => setRefreshing(false));
     }, []);
 
     useEffect(() => {
+        // Get local MP from the server and then get bills
+        getLocalMp()
+    }, []);
+
+    function getLocalMp() {
         const formdata = new FormData();
         formdata.append("email", email)
         formdata.append("session_token", userAuthenticationToken)
 
+        // Get the local mp from the server
         fetch('https://bills-app-305000.ew.r.appspot.com/local_mp', {
             method: 'POST',
             body: formdata
@@ -55,18 +44,18 @@ export default function Bills({navigation}) {
                 if (responseJson["error"]) {
                     if (responseJson["error"] === "invalid_credentials") signOut()
                 }
-                setMpData(responseJson)
                 updateBillData(responseJson.mp_id)
             }).catch((error) => {
             console.error(error);
         });
-    }, []);
+    }
 
     function updateBillData(mp_id) {
         const formdata = new FormData();
         formdata.append("email", email)
         formdata.append("session_token", userAuthenticationToken)
 
+        // Get the list of bills from the server
         fetch('https://bills-app-305000.ew.r.appspot.com/get_bills', {
             method: 'POST',
             body: formdata
@@ -90,6 +79,7 @@ export default function Bills({navigation}) {
         formdata.append("session_token", userAuthenticationToken)
         formdata.append("mp_id", mp_id)
 
+        // Get a dictionary of how the local mp voted from the server
         fetch('https://bills-app-305000.ew.r.appspot.com/get_mp_votes', {
             method: 'POST',
             body: formdata

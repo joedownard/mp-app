@@ -108,6 +108,7 @@ export default function Preferences( {navigation} ) {
             formdata.append("session_token", userAuthenticationToken)
             formdata.append("postcode", value)
 
+            // Send the new postcode to the server
             fetch('https://bills-app-305000.ew.r.appspot.com/update_postcode', {
                 method: 'POST',
                 body: formdata
@@ -137,15 +138,14 @@ export default function Preferences( {navigation} ) {
                 { cancelable: false }
             );
         }
-        //read postcode textbox
-        //If user uncapitalises keyboard, next letter will not be capital
-        //So ensure text read is converted using .ToUpperCase()
 
     }
 }
 
 
 function valid_postcode(postcode) {
+
+    // Check if the postcode is valid
     if (postcode) {
         postcode = postcode.replace(/\s/g, "");
         var regex = /^[A-Z]{1,2}[0-9]{1,2} ?[0-9][A-Z]{2}$/i;
