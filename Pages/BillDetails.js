@@ -37,7 +37,7 @@ export default function BillDetails({route, navigation}) {
                 if (responseJson["error"]) {
                     if (responseJson["error"] === "invalid_credentials") signOut()
                 }
-                setUserInteractions({...userInteractions, disliked: responseJson.like_state === 0, liked: responseJson.like_state === 1})
+                setUserInteractions({...userInteractions, disliked: responseJson.user_vote === 0, liked: responseJson.user_vote === 1})
                 setBillData(responseJson)
             })
             .catch((error) => {

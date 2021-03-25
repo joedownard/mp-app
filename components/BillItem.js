@@ -15,8 +15,8 @@ export function BillItem(props) {
     const {userAuthenticationToken, email} = React.useContext(AuthContext);
     const [data, setData] = useState(props);
     const [userInteractions, setUserInteractions] = useState({
-        disliked: props.like_state === 0,
-        liked: props.like_state === 1
+        disliked: props.user_vote === 0,
+        liked: props.user_vote === 1
     });
 
     // Toggle Like on/off (Toggle dislike off too if that is on)

@@ -29,7 +29,7 @@ export function BillList(props) {
     const billItemList = data.map((item) =>
         <BillItem key={item.id} userAuthenticationToken={userAuthenticationToken} email={email} backPage={props.backPage}
                   navigation={props.navigation} id={item.id} name={item.title} date={item.date_added}
-                  billDescription={item.short_desc} likes={item.likes} dislikes={item.dislikes} mpVote={item.voted} like_state={item.like_state}/>
+                  billDescription={item.short_desc} likes={item.likes} dislikes={item.dislikes} mpVote={item.voted} user_vote={item.user_vote}/>
     );
 
     return (

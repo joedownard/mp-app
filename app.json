@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "mp-app",
+    "name": "Insight",
     "slug": "mp-app",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -18,7 +18,7 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.joehd.mp-app"
+      "bundleIdentifier": "com.joehd.Insight"
     },
     "android": {
       "adaptiveIcon": {
@@ -29,7 +29,7 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "description": "",
+    "description": "Bill tracking app for the masses!",
     "githubUrl": "https://github.com/joedownard"
   }
 }
