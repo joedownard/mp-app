@@ -3,7 +3,7 @@ import React, {useState} from "react";
 import {styles} from './Stylesheets/SignupStyles.js';
 import AuthContext from "../components/AuthContext";
 
-import terms_and_conditions from "../components/terms_and_conditions";
+import terms_and_conditions from "../assets/terms_and_conditions";
 
 export default function Signup({navigation}) {
     const [firstName, setFirstName] = useState("First Name")
