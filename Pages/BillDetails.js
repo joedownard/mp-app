@@ -20,7 +20,7 @@ export default function BillDetails({route, navigation}) {
     const params = route.params;
 
     const [userInteractions, setUserInteractions] = useState({});
-    const {userAuthenticationToken, email} = React.useContext(AuthContext);
+    const {userAuthenticationToken, email, signOut} = React.useContext(AuthContext);
     const [billData, setBillData] = useState()
 
 
@@ -36,13 +36,15 @@ export default function BillDetails({route, navigation}) {
         })
             .then((response) => response.json())
             .then((responseJson) => {
-                console.log(responseJson)
+                if (responseJson["error"]) {
+                    if (responseJson["error"] === "invalid_credentials") signOut()
+                }
                 setBillData(responseJson)
             })
             .catch((error) => {
                 console.error(error);
             });
-    })
+    }, []);
 
     function toggleLike() {
         if (!userInteractions['liked']) {

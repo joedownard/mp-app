@@ -112,9 +112,11 @@ export default function Preferences( {navigation} ) {
                 method: 'POST',
                 body: formdata
             })
-                .then((res) => res.text())
-                .then((result) => {
-                    console.log(result)
+                .then((res) => res.json())
+                .then((responseJson) => {
+                    if (responseJson["error"]) {
+                        if (responseJson["error"] === "invalid_credentials") signOut()
+                    }
                     postcodeUpdate()
                     Alert.alert(
                         "Success",

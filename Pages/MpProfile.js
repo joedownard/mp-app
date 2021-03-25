@@ -9,7 +9,7 @@ const no_photo = require('../assets/no_photo.jpg')
 
 export default function MpProfile({navigation}) {
 
-    const {userAuthenticationToken, email, postcodeUpdated, postcodeUpdateConfirm} = React.useContext(AuthContext);
+    const {userAuthenticationToken, email, postcodeUpdated} = React.useContext(AuthContext);
     const [mpData, setMpData] = useState()
     const [searchValue, setSearchValue] = useState("Search for Bill")
     const [billsData, setBillsData] = useState();
@@ -23,9 +23,11 @@ export default function MpProfile({navigation}) {
             method: 'POST',
             body: formdata
         })
-            .then((res) => res.text())
-            .then((result) => {
-                let responseJson = JSON.parse(result)
+            .then((res) => res.json())
+            .then((responseJson) => {
+                if (responseJson["error"]) {
+                    if (responseJson["error"] === "invalid_credentials") signOut()
+                }
                 getMpPhoneNumber(responseJson, responseJson.mp_id)
                 updateBillData(responseJson.mp_id)
             }).catch((error) => {
@@ -68,9 +70,11 @@ export default function MpProfile({navigation}) {
             method: 'POST',
             body: formdata
         })
-            .then((response) => response.text())
-            .then((responseText) => {
-                let responseJson = JSON.parse(responseText)
+            .then((response) => response.json())
+            .then((responseJson) => {
+                if (responseJson["error"]) {
+                    if (responseJson["error"] === "invalid_credentials") signOut()
+                }
                 updateMpVotesData(responseJson, mp_id)
             })
             .catch((error) => {
@@ -89,9 +93,11 @@ export default function MpProfile({navigation}) {
             method: 'POST',
             body: formdata
         })
-            .then((res) => res.text())
-            .then((result) => {
-                let responseJson = JSON.parse(result)
+            .then((res) => res.json())
+            .then((responseJson) => {
+                if (responseJson["error"]) {
+                    if (responseJson["error"] === "invalid_credentials") signOut()
+                }
 
                 let newBillsData = []
 

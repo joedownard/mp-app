@@ -23,7 +23,7 @@ export function BillList(props) {
         if (props.searchTerm !== "") {
             let tempData = []
             props.data.forEach((item) => {
-                if (item.title.toUpperCase().includes(props.searchTerm.toUpperCase()) || item.description.toUpperCase().includes(props.searchTerm.toUpperCase())) {
+                if (item.title.toUpperCase().includes(props.searchTerm.toUpperCase()) || item.short_desc.toUpperCase().includes(props.searchTerm.toUpperCase())) {
                     tempData.push(item)
                 }
             })

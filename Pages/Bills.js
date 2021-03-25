@@ -27,9 +27,11 @@ export default function Bills({navigation}) {
             method: 'POST',
             body: formdata
         })
-            .then((res) => res.text())
-            .then((result) => {
-                let responseJson = JSON.parse(result)
+            .then((res) => res.json())
+            .then((responseJson) => {
+                if (responseJson["error"]) {
+                    if (responseJson["error"] === "invalid_credentials") signOut()
+                }
                 setMpData(responseJson)
                 updateBillData(responseJson.mp_id)
             }).catch((error) => {
@@ -48,9 +50,11 @@ export default function Bills({navigation}) {
             method: 'POST',
             body: formdata
         })
-            .then((res) => res.text())
-            .then((result) => {
-                let responseJson = JSON.parse(result)
+            .then((res) => res.json())
+            .then((responseJson) => {
+                if (responseJson["error"]) {
+                    if (responseJson["error"] === "invalid_credentials") signOut()
+                }
                 setMpData(responseJson)
                 updateBillData(responseJson.mp_id)
             }).catch((error) => {
@@ -67,9 +71,11 @@ export default function Bills({navigation}) {
             method: 'POST',
             body: formdata
         })
-            .then((response) => response.text())
-            .then((responseText) => {
-                let responseJson = JSON.parse(responseText)
+            .then((response) => response.json())
+            .then((responseJson) => {
+                if (responseJson["error"]) {
+                    if (responseJson["error"] === "invalid_credentials") signOut()
+                }
                 updateMpVotesData(responseJson, mp_id)
             })
             .catch((error) => {
@@ -88,9 +94,11 @@ export default function Bills({navigation}) {
             method: 'POST',
             body: formdata
         })
-            .then((res) => res.text())
-            .then((result) => {
-                let responseJson = JSON.parse(result)
+            .then((res) => res.json())
+            .then((responseJson) => {
+                if (responseJson["error"]) {
+                    if (responseJson["error"] === "invalid_credentials") signOut()
+                }
 
                 let newBillsData = []
 

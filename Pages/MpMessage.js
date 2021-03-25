@@ -13,9 +13,7 @@ export default function MpMessage({ navigation, route }) {
 
     const mpData = route.params;
     const [messageValue, onChangeText] = React.useState();
-    const {userAuthenticationToken, email, postcodeUpdated, postcodeUpdateConfirm} = React.useContext(AuthContext);
-    const [searchValue, setSearchValue] = useState("Search for Bill")
-    const [billsData, setBillsData] = useState();
+    const {userAuthenticationToken, email} = React.useContext(AuthContext);
 
     return (
         <SafeAreaView style={{flex: 1}}>
