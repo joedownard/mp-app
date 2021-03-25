@@ -1,6 +1,13 @@
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
+    loadingDataText: {
+        textAlign: "center",
+        fontSize: 28,
+        fontWeight: '900',
+        marginTop: 10,
+    },
+
     pageTitleSection: {
     },
 

@@ -1,4 +1,4 @@
-import {Text, View, Image, ScrollView, SafeAreaView, Button, TextInput} from "react-native";
+import {Text, View, Image, ScrollView, SafeAreaView, Button, TextInput, RefreshControl} from "react-native";
 import React, {useEffect, useState} from "react";
 import {styles} from './Stylesheets/MpProfileStyles.js';
 import {BillList} from "../components/BillList";
@@ -6,14 +6,30 @@ import AuthContext from "../components/AuthContext.js";
 
 const no_photo = require('../assets/no_photo.jpg')
 
+const wait = (timeout) => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+}
+
 export default function MpProfile({navigation}) {
 
     const {userAuthenticationToken, email, postcodeUpdated} = React.useContext(AuthContext);
     const [mpData, setMpData] = useState()
     const [searchValue, setSearchValue] = useState("Search for Bill")
     const [billsData, setBillsData] = useState();
+    const [refreshing, setRefreshing] = React.useState(false);
+
+    const onRefresh = React.useCallback(() => {
+        // Refresh bills on drag down
+        getLocalMp()
+        setRefreshing(true);
+        wait(500).then(() => setRefreshing(false));
+    }, []);
 
     useEffect(() => {
+        getLocalMp()
+    }, [postcodeUpdated]);
+
+    function getLocalMp() {
         const formdata = new FormData();
         formdata.append("email", email)
         formdata.append("session_token", userAuthenticationToken)
@@ -33,7 +49,7 @@ export default function MpProfile({navigation}) {
             }).catch((error) => {
             console.error(error);
         });
-    }, [postcodeUpdated]);
+    }
 
     function getMpPhoneNumber(mpData, mp_id) {
         // Get the mps phone number
@@ -132,7 +148,14 @@ export default function MpProfile({navigation}) {
 
             {!mpData ? (
                 <SafeAreaView style={{flex: 1}}>
-                    <Text style={styles.loadingDataText}>Loading Data</Text>
+                    <ScrollView contentContainerStyle={styles.scrollView}
+                                refreshControl={
+                                    <RefreshControl
+                                        refreshing={refreshing}
+                                        onRefresh={onRefresh}
+                                    />}>
+                        <Text style={styles.loadingDataText}>Loading Data</Text>
+                    </ScrollView>
                 </SafeAreaView>
             ) : (
                 <View style={styles.mpInfoSection}>
@@ -184,7 +207,14 @@ export default function MpProfile({navigation}) {
             <ScrollView style={styles.mpBillsSection}>
                 {!billsData ? (
                     <SafeAreaView style={{flex: 1}}>
-                        <Text style={styles.loadingDataText}>Loading Data</Text>
+                        <ScrollView contentContainerStyle={styles.scrollView}
+                                    refreshControl={
+                                        <RefreshControl
+                                            refreshing={refreshing}
+                                            onRefresh={onRefresh}
+                                        />}>
+                            <Text style={styles.loadingDataText}>Loading Data</Text>
+                        </ScrollView>
                     </SafeAreaView>
                 ) : (
                     <BillList data={billsData} navigation={navigation} backPage={"MP Profile"}
