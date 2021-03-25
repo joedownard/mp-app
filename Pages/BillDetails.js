@@ -2,6 +2,7 @@ import {Image, Pressable, SafeAreaView, Text, View, ScrollView, Linking} from "r
 import {StatusBar} from "expo-status-bar";
 import React, {useEffect, useState} from "react";
 import {styles} from './Stylesheets/BillDetailsStyles.js';
+import AuthContext from "../components/AuthContext";
 
 
 const thumbsUp = require('../assets/large_thumbs_up.png');
@@ -19,11 +20,20 @@ export default function BillDetails({route, navigation}) {
     const params = route.params;
 
     const [userInteractions, setUserInteractions] = useState({});
+    const {userAuthenticationToken, email} = React.useContext(AuthContext);
     const [billData, setBillData] = useState()
 
 
-    if (!billData) {
-        fetch("https://bills-app-305000.ew.r.appspot.com/bill/" + params.id)
+    useEffect(() => {
+        const formdata = new FormData();
+        formdata.append("email", email)
+        formdata.append("session_token", userAuthenticationToken)
+        formdata.append("bill_id", params.id)
+
+        fetch('https://bills-app-305000.ew.r.appspot.com/get_bill', {
+            method: 'POST',
+            body: formdata
+        })
             .then((response) => response.json())
             .then((responseJson) => {
                 console.log(responseJson)
@@ -32,7 +42,7 @@ export default function BillDetails({route, navigation}) {
             .catch((error) => {
                 console.error(error);
             });
-    }
+    })
 
     function toggleLike() {
         if (!userInteractions['liked']) {
@@ -105,7 +115,7 @@ export default function BillDetails({route, navigation}) {
                     {/*</View>*/}
                 </View>
                 <View style={styles.horizontalLine}/>
-                <Text style={styles.billDescriptionText}>{billData.description}</Text>
+                <Text style={styles.billDescriptionText}>{billData.short_desc}</Text>
             </View>
 
 

@@ -33,7 +33,7 @@ export default function MpProfile({navigation}) {
         });
     }, [postcodeUpdated]);
 
-    function getMpPhoneNumber (mpData, mp_id) {
+    function getMpPhoneNumber(mpData, mp_id) {
         fetch("https://members-api.parliament.uk/api/Members/" + mp_id + "/Contact")
             .then((response) => response.text())
             .then((responseText) => {
@@ -51,7 +51,7 @@ export default function MpProfile({navigation}) {
             .then((response) => response.text())
             .then((responseText) => {
                 let responseJson = JSON.parse(responseText)
-                setMpData({...mpData, name  : responseJson.value.nameDisplayAs})
+                setMpData({...mpData, name: responseJson.value.nameDisplayAs})
             })
             .catch((error) => {
                 console.error(error);
@@ -59,7 +59,15 @@ export default function MpProfile({navigation}) {
     }
 
     function updateBillData(mp_id) {
-        fetch("https://bills-app-305000.ew.r.appspot.com/bills/" + mp_id)
+        const formdata = new FormData();
+        formdata.append("email", email)
+        formdata.append("session_token", userAuthenticationToken)
+        formdata.append("mp_id", mp_id)
+
+        fetch('https://bills-app-305000.ew.r.appspot.com/get_mp_bills', {
+            method: 'POST',
+            body: formdata
+        })
             .then((response) => response.text())
             .then((responseText) => {
                 let responseJson = JSON.parse(responseText)
@@ -70,13 +78,14 @@ export default function MpProfile({navigation}) {
             });
     }
 
+
     function updateMpVotesData(data, mp_id) {
         const formdata = new FormData();
         formdata.append("email", email)
         formdata.append("session_token", userAuthenticationToken)
         formdata.append("mp_id", mp_id)
 
-        fetch('https://bills-app-305000.ew.r.appspot.com/mp_bills', {
+        fetch('https://bills-app-305000.ew.r.appspot.com/get_mp_votes', {
             method: 'POST',
             body: formdata
         })
@@ -86,6 +95,7 @@ export default function MpProfile({navigation}) {
 
                 let newBillsData = []
 
+                // Mark which bills the MP voted on and which way they voted
                 data.forEach((bill) => {
                     let newBill = bill
                     responseJson.forEach((voteBill) => {

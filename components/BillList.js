@@ -36,7 +36,7 @@ export function BillList(props) {
     const billItemList = data.map((item) =>
         <BillItem key={item.id} userAuthenticationToken={userAuthenticationToken} backPage={props.backPage}
                   navigation={props.navigation} id={item.id} name={item.title} date={item.date_added}
-                  billDescription={item.description} likes={item.likes} dislikes={item.dislikes}
+                  billDescription={item.short_desc} likes={item.likes} dislikes={item.dislikes}
                   shares={item.shares} mpVote={item.voted}/>
     );
 
