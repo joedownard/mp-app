@@ -107,7 +107,6 @@ export default function Bills({navigation}) {
                     let newBill = bill
                     responseJson.forEach((voteBill) => {
                         if (voteBill.id === bill.id) {
-                            console.log(voteBill.id)
                             if (voteBill["positive"]) {
                                 newBill.voted = "voted YES"
                             } else {

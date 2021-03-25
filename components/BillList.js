@@ -14,7 +14,7 @@ const favouriteFilled = require('../assets/favourite_icon_filled.png');
 const share = require('../assets/share_icon.png')
 
 export function BillList(props) {
-    const {userAuthenticationToken} = React.useContext(AuthContext);
+    const {userAuthenticationToken, email} = React.useContext(AuthContext);
 
     // Create a bill listing for every bill in the dataset
     const [data, setData] = useState(props.data)
@@ -34,10 +34,10 @@ export function BillList(props) {
     }, [props.data, props.searchTerm]);
 
     const billItemList = data.map((item) =>
-        <BillItem key={item.id} userAuthenticationToken={userAuthenticationToken} backPage={props.backPage}
+        <BillItem key={item.id} userAuthenticationToken={userAuthenticationToken} email={email} backPage={props.backPage}
                   navigation={props.navigation} id={item.id} name={item.title} date={item.date_added}
                   billDescription={item.short_desc} likes={item.likes} dislikes={item.dislikes}
-                  shares={item.shares} mpVote={item.voted}/>
+                  shares={item.shares} mpVote={item.voted} like_state={item.like_state}/>
     );
 
     return (
@@ -49,41 +49,41 @@ export function BillList(props) {
 
 function BillItem(props) {
     const [data, setData] = useState(props);
-    const [userInteractions, setUserInteractions] = useState({});
+    const [userInteractions, setUserInteractions] = useState({disliked: props.like_state === 0, liked: props.like_state === 1});
 
     function toggleLike() {
         if (!userInteractions['liked']) {
-            onUserInteraction(props.id, 'like', props.userAuthenticationToken);
             if (userInteractions['disliked']) {
                 setData({...data, dislikes: data.dislikes - 1, likes: data.likes + 1})
                 setUserInteractions({...userInteractions, disliked: false, liked: true});
-                onUserInteraction(props.id, 'undislike', props.userAuthenticationToken);
+                onUserInteraction(props.id, 'like', props.userAuthenticationToken, props.email);
             } else {
                 setData({...data, likes: data.likes + 1})
                 setUserInteractions({...userInteractions, liked: true});
+                onUserInteraction(props.id, 'like', props.userAuthenticationToken, props.email);
             }
         } else {
             setData({...data, likes: data.likes - 1})
             setUserInteractions({...userInteractions, liked: false});
-            onUserInteraction(props.id, 'unlike', props.userAuthenticationToken);
+            onUserInteraction(props.id, 'unlike', props.userAuthenticationToken, props.email);
         }
     }
 
     function toggleDislike() {
         if (!userInteractions['disliked']) {
-            onUserInteraction(props.id, 'dislike', props.userAuthenticationToken);
             if (userInteractions['liked']) {
                 setData({...data, dislikes: data.dislikes + 1, likes: data.likes - 1})
                 setUserInteractions({...userInteractions, disliked: true, liked: false});
-                onUserInteraction(props.id, 'unlike', props.userAuthenticationToken);
+                onUserInteraction(props.id, 'dislike', props.userAuthenticationToken, props.email);
             } else {
                 setData({...data, dislikes: data.dislikes + 1})
                 setUserInteractions({...userInteractions, disliked: true});
+                onUserInteraction(props.id, 'dislike', props.userAuthenticationToken, props.email);
             }
         } else {
             setData({...data, dislikes: data.dislikes - 1})
             setUserInteractions({...userInteractions, disliked: false});
-            onUserInteraction(props.id, 'undislike', props.userAuthenticationToken);
+            onUserInteraction(props.id, 'undislike', props.userAuthenticationToken, props.email);
         }
     }
 
@@ -101,10 +101,10 @@ function BillItem(props) {
                     <Pressable onPress={() => {
                         if (!userInteractions['favourited']) {
                             setUserInteractions({...userInteractions, favourited: true});
-                            onUserInteraction(props.id, 'favourite');
+                            onUserInteraction(props.id, 'favourite', props.userAuthenticationToken, props.email);
                         } else {
                             setUserInteractions({...userInteractions, favourited: false});
-                            onUserInteraction(props.id, 'unfavourite');
+                            onUserInteraction(props.id, 'unfavourite', props.userAuthenticationToken, props.email);
                         }
                     }}>
                         <Image style={styles.favouriteButton}
@@ -137,7 +137,38 @@ function BillItem(props) {
         </View>
     )
 
-    function onUserInteraction(billId, interaction, userAuthenticationToken) {
+    function onUserInteraction(billId, interaction, userAuthenticationToken, email) {
+
+        if (interaction === "like" || interaction === "unlike" || interaction === "dislike" || interaction === "undislike") {
+            let positive;
+            if (interaction === "like") {
+                positive = 1
+            } else if (interaction === "dislike") {
+                positive = 0
+            } else if (interaction === "unlike" || interaction === "undislike") {
+                positive = 2
+            }
+
+            const formdata = new FormData();
+            formdata.append("email", email)
+            formdata.append("session_token", userAuthenticationToken)
+            formdata.append("bill_id", billId)
+            formdata.append("positive", positive)
+
+            fetch('https://bills-app-305000.ew.r.appspot.com/add_vote', {
+                method: 'POST',
+                body: formdata
+            })
+                .then((res) => res.json())
+                .then((responseJson) => {
+                    console.log(responseJson)
+                    if (responseJson["error"]) {
+                        if (responseJson["error"] === "invalid_credentials") signOut()
+                    }
+                }).catch((error) => {
+                console.error(error);
+            });
+        }
 
         //communicate the interaction with the backend here
         console.log(`User with token ${userAuthenticationToken} performed interaction ${interaction} on bill with id ${billId}`)

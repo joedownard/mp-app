@@ -36,9 +36,11 @@ export default function BillDetails({route, navigation}) {
         })
             .then((response) => response.json())
             .then((responseJson) => {
+                console.log(responseJson)
                 if (responseJson["error"]) {
                     if (responseJson["error"] === "invalid_credentials") signOut()
                 }
+                setUserInteractions({...userInteractions, disliked: responseJson.like_state === 0, liked: responseJson.like_state === 1})
                 setBillData(responseJson)
             })
             .catch((error) => {
@@ -48,37 +50,37 @@ export default function BillDetails({route, navigation}) {
 
     function toggleLike() {
         if (!userInteractions['liked']) {
-            onUserInteraction(params.id, 'like', params.userAuthenticationToken);
             if (userInteractions['disliked']) {
                 setBillData({...billData, dislikes: billData.dislikes - 1, likes: billData.likes + 1})
                 setUserInteractions({...userInteractions, disliked: false, liked: true});
-                onUserInteraction(params.id, 'undislike', params.userAuthenticationToken);
+                onUserInteraction(params.id, 'like', userAuthenticationToken, email);
             } else {
                 setBillData({...billData, likes: billData.likes + 1})
                 setUserInteractions({...userInteractions, liked: true});
+                onUserInteraction(params.id, 'like', userAuthenticationToken, email);
             }
         } else {
             setBillData({...billData, likes: billData.likes - 1})
             setUserInteractions({...userInteractions, liked: false});
-            onUserInteraction(params.id, 'unlike', params.userAuthenticationToken);
+            onUserInteraction(params.id, 'unlike', userAuthenticationToken, email);
         }
     }
 
     function toggleDislike() {
         if (!userInteractions['disliked']) {
-            onUserInteraction(params.id, 'dislike', params.userAuthenticationToken);
             if (userInteractions['liked']) {
                 setBillData({...billData, dislikes: billData.dislikes + 1, likes: billData.likes - 1})
                 setUserInteractions({...userInteractions, disliked: true, liked: false});
-                onUserInteraction(params.id, 'unlike', params.userAuthenticationToken);
+                onUserInteraction(params.id, 'dislike', userAuthenticationToken, email);
             } else {
                 setBillData({...billData, dislikes: billData.dislikes + 1})
                 setUserInteractions({...userInteractions, disliked: true});
+                onUserInteraction(params.id, 'dislike', userAuthenticationToken, email);
             }
         } else {
             setBillData({...billData, dislikes: billData.dislikes - 1})
             setUserInteractions({...userInteractions, disliked: false});
-            onUserInteraction(params.id, 'undislike', params.userAuthenticationToken);
+            onUserInteraction(params.id, 'undislike', userAuthenticationToken, email);
         }
     }
 
@@ -112,9 +114,6 @@ export default function BillDetails({route, navigation}) {
                                    source={userInteractions['favourited'] ? favouriteFilled : favourite}/>
                         </Pressable>
                     </View>
-                    {/*<View style={styles.billHeaderFavouriteDate}>*/}
-                    {/*    <Text style={styles.billDescriptionDateText}>{billData.date_added}</Text>*/}
-                    {/*</View>*/}
                 </View>
                 <View style={styles.horizontalLine}/>
                 <Text style={styles.billDescriptionText}>{billData.short_desc}</Text>
@@ -156,8 +155,37 @@ export default function BillDetails({route, navigation}) {
     }
 }
 
-function onUserInteraction(billId, interaction) {
+function onUserInteraction(billId, interaction, userAuthenticationToken, email) {
+    if (interaction === "like" || interaction === "unlike" || interaction === "dislike" || interaction === "undislike") {
+        let positive;
+        if (interaction === "like") {
+            positive = 1
+        } else if (interaction === "dislike") {
+            positive = 0
+        } else if (interaction === "unlike" || interaction === "undislike") {
+            positive = 2
+        }
 
-    //communicate the interaction with the backend here
+        const formdata = new FormData();
+        formdata.append("email", email)
+        formdata.append("session_token", userAuthenticationToken)
+        formdata.append("bill_id", billId)
+        formdata.append("positive", positive)
+
+        fetch('https://bills-app-305000.ew.r.appspot.com/add_vote', {
+            method: 'POST',
+            body: formdata
+        })
+            .then((res) => res.json())
+            .then((responseJson) => {
+                console.log(responseJson)
+                if (responseJson["error"]) {
+                    if (responseJson["error"] === "invalid_credentials") signOut()
+                }
+            }).catch((error) => {
+            console.error(error);
+        });
+    }
+
     console.log(`User performed interaction ${interaction} on bill with id ${billId}`)
 }
