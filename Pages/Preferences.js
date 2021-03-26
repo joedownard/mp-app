@@ -4,11 +4,11 @@ import {styles} from './Stylesheets/PreferencesStyles.js';
 import AuthContext from "../components/AuthContext";
 
 
-export default function Preferences( {navigation} ) {
+export default function Preferences({navigation}) {
 
-    const { signOut, postcodeUpdate } = React.useContext(AuthContext);
-    const [value, onChangeText] = React.useState();
-    const { userAuthenticationToken, email } = React.useContext(AuthContext);
+    const {signOut, postcodeUpdate} = React.useContext(AuthContext);
+    const [value, onChangeText] = React.useState("");
+    const {userAuthenticationToken, email} = React.useContext(AuthContext);
 
     const PostCodeButton = () => {
 
@@ -75,8 +75,6 @@ export default function Preferences( {navigation} ) {
                     <TextInput
                         style={styles.postcodeTextBox}
                         placeholder="PostCode"
-                        onFocus={(e) => e.target.placeholder = ''}
-                        onBlur={(e) => e.target.placeholder = 'PostCode'}
                         autoCapitalize="characters"
                         onChangeText={text => onChangeText(text.toString().toUpperCase())}
                         value={value}
@@ -115,30 +113,41 @@ export default function Preferences( {navigation} ) {
             })
                 .then((res) => res.json())
                 .then((responseJson) => {
+                    console.log(responseJson)
                     if (responseJson["error"]) {
                         if (responseJson["error"] === "invalid_credentials") signOut()
+                        if (responseJson["error"] === "postcode_error") {
+                            Alert.alert(
+                                "Error",
+                                "Invalid Postcode",
+                                [
+                                    {text: "OK", onPress: () => console.log("OK Pressed")}
+                                ],
+                                {cancelable: false}
+                            );
+                        }
+                    } else {
+                        postcodeUpdate()
+                        Alert.alert(
+                            "Success",
+                            "Postcode Updated",
+                            [
+                                {text: "OK", onPress: () => console.log("OK Pressed")}
+                            ],
+                            {cancelable: false}
+                        );
                     }
-                    postcodeUpdate()
-                    Alert.alert(
-                        "Success",
-                        "Postcode Updated",
-                        [
-                            { text: "OK", onPress: () => console.log("OK Pressed") }
-                        ],
-                        { cancelable: false }
-                    );
                 });
         } else {
             Alert.alert(
                 "Error",
                 "Invalid Postcode",
                 [
-                    { text: "OK", onPress: () => console.log("OK Pressed") }
+                    {text: "OK", onPress: () => console.log("OK Pressed")}
                 ],
-                { cancelable: false }
+                {cancelable: false}
             );
         }
-
     }
 }
 

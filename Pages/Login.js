@@ -1,4 +1,4 @@
-import {Button, SafeAreaView, Text, TextInput, View} from "react-native";
+import {Button, SafeAreaView, TextInput, View} from "react-native";
 import React, {useState} from "react";
 import {styles} from './Stylesheets/LoginStyles.js';
 

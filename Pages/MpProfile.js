@@ -17,6 +17,7 @@ export default function MpProfile({navigation}) {
     const [searchValue, setSearchValue] = useState("Search for Bill")
     const [billsData, setBillsData] = useState();
     const [refreshing, setRefreshing] = React.useState(false);
+    const isUnMounted = React.useRef(false);
 
     const onRefresh = React.useCallback(() => {
         // Refresh bills on drag down
@@ -27,6 +28,10 @@ export default function MpProfile({navigation}) {
 
     useEffect(() => {
         getLocalMp()
+
+        return () => {
+            isUnMounted.current = true;
+        };
     }, [postcodeUpdated]);
 
     function getLocalMp() {
@@ -137,7 +142,9 @@ export default function MpProfile({navigation}) {
                     }
                     newBillsData.push(newBill)
                 })
-                setBillsData(newBillsData);
+                if (!isUnMounted.current) {
+                    setBillsData(newBillsData);
+                }
             }).catch((error) => {
             console.error(error);
         });

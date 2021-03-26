@@ -1,6 +1,6 @@
-import {Text, View, Image, ScrollView, SafeAreaView, Pressable, TextInput, RefreshControl} from "react-native";
+import {Text, ScrollView, SafeAreaView, TextInput, RefreshControl} from "react-native";
 import {StatusBar} from "expo-status-bar";
-import React, {useEffect, useRef, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {styles} from './Stylesheets/BillsStyles.js';
 
 import {BillList} from '../components/BillList.js'
@@ -14,8 +14,9 @@ export default function Bills({navigation}) {
 
     const [billsData, setBillsData] = useState()
     const [searchValue, setSearchValue] = useState("Search for Bill")
-    const {userAuthenticationToken, email} = React.useContext(AuthContext);
+    const {userAuthenticationToken, email, postcodeUpdated} = React.useContext(AuthContext);
     const [refreshing, setRefreshing] = React.useState(false);
+    const isUnMounted = React.useRef(false);
 
     const onRefresh = React.useCallback(() => {
         // Refresh bills on drag down
@@ -27,7 +28,12 @@ export default function Bills({navigation}) {
     useEffect(() => {
         // Get local MP from the server and then get bills
         getLocalMp()
-    }, []);
+
+        // This runs when the component is unmounted, don't do any state updates after this
+        return () => {
+            isUnMounted.current = true;
+        };
+    }, [postcodeUpdated]);
 
     function getLocalMp() {
         const formdata = new FormData();
@@ -72,7 +78,6 @@ export default function Bills({navigation}) {
             });
     }
 
-
     function updateMpVotesData(data, mp_id) {
         const formdata = new FormData();
         formdata.append("email", email)
@@ -109,13 +114,15 @@ export default function Bills({navigation}) {
                     }
                     newBillsData.push(newBill)
                 })
-                setBillsData(newBillsData);
+
+                // Ensure that the component hasn't been unmounted
+                if (!isUnMounted.current) {
+                    setBillsData(newBillsData);
+                }
             }).catch((error) => {
             console.error(error);
         });
     }
-
-
 
     if (!billsData) {
         return (

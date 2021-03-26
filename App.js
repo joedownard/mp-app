@@ -137,7 +137,6 @@ export default function App() {
                     .then((res) => res.json())
                     .then((result) => {
                         if (result["success"] === "login_successful") {
-                            console.log(result["session_token"])
                             dispatch({type: 'SIGN_IN', token: token, email: email});
                         } else {
                             AsyncStorage.setItem('userAuthenticationToken', null)
