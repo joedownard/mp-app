@@ -128,20 +128,13 @@ export default function MpProfile({navigation}) {
                 // Mark which bills the MP voted on and which way they voted
                 data.forEach((bill) => {
                     let newBill = bill
-                    data.forEach((bill) => {
-                        let newBill = bill
-                        if (bill.id in responseJson) {
-                            if (responseJson[bill.id]) {
-                                newBill.voted = "voted YES"
-                            } else {
-                                newBill.voted = "voted NO"
-                            }
+                    if (bill.id in responseJson) {
+                        if (responseJson[bill.id]) {
+                            newBill.voted = "voted YES"
+                        } else {
+                            newBill.voted = "voted NO"
                         }
-                        if (!newBill.voted) {
-                            newBill.voted = "didn't vote"
-                        }
-                        newBillsData.push(newBill)
-                    })
+                    }
                     if (!newBill.voted) {
                         newBill.voted = "didn't vote"
                     }
