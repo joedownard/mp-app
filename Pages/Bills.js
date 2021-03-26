@@ -100,15 +100,13 @@ export default function Bills({navigation}) {
                 // Mark which bills the MP voted on and which way they voted
                 data.forEach((bill) => {
                     let newBill = bill
-                    responseJson.forEach((voteBill) => {
-                        if (voteBill.id === bill.id) {
-                            if (voteBill["positive"]) {
-                                newBill.voted = "voted YES"
-                            } else {
-                                newBill.voted = "voted NO"
-                            }
+                    if (bill.id in responseJson) {
+                        if (responseJson[bill.id]) {
+                            newBill.voted = "voted YES"
+                        } else {
+                            newBill.voted = "voted NO"
                         }
-                    })
+                    }
                     if (!newBill.voted) {
                         newBill.voted = "didn't vote"
                     }
