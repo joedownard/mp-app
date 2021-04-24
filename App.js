@@ -177,7 +177,7 @@ export default function App() {
                             if (result["error"] === "password_error") {
                                 errorMessage = "Invalid password"
                             } else if (result["error"] === "notification_token_error") {
-                                errorMessage = "There was an issue fetching your notification token"
+                                errorMessage = "There was an issue fetching your notification token. Please allow notifications for Insight/Expo Go."
                             } else if (result["error"] === "postcode_error") {
                                 errorMessage = "Invalid postcode"
                             } else if (result["error"] === "email_error") {
@@ -286,7 +286,14 @@ const registerForPushNotificationsAsync = async () => {
             finalStatus = status;
         }
         if (finalStatus !== 'granted') {
-            //alert('Failed to get push token for push notification!');
+            Alert.alert(
+                "Error",
+                "Failed to get your notification token! Please allow notifications for Insight/Expo Go in your settings.    ",
+                [
+                    { text: "OK", onPress: () => console.log("OK Pressed") }
+                ],
+                { cancelable: false }
+            );
             return;
         }
         return (await Notifications.getExpoPushTokenAsync()).data;
