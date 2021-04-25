@@ -59,8 +59,8 @@ export default function Preferences({navigation}) {
         return (
             <Switch
                 style={styleSwitch}
-                trackColor={{false: "#767577", true: "#37f71e"}}
-                thumbColor={"#f4f3f4"}
+                trackColor={{false: "#c4c4c4", true: "#4d4d4d"}}
+                thumbColor={"#ffffff"}
                 onValueChange={toggleSwitch}
                 value={isEnabled}
             />
