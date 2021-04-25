@@ -150,7 +150,6 @@ export default function App() {
                 dispatch({type: 'SIGN_OUT'})
             },
             signUp: async data => {
-
                 const salt = CryptoES.default.enc.Base64.parse('insightsalt');
                 const hashedPasswordWords = CryptoES.default.PBKDF2(data.password, salt, { keySize: 128/32 });
                 const hashedPassword = CryptoES.default.enc.Base64.stringify(hashedPasswordWords);
@@ -177,7 +176,7 @@ export default function App() {
                             if (result["error"] === "password_error") {
                                 errorMessage = "Invalid password"
                             } else if (result["error"] === "notification_token_error") {
-                                errorMessage = "There was an issue fetching your notification token. Please allow notifications for Insight/Expo Go."
+                                errorMessage = "There was an issue fetching your notification token. Please allow notifications for Insight/Expo Go. You may need to restart the app after doing so."
                             } else if (result["error"] === "postcode_error") {
                                 errorMessage = "Invalid postcode"
                             } else if (result["error"] === "email_error") {
@@ -279,6 +278,7 @@ export default function App() {
 
 const registerForPushNotificationsAsync = async () => {
     if (Constants.isDevice) {
+
         const {status: existingStatus} = await Notifications.getPermissionsAsync();
         let finalStatus = existingStatus;
         if (existingStatus !== 'granted') {

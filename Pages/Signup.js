@@ -83,10 +83,11 @@ export default function Signup({navigation}) {
                            }
                 />
 
-                <View style={styles.signupButtonContainer}>
+                <View style={signingIn === true ? styles.signupButtonContainerActive : styles.signupButtonContainer}>
                     <Button
                         color={signingIn === true ? '#c4c4c4' : '#4d4d4d'}
                         onPress={() => {
+                            setSigningIn(true)
                             Alert.alert(
                                 "You must agree to the Terms and Conditions",
                                 terms_and_conditions(),

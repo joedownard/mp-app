@@ -27,6 +27,13 @@ export const styles = StyleSheet.create({
         marginTop: 25,
     },
 
+    signupButtonContainerActive: {
+        backgroundColor: '#4d4d4d',
+        marginLeft: 50,
+        marginRight: 50,
+        marginTop: 25,
+    },
+
     loginButtonContainer: {
         backgroundColor: '#C4C4C4',
         marginLeft: 125,
