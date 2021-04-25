@@ -9,8 +9,17 @@ export default function Login({ route, navigation }) {
     const [emailAddress, setEmailAddress] = useState("Email Address")
     const [password, setPassword] = useState("Password")
     const [showPassword, setShowPassword] = useState(false)
+    const [loggingIn, setLoggingIn] = useState(false);
 
     const { signIn } = React.useContext(AuthContext);
+
+    function handleLogin () {
+        signIn({"emailAddress": emailAddress, "password":password})
+        setLoggingIn(true)
+        setTimeout(() => {
+            setLoggingIn(false)
+        }, 2000)
+    }
 
     return (
         <SafeAreaView style={{flex: 1, alignItems: "center"}}>
@@ -35,8 +44,8 @@ export default function Login({ route, navigation }) {
 
                 <View style={styles.loginButtonContainer}>
                     <Button
-                        color='#4d4d4d'
-                        onPress={() => {signIn({"emailAddress": emailAddress, "password":password})}}
+                        color={loggingIn === true ? '#c4c4c4' : '#4d4d4d'}
+                        onPress={handleLogin}
                         title="Login"
                     />
                 </View>

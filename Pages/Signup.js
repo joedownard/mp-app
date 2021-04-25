@@ -13,8 +13,23 @@ export default function Signup({navigation}) {
     const [password, setPassword] = useState("Password")
     const [confirmPassword, setConfirmPassword] = useState("Confirm Password")
     const [showPassword, setShowPassword] = useState(false)
+    const [signingIn, setSigningIn] = useState(false)
 
     const {signUp} = React.useContext(AuthContext);
+
+    function handleSignup () {
+        signUp({
+            "firstName": firstName,
+            "lastName": lastName,
+            "emailAddress": emailAddress,
+            "postcode": postCode,
+            "password": password
+        })
+        setSigningIn(true)
+        setTimeout(() => {
+            setSigningIn(false)
+        }, 2000)
+    }
 
     return (
         <SafeAreaView style={{flex: 1, alignItems: "center"}}>
@@ -68,7 +83,7 @@ export default function Signup({navigation}) {
 
                 <View style={styles.signupButtonContainer}>
                     <Button
-                        color='#4d4d4d'
+                        color={signingIn === true ? '#c4c4c4' : '#4d4d4d'}
                         onPress={() => {
                             Alert.alert(
                                 "You must agree to the Terms and Conditions",
@@ -79,13 +94,7 @@ export default function Signup({navigation}) {
                                         onPress: () => console.log("Cancel Pressed"),
                                         style: "cancel"
                                     },
-                                    { text: "Agree", onPress: () => signUp({
-                                            "firstName": firstName,
-                                            "lastName": lastName,
-                                            "emailAddress": emailAddress,
-                                            "postcode": postCode,
-                                            "password": password
-                                        }) }
+                                    { text: "Agree", onPress: () => handleSignup() }
                                 ],
                                 { cancelable: false }
                             );
