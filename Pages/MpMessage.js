@@ -4,6 +4,7 @@ import DropDownPicker from "react-native-dropdown-picker";
 
 import {styles} from './Stylesheets/MpMessageStyles.js';
 import AuthContext from "../components/AuthContext";
+import terms_and_conditions from "../assets/terms_and_conditions";
 
 const no_photo = require('../assets/no_photo.jpg')
 
@@ -71,7 +72,19 @@ export default function MpMessage({ navigation, route }) {
                         style={styles.messageButton}
                         color='#4d4d4d'
                         onPress={() => {
-                            message(messageValue, userAuthenticationToken, email, mpData.name, mpData.mp_id)
+                            Alert.alert(
+                                "Confirmation",
+                                "Are you sure you want to send this message to the MP's email address?",
+                                [
+                                    {
+                                        text: "Disagree",
+                                        onPress: () => console.log("Cancel Pressed"),
+                                        style: "cancel"
+                                    },
+                                    { text: "Agree", onPress: () => message(messageValue, userAuthenticationToken, email, mpData.name, mpData.mp_id) }
+                                ],
+                                { cancelable: false }
+                            );
                             onChangeText("")
                         }}
                         title="Message"/>
