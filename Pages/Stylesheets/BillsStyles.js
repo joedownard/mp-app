@@ -57,7 +57,6 @@ export const styles = StyleSheet.create({
 
     dateText: {
         marginRight: 5,
-        marginTop: 4,
         fontSize: 16,
     },
 
@@ -129,7 +128,9 @@ export const styles = StyleSheet.create({
       marginRight: 15,
     },
 
-
+    lastUpdatedText: {
+        fontSize: 10,
+    },
 
     loadingDataText: {
         textAlign: "center",

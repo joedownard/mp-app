@@ -80,7 +80,10 @@ export function BillItem(props) {
                         <Image style={styles.favouriteButton}
                                source={userInteractions['favourited'] ? favouriteFilled : favourite}/>
                     </Pressable>
+                    <View>
+                        <Text style={styles.lastUpdatedText}>Last Updated</Text>
                     <Text style={styles.dateText}>{data.date !== "None" ? data.date : "Unknown"}</Text>
+                    </View>
                 </View>
             </View>
             <View style={styles.horizontalLine}/>

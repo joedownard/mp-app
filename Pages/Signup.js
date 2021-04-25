@@ -1,4 +1,4 @@
-import {View, SafeAreaView, TextInput, Button, Alert} from "react-native";
+import {View, SafeAreaView, TextInput, Button, Alert, KeyboardAvoidingView, Platform} from "react-native";
 import React, {useState} from "react";
 import {styles} from './Stylesheets/SignupStyles.js';
 import AuthContext from "../components/AuthContext";
@@ -32,8 +32,10 @@ export default function Signup({navigation}) {
     }
 
     return (
-        <SafeAreaView style={{flex: 1, alignItems: "center"}}>
-
+            <KeyboardAvoidingView
+                behavior={Platform.OS === "ios" ? "padding" : "height"}
+                style={styles.container}
+            >
             <View style={styles.signUpContainer}>
                 <TextInput style={styles.textInput} value={firstName} onChangeText={text => setFirstName(text)}
                            onFocus={_ => {
@@ -112,8 +114,7 @@ export default function Signup({navigation}) {
                     />
                 </View>
             </View>
-
-        </SafeAreaView>
+            </KeyboardAvoidingView>
     );
 }
 

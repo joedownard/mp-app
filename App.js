@@ -22,7 +22,7 @@ import Signup from "./Pages/Signup";
 import MpMessage from './Pages/MpMessage';
 
 export default function App() {
-    const [expoPushToken, setExpoPushToken] = useState('');
+    const [expoPushToken, setExpoPushToken] = useState("ExpoToken[XXXXXXXX]");
 
     const [state, dispatch] = React.useReducer(
         (prevState, action) => {
@@ -286,14 +286,14 @@ const registerForPushNotificationsAsync = async () => {
             finalStatus = status;
         }
         if (finalStatus !== 'granted') {
-            Alert.alert(
-                "Error",
-                "Failed to get your notification token! Please allow notifications for Insight/Expo Go in your settings.    ",
-                [
-                    { text: "OK", onPress: () => console.log("OK Pressed") }
-                ],
-                { cancelable: false }
-            );
+            // Alert.alert(
+            //     "Error",
+            //     "Failed to get your notification token! Please allow notifications for Insight/Expo Go in your settings.    ",
+            //     [
+            //         { text: "OK", onPress: () => console.log("OK Pressed") }
+            //     ],
+            //     { cancelable: false }
+            // );
             return;
         }
         return (await Notifications.getExpoPushTokenAsync()).data;

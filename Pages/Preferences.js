@@ -116,7 +116,7 @@ export default function Preferences({navigation}) {
                     console.log(responseJson)
                     if (responseJson["error"]) {
                         if (responseJson["error"] === "invalid_credentials") signOut()
-                        if (responseJson["error"] === "postcode_error") {
+                        if (responseJson["error"] === "invalid_postcode") {
                             Alert.alert(
                                 "Error",
                                 "Invalid Postcode",

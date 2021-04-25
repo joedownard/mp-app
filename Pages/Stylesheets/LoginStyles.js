@@ -2,8 +2,12 @@ import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
 
+    container: {
+        flex: 1,
+        justifyContent: "space-around"
+    },
+
     loginContainer: {
-        marginTop: 100
     },
 
     textInput: {
@@ -25,6 +29,13 @@ export const styles = StyleSheet.create({
 
     loginButtonContainer: {
         backgroundColor: '#C4C4C4',
+        marginLeft: 50,
+        marginRight: 50,
+        marginTop: 25,
+    },
+
+    loginButtonContainerActive: {
+        backgroundColor: '#4d4d4d',
         marginLeft: 50,
         marginRight: 50,
         marginTop: 25,

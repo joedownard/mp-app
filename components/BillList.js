@@ -1,7 +1,8 @@
-import {View} from "react-native";
+import {Text, View} from "react-native";
 import React, {useEffect, useState} from "react";
 import AuthContext from "./AuthContext.js";
 import {BillItem} from "./BillItem.js";
+import {styles} from "../Pages/Stylesheets/BillsStyles";
 
 export function BillList(props) {
     const {userAuthenticationToken, email} = React.useContext(AuthContext);
@@ -24,6 +25,12 @@ export function BillList(props) {
             setData(props.data)
         }
     }, [props.data, props.searchTerm]);
+
+    if (data.length === 0) {
+        return (
+            <Text style={styles.loadingDataText}>No Results</Text>
+        )
+    }
 
     // Construct the bill list out of the bill elements
     const billItemList = data.map((item) =>

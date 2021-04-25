@@ -1,4 +1,4 @@
-import {Button, SafeAreaView, TextInput, View} from "react-native";
+import {Button, KeyboardAvoidingView, Platform, SafeAreaView, TextInput, View} from "react-native";
 import React, {useState} from "react";
 import {styles} from './Stylesheets/LoginStyles.js';
 
@@ -22,7 +22,10 @@ export default function Login({ route, navigation }) {
     }
 
     return (
-        <SafeAreaView style={{flex: 1, alignItems: "center"}}>
+        <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            style={styles.container}
+        >
 
         <View style={styles.loginContainer}>
             <TextInput style={styles.textInput} value={emailAddress} onChangeText={text => setEmailAddress(text)}
@@ -42,7 +45,7 @@ export default function Login({ route, navigation }) {
                            }
                 />
 
-                <View style={styles.loginButtonContainer}>
+                <View style={loggingIn === true ? styles.loginButtonContainerActive : styles.loginButtonContainer}>
                     <Button
                         color={loggingIn === true ? '#c4c4c4' : '#4d4d4d'}
                         onPress={handleLogin}
@@ -59,7 +62,7 @@ export default function Login({ route, navigation }) {
                 </View>
             </View>
 
-        </SafeAreaView>
+        </KeyboardAvoidingView>
     );
 }
 
